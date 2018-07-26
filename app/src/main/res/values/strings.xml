@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">StickySessions</string>
+    <string name="create_starfish">Create Starfish</string>
+    <string name="create_gain_pleasure">Create Gain Pleasure</string>
+    <string name="enter_session">Enter</string>
+    <string name="enter_session_id">Put your session id</string>
+    <string name="session_id">Session id</string>
+    <string name="confirm">Confirm</string>
+</resources>
