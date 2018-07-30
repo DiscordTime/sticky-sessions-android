@@ -11,6 +11,9 @@ jobs:
       - restore_cache:
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
       - run:
+          name: Store Firebase Key
+          command: echo $GOOGLE_SERVICES > ~/sticky-sessions-android/app/google-services.json
+      - run:
          name: Chmod permissions #if permission for Gradlew Dependencies fail, use this. 
          command: sudo chmod +x ./gradlew
       - run:
@@ -34,4 +37,5 @@ jobs:
       - store_artifacts:
           path: app/build/outputs/apk/
           destination: apks/
+
       # See https://circleci.com/docs/2.0/deployment-integrations/ for deploy examples 
