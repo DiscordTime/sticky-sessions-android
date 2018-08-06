@@ -2,8 +2,7 @@ package br.org.cesar.discordtime.stickysessions.domain.model;
 
 import java.util.List;
 
-class Session {
-    public String sessionId;
+public class Session {
+    public String id;
     public List<String> topics = null;
-
 }
