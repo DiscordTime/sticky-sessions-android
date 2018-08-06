@@ -5,5 +5,4 @@ import java.util.List;
 public class Session {
     public String id;
     public List<String> topics = null;
-
 }
