@@ -3,7 +3,7 @@ package br.org.cesar.discordtime.stickysessions.data.remote.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Note {
+public class NoteRemote {
 
     @SerializedName("description")
     @Expose
@@ -18,6 +18,6 @@ public class Note {
     @Expose
     public String sessionId;
 
-    public Note(){}
+    public NoteRemote(){}
 
 }

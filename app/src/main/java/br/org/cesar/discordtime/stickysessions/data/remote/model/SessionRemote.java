@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-class Session {
+public class SessionRemote {
 
     @SerializedName("session_id")
     @Expose
@@ -19,6 +19,6 @@ class Session {
     public long date;
 
 
-    public Session(){}
+    public SessionRemote(){}
 
 }
