@@ -6,5 +6,5 @@ import br.org.cesar.discordtime.stickysessions.domain.model.Session;
 import io.reactivex.Single;
 
 public interface SessionRepository {
-    public Single<Session> create(List<String> topics);
+    Single<Session> create(List<String> topics);
 }

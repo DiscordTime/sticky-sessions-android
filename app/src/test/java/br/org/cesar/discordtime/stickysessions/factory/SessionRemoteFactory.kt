@@ -16,7 +16,7 @@ class SessionRemoteFactory {
 
         fun makeSessionRemote(topicsCount: Int): SessionRemote {
             val sessionRemote = SessionRemote()
-            sessionRemote.sessionId = DataFactory.randomString()
+            sessionRemote.id = DataFactory.randomString()
             sessionRemote.topics = makeTopicsList(topicsCount)
             return sessionRemote;
         }
