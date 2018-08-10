@@ -7,4 +7,5 @@ import io.reactivex.Single;
 
 public interface SessionRepository {
     public Single<Session> create(List<String> topics);
+    public Single<Session> getSession(String sessionId);
 }
