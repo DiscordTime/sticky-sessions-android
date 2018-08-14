@@ -1,5 +1,6 @@
 package br.org.cesar.discordtime.stickysessions.domain.interactor;
 
+
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
@@ -32,8 +33,8 @@ public class CreateSession extends UseCase<SessionType, Session> {
     }
 
     @Override
-    public Single<Session> execute(@NotNull SessionType type) {
-        if (mTopicsMap.containsKey(type)) {
+    public Single<Session> execute(SessionType type) {
+        if (type != null && mTopicsMap.containsKey(type)) {
             return mRepository.create(mTopicsMap.get(type));
         } else {
             return Single.error(new IllegalArgumentException("Unexpected session type."));

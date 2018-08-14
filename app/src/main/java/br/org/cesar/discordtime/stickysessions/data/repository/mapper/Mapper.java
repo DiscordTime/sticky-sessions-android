@@ -1,7 +1,9 @@
 package br.org.cesar.discordtime.stickysessions.data.repository.mapper;
 
+import org.jetbrains.annotations.NotNull;
+
 public interface Mapper<A, B> {
 
-    public B mapFromDomain(A domainType);
-    public A mapToDomain(B dataType);
+    B mapFromDomain(@NotNull A domainType);
+    A mapToDomain(@NotNull B dataType);
 }
