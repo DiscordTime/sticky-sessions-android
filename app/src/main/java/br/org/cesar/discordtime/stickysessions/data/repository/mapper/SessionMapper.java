@@ -6,17 +6,14 @@ import br.org.cesar.discordtime.stickysessions.domain.model.Session;
 public class SessionMapper implements Mapper<Session, SessionRemote> {
     @Override
     public SessionRemote mapFromDomain(Session domainType) {
-        SessionRemote remote = new SessionRemote();
-        remote.sessionId = domainType.id;
-        remote.topics = domainType.topics;
-        return remote;
+        return new SessionRemote(domainType.id,domainType.topics);
     }
 
     @Override
     public Session mapToDomain(SessionRemote dataType) {
         Session session = new Session();
-        session.id = dataType.sessionId;
-        session.topics = dataType.topics;
+        session.id = dataType.getId();
+        session.topics = dataType.getTopics();
         return session;
     }
 }

@@ -11,14 +11,11 @@ class SessionRemoteFactory {
             repeat(count) {
                 topics.add(DataFactory.randomString())
             }
-            return topics;
+            return topics
         }
 
         fun makeSessionRemote(topicsCount: Int): SessionRemote {
-            val sessionRemote = SessionRemote()
-            sessionRemote.sessionId = DataFactory.randomString()
-            sessionRemote.topics = makeTopicsList(topicsCount)
-            return sessionRemote;
+            return SessionRemote(DataFactory.randomString(), makeTopicsList(topicsCount))
         }
 
     }

@@ -39,7 +39,7 @@ class SessionMapperTest {
     }
 
     private fun assertSessionEquality(session: Session, sessionRemote: SessionRemote) {
-        assertEquals(session.id, sessionRemote.sessionId)
+        assertEquals(session.id, sessionRemote.id)
         assertTrue(session.topics.toTypedArray() contentEquals sessionRemote.topics.toTypedArray())
     }
 }
