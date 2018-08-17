@@ -10,9 +10,12 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 
+import javax.inject.Inject;
+
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import br.org.cesar.discordtime.stickysessions.R;
+import br.org.cesar.discordtime.stickysessions.app.StickySessionApplication;
 import br.org.cesar.discordtime.stickysessions.presentation.lobby.LobbyContract;
 import br.org.cesar.discordtime.stickysessions.presentation.lobby.LobbyPresenter;
 
@@ -21,16 +24,20 @@ public class LobbyActivity extends AppCompatActivity implements LobbyContract.Vi
 
     private Context mContext;
     private ViewGroup parent;
-    private LobbyContract.Presenter mPresenter;
+
+    @Inject
+    public LobbyContract.Presenter mPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        ((StickySessionApplication) getApplication()).inject(this);
+
         mContext = this;
         parent = findViewById(R.id.container);
-        mPresenter = new LobbyPresenter();
+
         mPresenter.attachView(this);
 
         Button createStarfish = findViewById(R.id.create_starfish);

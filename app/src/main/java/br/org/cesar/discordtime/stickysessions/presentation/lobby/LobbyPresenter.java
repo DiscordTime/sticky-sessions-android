@@ -2,7 +2,6 @@ package br.org.cesar.discordtime.stickysessions.presentation.lobby;
 
 import android.util.Log;
 
-import br.org.cesar.discordtime.stickysessions.Injector;
 import br.org.cesar.discordtime.stickysessions.domain.model.Session;
 import br.org.cesar.discordtime.stickysessions.domain.model.SessionType;
 import br.org.cesar.discordtime.stickysessions.executor.ObservableUseCase;
@@ -14,8 +13,8 @@ public class LobbyPresenter implements LobbyContract.Presenter {
     private LobbyContract.View mView;
     private ObservableUseCase<SessionType, Session> mCreateSession;
 
-    public LobbyPresenter() {
-        mCreateSession = Injector.provideCreateSessionUseCase();
+    public LobbyPresenter(ObservableUseCase<SessionType, Session> createSession) {
+        mCreateSession = createSession;
     }
 
     @Override
