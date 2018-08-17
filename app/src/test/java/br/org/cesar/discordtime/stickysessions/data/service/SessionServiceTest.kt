@@ -5,11 +5,8 @@ import br.org.cesar.discordtime.stickysessions.data.remote.service.RemoteService
 import br.org.cesar.discordtime.stickysessions.data.remote.service.SessionService
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
-import org.junit.After
-import org.junit.Before
-import org.junit.Test
+import org.junit.*
 import retrofit2.HttpException
-import java.util.*
 
 class SessionServiceTest {
 
@@ -67,17 +64,7 @@ class SessionServiceTest {
 
     private fun createValidSessionResponse(): MockResponse {
         return MockResponse().setBody(
-                "{\n" +
-                "    \"session_id\": \"d6600558-f101-45be-bf8a-4b5aed40cf9f\",\n" +
-                "    \"topics\": [\n" +
-                "           \"Less\",\n" +
-                "           \"More\",\n" +
-                "           \"Start\",\n" +
-                "           \"Stop\",\n" +
-                "           \"Keep\"\n" +
-                "    ],\n" +
-                "    \"date\": 1522415925281\n" +
-                "}"
+                javaClass.classLoader.getResource("session_ok_response.json").readText()
         )
     }
 
