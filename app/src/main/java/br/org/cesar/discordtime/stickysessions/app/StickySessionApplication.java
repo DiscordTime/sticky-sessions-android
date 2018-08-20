@@ -1,7 +1,6 @@
 package br.org.cesar.discordtime.stickysessions.app;
 
 import android.app.Application;
-import android.content.Context;
 
 import br.org.cesar.discordtime.stickysessions.injectors.components.DaggerLobbyComponent;
 import br.org.cesar.discordtime.stickysessions.injectors.components.DaggerSessionComponent;

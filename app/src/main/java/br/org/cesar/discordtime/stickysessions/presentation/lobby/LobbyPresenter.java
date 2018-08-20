@@ -5,6 +5,11 @@ import android.util.Log;
 import br.org.cesar.discordtime.stickysessions.domain.model.Session;
 import br.org.cesar.discordtime.stickysessions.domain.model.SessionType;
 import br.org.cesar.discordtime.stickysessions.executor.ObservableUseCase;
+import br.org.cesar.discordtime.stickysessions.navigation.exception.InvalidRouteException;
+import br.org.cesar.discordtime.stickysessions.navigation.exception.InvalidViewNameException;
+import br.org.cesar.discordtime.stickysessions.navigation.router.IRouter;
+import br.org.cesar.discordtime.stickysessions.navigation.router.Route;
+import br.org.cesar.discordtime.stickysessions.navigation.wrapper.IViewStarter;
 import io.reactivex.observers.DisposableSingleObserver;
 
 public class LobbyPresenter implements LobbyContract.Presenter {
@@ -12,9 +17,13 @@ public class LobbyPresenter implements LobbyContract.Presenter {
     private static final String TAG = "LobbyPresenter";
     private LobbyContract.View mView;
     private ObservableUseCase<SessionType, Session> mCreateSession;
+    private IRouter mRouter;
 
-    public LobbyPresenter(ObservableUseCase<SessionType, Session> createSession) {
+
+
+    public LobbyPresenter(ObservableUseCase<SessionType, Session> createSession, IRouter router) {
         mCreateSession = createSession;
+        mRouter = router;
     }
 
     @Override
@@ -31,13 +40,22 @@ public class LobbyPresenter implements LobbyContract.Presenter {
     public void onCreateStarfish() {
         Log.d(TAG, "onCreateStarfish");
         mCreateSession.execute(new CreateSessionObserver(), SessionType.STARFISH);
-
     }
 
     @Override
     public void onCreateGainPleasure() {
         Log.d(TAG, "onCreateGainPleasure");
         mCreateSession.execute(new CreateSessionObserver(), SessionType.GAIN_PLEASURE);
+    }
+
+    private void goNext(String event){
+        try {
+            Route route = mRouter.goNext(mView.getName(), event);
+            mView.goNext(route);
+        } catch (InvalidRouteException | InvalidViewNameException e) {
+            Log.e(TAG, e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -59,6 +77,7 @@ public class LobbyPresenter implements LobbyContract.Presenter {
         @Override
         public void onSuccess(Session session) {
             Log.d(TAG, "create session success");
+            goNext(IRouter.CREATED_SESSION);
         }
 
         @Override

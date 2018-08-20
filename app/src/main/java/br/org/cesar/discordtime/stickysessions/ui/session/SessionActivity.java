@@ -76,6 +76,8 @@ public class SessionActivity extends AppCompatActivity implements SessionContrac
         addNewNoteView.setOnClickListener(this);
     }
 
+
+
     @Override
     public void onClick(android.view.View view) {
         switch (view.getId()) {
