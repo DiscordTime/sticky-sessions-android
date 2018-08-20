@@ -1,5 +1,6 @@
 package br.org.cesar.discordtime.stickysessions.injectors.components;
 
+import br.org.cesar.discordtime.stickysessions.injectors.modules.ContextModule;
 import br.org.cesar.discordtime.stickysessions.injectors.modules.LobbyPresenterModule;
 import br.org.cesar.discordtime.stickysessions.injectors.modules.SessionModule;
 import br.org.cesar.discordtime.stickysessions.injectors.modules.ThreadModule;
@@ -10,7 +11,8 @@ import dagger.Component;
         modules = {
                 LobbyPresenterModule.class,
                 SessionModule.class,
-                ThreadModule.class
+                ThreadModule.class,
+                ContextModule.class
         }
 )
 public interface LobbyComponent {

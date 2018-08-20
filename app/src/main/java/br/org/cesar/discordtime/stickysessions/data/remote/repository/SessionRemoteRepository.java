@@ -1,11 +1,11 @@
 package br.org.cesar.discordtime.stickysessions.data.remote.repository;
 
+import java.io.IOException;
 import java.util.List;
 
 import br.org.cesar.discordtime.stickysessions.data.remote.model.SessionRemote;
 import br.org.cesar.discordtime.stickysessions.data.remote.service.SessionService;
 import br.org.cesar.discordtime.stickysessions.data.repository.mapper.Mapper;
-import br.org.cesar.discordtime.stickysessions.data.repository.mapper.SessionMapper;
 import br.org.cesar.discordtime.stickysessions.domain.model.Session;
 import br.org.cesar.discordtime.stickysessions.domain.repository.SessionRepository;
 import io.reactivex.Single;

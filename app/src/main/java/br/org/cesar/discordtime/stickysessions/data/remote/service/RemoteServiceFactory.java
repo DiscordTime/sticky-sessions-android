@@ -1,7 +1,10 @@
 package br.org.cesar.discordtime.stickysessions.data.remote.service;
 
+import android.content.Context;
+
 import java.util.concurrent.TimeUnit;
 
+import okhttp3.Cache;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -10,19 +13,23 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RemoteServiceFactory<T> {
 
-    private static long TIMEOUT = 120;
+    private static final long TIMEOUT = 120;
 
-    public T makeRemoteService(String baseUrl, boolean isDebug, Class<T> serviceClass) {
-        OkHttpClient okHttpClient = makeOkHttpClient(
-                makeLoggingInterceptor(isDebug)
-        );
+    private static final int CACHE_SIZE = 10 * 1024 * 1024;
+
+    public T makeRemoteService(Context context, String baseUrl, boolean isDebug,
+                               Class<T> serviceClass) {
+        OkHttpClient okHttpClient = makeOkHttpClient(context, makeLoggingInterceptor(isDebug));
         return makeRemoteService(baseUrl, okHttpClient, serviceClass);
     }
 
-    private OkHttpClient makeOkHttpClient(HttpLoggingInterceptor httpLoggingInterceptor) {
+    private OkHttpClient makeOkHttpClient(Context context,
+                                          HttpLoggingInterceptor httpLoggingInterceptor) {
+
         return new OkHttpClient.Builder()
                 .addInterceptor(httpLoggingInterceptor)
                 .connectTimeout(TIMEOUT, TimeUnit.SECONDS)
+                .cache(new Cache(context.getCacheDir(), CACHE_SIZE))
                 .readTimeout(TIMEOUT, TimeUnit.SECONDS)
                 .build();
     }

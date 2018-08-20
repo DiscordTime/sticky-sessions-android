@@ -1,17 +1,21 @@
 package br.org.cesar.discordtime.stickysessions.data.service
 
+import android.content.Context
 import br.org.cesar.discordtime.stickysessions.data.remote.model.SessionRemote
 import br.org.cesar.discordtime.stickysessions.data.remote.service.RemoteServiceFactory
 import br.org.cesar.discordtime.stickysessions.data.remote.service.SessionService
+import com.nhaarman.mockito_kotlin.mock
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.*
+import org.mockito.Mockito.mock
 import retrofit2.HttpException
 
 class SessionServiceTest {
 
     private lateinit var sessionService: SessionService
     private lateinit var mockWebServer: MockWebServer
+    private lateinit var contextMock: Context
     private lateinit var sessionId: String
     private lateinit var topics: List<String>
     private val date: Long = 1522415925281
@@ -21,8 +25,10 @@ class SessionServiceTest {
         mockWebServer = MockWebServer()
         sessionId = "d6600558-f101-45be-bf8a-4b5aed40cf9f"
         topics = listOf("Less","More","Start","Stop","Keep")
+        contextMock = mock()
         sessionService = RemoteServiceFactory<SessionService>()
                 .makeRemoteService(
+                        contextMock,
                         mockWebServer.url("").toString(),
                         true,
                         SessionService::class.java)

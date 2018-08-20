@@ -16,11 +16,6 @@ public class NoteMapper implements Mapper<Note, NoteRemote> {
 
     @Override
     public Note mapToDomain(NoteRemote dataType) {
-        Note note = new Note();
-        note.sessionId = dataType.sessionId;
-        note.user = dataType.user;
-        note.topic = dataType.topic;
-        note.description = dataType.description;
-        return note;
+        return new Note(dataType.description, dataType.user, dataType.topic, dataType.sessionId);
     }
 }
