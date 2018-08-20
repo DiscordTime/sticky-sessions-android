@@ -8,4 +8,8 @@
     <string name="confirm">Confirm</string>
     <string name="share_session">Hey fellow, you can get a new session here: http://stickysessions.com/enter?session=%s</string>
     <string name="bt_share_session">Share Session</string>
+    <string name="note_description_dialog_hint">What you want to add?</string>
+    <string name="note_dialog_add_title">Create New Note</string>
+    <string name="new_note_added_message">New Note Added Successfully</string>
+    <string name="cancel">Cancel</string>
 </resources>

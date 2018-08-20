@@ -8,12 +8,7 @@ class NoteFactory {
     companion object Factory {
 
         fun makeNote(): Note {
-            var note = Note()
-            note.sessionId = randomString()
-            note.user = randomString()
-            note.topic = randomString()
-            note.description = randomString()
-            return note
+            return Note(randomString(), randomString(), randomString(), randomString())
         }
 
     }

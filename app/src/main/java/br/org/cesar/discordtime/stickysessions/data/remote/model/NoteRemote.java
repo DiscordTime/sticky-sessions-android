@@ -19,5 +19,4 @@ public class NoteRemote {
     public String sessionId;
 
     public NoteRemote(){}
-
 }

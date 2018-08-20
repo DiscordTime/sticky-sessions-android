@@ -1,0 +1,22 @@
+{
+  "isJoi": true,
+  "name": "ValidationError",
+  "details": [
+    {
+      "message": "\"topic\" is required",
+      "path": [
+        "topic"
+      ],
+      "type": "any.required",
+      "context": {
+        "key": "topic",
+        "label": "topic"
+      }
+    }
+  ],
+  "_object": {
+    "description": "Nota de Teste",
+    "user": "Author",
+    "sessionId": "abc"
+  }
+}
