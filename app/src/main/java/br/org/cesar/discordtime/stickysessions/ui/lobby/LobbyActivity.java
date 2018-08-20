@@ -16,8 +16,12 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import br.org.cesar.discordtime.stickysessions.R;
 import br.org.cesar.discordtime.stickysessions.app.StickySessionApplication;
+import br.org.cesar.discordtime.stickysessions.navigation.exception.InvalidViewNameException;
+import br.org.cesar.discordtime.stickysessions.navigation.router.Route;
+import br.org.cesar.discordtime.stickysessions.navigation.wrapper.ViewStarter;
+import br.org.cesar.discordtime.stickysessions.navigation.wrapper.IViewStarter;
 import br.org.cesar.discordtime.stickysessions.presentation.lobby.LobbyContract;
-import br.org.cesar.discordtime.stickysessions.presentation.lobby.LobbyPresenter;
+import br.org.cesar.discordtime.stickysessions.ui.ViewNames;
 
 public class LobbyActivity extends AppCompatActivity implements LobbyContract.View,
         android.view.View.OnClickListener {
@@ -27,6 +31,9 @@ public class LobbyActivity extends AppCompatActivity implements LobbyContract.Vi
 
     @Inject
     public LobbyContract.Presenter mPresenter;
+
+    @Inject
+    public IViewStarter mViewStarter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +54,16 @@ public class LobbyActivity extends AppCompatActivity implements LobbyContract.Vi
         createStarfish.setOnClickListener(this);
         createGainPleasure.setOnClickListener(this);
         enterSession.setOnClickListener(this);
+    }
+
+    @Override
+    public String getName() {
+        return ViewNames.LOBBY_ACTIVITY;
+    }
+
+    @Override
+    public void goNext(Route route) throws InvalidViewNameException{
+        mViewStarter.goNext(mContext, route.to, route.shouldClearStack);
     }
 
     @Override

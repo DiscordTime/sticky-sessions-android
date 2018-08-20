@@ -62,6 +62,7 @@ dependencies {
 
     // Unit tests
     testImplementation 'junit:junit:4.12'
+    testImplementation "org.robolectric:robolectric:3.8"
     testImplementation "com.nhaarman:mockito-kotlin:${versions.mockito_kotlin}"
     testImplementation "com.squareup.okhttp3:mockwebserver:${versions.okhttp}"
 
