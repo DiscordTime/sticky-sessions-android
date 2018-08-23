@@ -58,4 +58,11 @@ public class SessionPresenter implements SessionContract.Presenter {
             }
         }, sessionId);
     }
+
+    @Override
+    public void onShareSession() {
+        if(mActiveSession != null) {
+            mView.shareSession(mActiveSession.id);
+        }
+    }
 }

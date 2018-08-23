@@ -7,11 +7,6 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
-
-import org.jetbrains.annotations.NotNull;
-
-import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
 import br.org.cesar.discordtime.stickysessions.R;
@@ -21,11 +16,8 @@ import br.org.cesar.discordtime.stickysessions.domain.repository.SessionReposito
 import br.org.cesar.discordtime.stickysessions.executor.JobExecutor;
 import br.org.cesar.discordtime.stickysessions.executor.MainThread;
 import br.org.cesar.discordtime.stickysessions.executor.ObservableUseCase;
-import br.org.cesar.discordtime.stickysessions.executor.PostExecutionThread;
 import br.org.cesar.discordtime.stickysessions.presentation.session.SessionContract;
 import br.org.cesar.discordtime.stickysessions.presentation.session.SessionPresenter;
-import io.reactivex.Scheduler;
-import io.reactivex.Single;
 
 public class SessionActivity extends AppCompatActivity implements SessionContract.View,
         android.view.View.OnClickListener {
@@ -44,6 +36,8 @@ public class SessionActivity extends AppCompatActivity implements SessionContrac
         setContentView(R.layout.activity_session);
 
         parent = findViewById(R.id.container);
+        Button btShareSession = findViewById(R.id.bt_share);
+        btShareSession.setOnClickListener(this);
 
         //TODO update null repository to a SessionRepository Implementation
         mEnterSession = new ObservableUseCase<>(
@@ -74,7 +68,11 @@ public class SessionActivity extends AppCompatActivity implements SessionContrac
 
     @Override
     public void onClick(android.view.View view) {
-
+        switch (view.getId()) {
+            case R.id.bt_share:
+                mPresenter.onShareSession();
+                break;
+        }
     }
 
     @Override
@@ -95,6 +93,15 @@ public class SessionActivity extends AppCompatActivity implements SessionContrac
     @Override
     public void stopLoadingSession() {
 
+    }
+
+    @Override
+    public void shareSession(String sessionId) {
+        Intent sendIntent = new Intent(Intent.ACTION_SEND);
+        sendIntent.setType("text/plain");
+        sendIntent.putExtra(Intent.EXTRA_TEXT,
+                String.format(getString(R.string.share_session), sessionId));
+        startActivity(sendIntent);
     }
 
     @Override
