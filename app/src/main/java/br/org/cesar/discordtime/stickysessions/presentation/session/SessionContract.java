@@ -8,6 +8,7 @@ public interface SessionContract {
         void onLoadSession();
         void onStopLoadSession();
         void onEnterSession(String sessionId);
+        void onShareSession();
     }
 
     interface View {
@@ -15,5 +16,6 @@ public interface SessionContract {
         void displayError(String message);
         void startLoadingSession();
         void stopLoadingSession();
+        void shareSession(String sessionId);
     }
 }
