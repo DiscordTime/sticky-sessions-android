@@ -5,14 +5,20 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.LinearSnapHelper;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SnapHelper;
 import br.org.cesar.discordtime.stickysessions.R;
 import br.org.cesar.discordtime.stickysessions.app.StickySessionApplication;
 import br.org.cesar.discordtime.stickysessions.navigation.exception.InvalidViewNameException;
@@ -20,12 +26,15 @@ import br.org.cesar.discordtime.stickysessions.navigation.router.Route;
 import br.org.cesar.discordtime.stickysessions.navigation.wrapper.IViewStarter;
 import br.org.cesar.discordtime.stickysessions.presentation.lobby.LobbyContract;
 import br.org.cesar.discordtime.stickysessions.ui.ViewNames;
+import br.org.cesar.discordtime.stickysessions.domain.model.SessionType;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 
-public class LobbyActivity extends AppCompatActivity implements LobbyContract.View,
-        android.view.View.OnClickListener {
+public class LobbyActivity extends AppCompatActivity implements LobbyContract.View {
 
     private Context mContext;
     private ViewGroup parent;
+    private Disposable mDisposable;
 
     @Inject
     public LobbyContract.Presenter mPresenter;
@@ -45,13 +54,7 @@ public class LobbyActivity extends AppCompatActivity implements LobbyContract.Vi
 
         mPresenter.attachView(this);
 
-        Button createStarfish = findViewById(R.id.create_starfish);
-        Button createGainPleasure = findViewById(R.id.create_gain_pleasure);
-        Button enterSession = findViewById(R.id.enter_session);
-
-        createStarfish.setOnClickListener(this);
-        createGainPleasure.setOnClickListener(this);
-        enterSession.setOnClickListener(this);
+        configureRecyclerView();
     }
 
     @Override
@@ -64,21 +67,40 @@ public class LobbyActivity extends AppCompatActivity implements LobbyContract.Vi
         mViewStarter.goNext(mContext, route.to, route.shouldClearStack);
     }
 
-    @Override
-    public void onClick(android.view.View view) {
-        switch (view.getId()){
-            case R.id.create_starfish:
-                mPresenter.onCreateStarfish();
-                break;
-            case R.id.create_gain_pleasure:
-                mPresenter.onCreateGainPleasure();
-                break;
-            case R.id.enter_session:
-                mPresenter.onAskSessionId();
-                break;
-            default:
-                break;
-        }
+    private void configureRecyclerView() {
+
+        List<SessionTypeViewModel> sessionTypes = new ArrayList<>();
+        sessionTypes.add(new SessionTypeViewModel(
+                R.string.starfish, R.string.starfish_description,
+                R.drawable.starfish, SessionType.STARFISH));
+        sessionTypes.add(new SessionTypeViewModel(
+                R.string.gain, R.string.gain_description,
+                R.drawable.gain, SessionType.GAIN_PLEASURE));
+        sessionTypes.add(new SessionTypeViewModel(
+                R.string.custom, R.string.custom_description,
+                R.drawable.custom, null));
+
+        SessionTypeAdapter adapter = new SessionTypeAdapter(this, sessionTypes);
+
+        mDisposable = adapter.clickEvent.subscribe(new Consumer<SessionType>() {
+            @Override
+            public void accept(SessionType type) throws Exception {
+                mPresenter.onCreateSession(type);
+            }
+        });
+
+        SessionTypeLayoutManager layoutManager = new SessionTypeLayoutManager(
+                this, LinearLayoutManager.HORIZONTAL, false);
+        SessionTypePageIndicator pageIndicator = new SessionTypePageIndicator(sessionTypes.size());
+
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        recyclerView.setAdapter(adapter);
+        recyclerView.addItemDecoration(pageIndicator);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.getLayoutManager().scrollToPosition(Integer.MAX_VALUE / 2);
+
+        SnapHelper snapHelper = new LinearSnapHelper();
+        snapHelper.attachToRecyclerView(recyclerView);
     }
 
     @Override
@@ -108,5 +130,8 @@ public class LobbyActivity extends AppCompatActivity implements LobbyContract.Vi
     protected void onDestroy() {
         super.onDestroy();
         mPresenter.detachView();
+        if (!mDisposable.isDisposed()) {
+            mDisposable.dispose();
+        }
     }
 }

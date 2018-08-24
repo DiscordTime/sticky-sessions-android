@@ -18,8 +18,6 @@ public class LobbyPresenter implements LobbyContract.Presenter {
     private ObservableUseCase<SessionType, Session> mCreateSession;
     private IRouter mRouter;
 
-
-
     public LobbyPresenter(ObservableUseCase<SessionType, Session> createSession, IRouter router) {
         mCreateSession = createSession;
         mRouter = router;
@@ -36,15 +34,9 @@ public class LobbyPresenter implements LobbyContract.Presenter {
     }
 
     @Override
-    public void onCreateStarfish() {
-        Log.d(TAG, "onCreateStarfish");
-        mCreateSession.execute(new CreateSessionObserver(), SessionType.STARFISH);
-    }
-
-    @Override
-    public void onCreateGainPleasure() {
-        Log.d(TAG, "onCreateGainPleasure");
-        mCreateSession.execute(new CreateSessionObserver(), SessionType.GAIN_PLEASURE);
+    public void onCreateSession(SessionType type) {
+        Log.d(TAG, "onCreateSession " + type);
+        mCreateSession.execute(new CreateSessionObserver(), type);
     }
 
     private void goNext(String event){
