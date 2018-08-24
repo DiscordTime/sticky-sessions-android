@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">StickySessions</string>
+    <string name="app_name">Sticky Sessions</string>
     <string name="create_starfish">Create Starfish</string>
     <string name="create_gain_pleasure">Create Gain Pleasure</string>
     <string name="enter_session">Enter</string>
@@ -12,4 +12,11 @@
     <string name="note_dialog_add_title">Create New Note</string>
     <string name="new_note_added_message">New Note Added Successfully</string>
     <string name="cancel">Cancel</string>
+    <string name="starfish">Starfish</string>
+    <string name="starfish_description">Great data gathering activity to foster the thinking around practices and the value the team get from it.</string>
+    <string name="create">Create</string>
+    <string name="gain"><![CDATA[Gain & Pleasure]]></string>
+    <string name="gain_description">Great for talking about all work related things and how does if affects each participant.</string>
+    <string name="custom">Custom</string>
+    <string name="custom_description">Coming Soon! Create your own session and define which topics team will discuss about!</string>
 </resources>

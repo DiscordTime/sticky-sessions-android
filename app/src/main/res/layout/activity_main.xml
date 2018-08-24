@@ -5,41 +5,34 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
     android:id="@+id/container"
     tools:context=".ui.lobby.LobbyActivity">
 
-    <Button
-        android:id="@+id/create_starfish"
-        android:layout_width="172dp"
-        android:layout_height="60dp"
-        android:text="@string/create_starfish"
-        app:layout_constraintBottom_toTopOf="@+id/create_gain_pleasure"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constrainedHeight="true"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/enter_session"
-        android:layout_width="170dp"
-        android:layout_height="60dp"
-        android:layout_marginBottom="8dp"
+    <!--<TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
-        android:text="@string/enter_session"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/create_gain_pleasure"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="@+id/create_gain_pleasure"
-        app:layout_constraintTop_toBottomOf="@+id/create_gain_pleasure" />
-
-    <Button
-        android:id="@+id/create_gain_pleasure"
-        android:layout_width="170dp"
-        android:layout_height="60dp"
-        android:text="@string/create_gain_pleasure"
-        app:layout_constraintBottom_toTopOf="@+id/enter_session"
-        app:layout_constraintEnd_toEndOf="@+id/create_starfish"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="@+id/create_starfish"
-        app:layout_constraintTop_toBottomOf="@+id/create_starfish" />
+        android:text="Session types"
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />-->
 </androidx.constraintlayout.widget.ConstraintLayout>
