@@ -26,7 +26,8 @@ public class AddNote extends UseCase<Note, Note> {
             } else {
                 return Single.error(
                     new IllegalArgumentException(
-                        "The Session id is invalid or does not contain the topic"
+                            "The note's session is invalid " +
+                            "or it doesn't contain a topic of this session."
                     )
                 );
             }

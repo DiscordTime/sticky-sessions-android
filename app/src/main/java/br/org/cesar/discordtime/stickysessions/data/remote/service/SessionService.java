@@ -18,7 +18,4 @@ public interface SessionService {
     @GET("/sessions/{id}")
     Single<SessionRemote> getSession(@Path("id") String sessionId);
 
-    @GET("/sessions/{id}")
-    Call<SessionRemote> getSessionSync(@Path("id") String sessionId);
-
 }
