@@ -1,6 +1,5 @@
 package br.org.cesar.discordtime.stickysessions.data.remote.repository;
 
-import java.io.IOException;
 import java.util.List;
 
 import br.org.cesar.discordtime.stickysessions.data.remote.model.SessionRemote;

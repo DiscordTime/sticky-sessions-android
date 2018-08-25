@@ -9,7 +9,6 @@ import br.org.cesar.discordtime.stickysessions.navigation.exception.InvalidRoute
 import br.org.cesar.discordtime.stickysessions.navigation.exception.InvalidViewNameException;
 import br.org.cesar.discordtime.stickysessions.navigation.router.IRouter;
 import br.org.cesar.discordtime.stickysessions.navigation.router.Route;
-import br.org.cesar.discordtime.stickysessions.navigation.wrapper.IViewStarter;
 import io.reactivex.observers.DisposableSingleObserver;
 
 public class LobbyPresenter implements LobbyContract.Presenter {
@@ -50,7 +49,7 @@ public class LobbyPresenter implements LobbyContract.Presenter {
 
     private void goNext(String event){
         try {
-            Route route = mRouter.goNext(mView.getName(), event);
+            Route route = mRouter.getNext(mView.getName(), event);
             mView.goNext(route);
         } catch (InvalidRouteException | InvalidViewNameException e) {
             Log.e(TAG, e.getMessage());

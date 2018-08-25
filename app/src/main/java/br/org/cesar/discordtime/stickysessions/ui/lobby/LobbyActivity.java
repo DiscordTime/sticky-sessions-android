@@ -9,7 +9,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-
 import javax.inject.Inject;
 
 import androidx.appcompat.app.AlertDialog;
@@ -18,7 +17,6 @@ import br.org.cesar.discordtime.stickysessions.R;
 import br.org.cesar.discordtime.stickysessions.app.StickySessionApplication;
 import br.org.cesar.discordtime.stickysessions.navigation.exception.InvalidViewNameException;
 import br.org.cesar.discordtime.stickysessions.navigation.router.Route;
-import br.org.cesar.discordtime.stickysessions.navigation.wrapper.ViewStarter;
 import br.org.cesar.discordtime.stickysessions.navigation.wrapper.IViewStarter;
 import br.org.cesar.discordtime.stickysessions.presentation.lobby.LobbyContract;
 import br.org.cesar.discordtime.stickysessions.ui.ViewNames;

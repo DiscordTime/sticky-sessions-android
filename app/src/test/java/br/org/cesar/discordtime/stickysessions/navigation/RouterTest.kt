@@ -7,7 +7,8 @@ import br.org.cesar.discordtime.stickysessions.navigation.router.Route
 import br.org.cesar.discordtime.stickysessions.navigation.router.Router
 import br.org.cesar.discordtime.stickysessions.navigation.wrapper.ViewStarter
 import br.org.cesar.discordtime.stickysessions.ui.ViewNames
-import com.nhaarman.mockito_kotlin.*
+import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.whenever
 import junit.framework.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -33,13 +34,13 @@ class RouterTest {
     @Test(expected = InvalidRouteException::class)
     fun `should throw InvalidRouteException if the route is invalid`() {
         stubRouteRepositoryFind(ViewNames.LOBBY_ACTIVITY, IRouter.CREATED_SESSION)
-        router.goNext(ViewNames.LOBBY_ACTIVITY, IRouter.ENTERED_SESSION)
+        router.getNext(ViewNames.LOBBY_ACTIVITY, IRouter.ENTERED_SESSION)
     }
 
     @Test
     fun `should call goNext if the route is valid`() {
         stubRouteRepositoryFind(ViewNames.LOBBY_ACTIVITY, IRouter.CREATED_SESSION)
-        var route = router.goNext(ViewNames.LOBBY_ACTIVITY, IRouter.CREATED_SESSION)
+        var route = router.getNext(ViewNames.LOBBY_ACTIVITY, IRouter.CREATED_SESSION)
         assertEquals(validRoute, route);
     }
 

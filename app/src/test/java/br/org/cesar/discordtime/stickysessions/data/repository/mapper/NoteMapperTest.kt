@@ -4,9 +4,9 @@ import br.org.cesar.discordtime.stickysessions.data.remote.model.NoteRemote
 import br.org.cesar.discordtime.stickysessions.domain.model.Note
 import br.org.cesar.discordtime.stickysessions.factory.NoteFactory
 import br.org.cesar.discordtime.stickysessions.factory.NoteRemoteFactory
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
-import org.junit.Assert.assertEquals;
 
 class NoteMapperTest {
 
