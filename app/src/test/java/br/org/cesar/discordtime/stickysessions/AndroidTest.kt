@@ -3,11 +3,10 @@ package br.org.cesar.discordtime.stickysessions
 import android.app.Application
 import android.content.Context
 import org.junit.runner.RunWith
+import java.io.File
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
-
-import java.io.File
 
 /**
  * Base class for Robolectric data layer tests.
@@ -16,7 +15,7 @@ import java.io.File
 @RunWith(RobolectricTestRunner::class)
 @Config(constants = BuildConfig::class,
         application = AndroidTest.ApplicationStub::class,
-        sdk = intArrayOf(21))
+        sdk = intArrayOf(24))
 
 abstract class AndroidTest {
 

@@ -7,7 +7,6 @@ import java.util.List;
 import br.org.cesar.discordtime.stickysessions.domain.model.Note;
 import br.org.cesar.discordtime.stickysessions.domain.model.Session;
 import br.org.cesar.discordtime.stickysessions.executor.ObservableUseCase;
-import br.org.cesar.discordtime.stickysessions.navigation.router.IRouter;
 import io.reactivex.observers.DisposableSingleObserver;
 
 public class SessionPresenter implements SessionContract.Presenter {

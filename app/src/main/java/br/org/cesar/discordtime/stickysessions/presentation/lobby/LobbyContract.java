@@ -2,7 +2,6 @@ package br.org.cesar.discordtime.stickysessions.presentation.lobby;
 
 import br.org.cesar.discordtime.stickysessions.navigation.exception.InvalidViewNameException;
 import br.org.cesar.discordtime.stickysessions.navigation.router.Route;
-import br.org.cesar.discordtime.stickysessions.navigation.wrapper.IViewStarter;
 
 public interface LobbyContract {
 

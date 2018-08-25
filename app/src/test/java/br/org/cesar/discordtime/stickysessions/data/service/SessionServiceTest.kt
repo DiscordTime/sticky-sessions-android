@@ -7,8 +7,9 @@ import br.org.cesar.discordtime.stickysessions.data.remote.service.SessionServic
 import com.nhaarman.mockito_kotlin.mock
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
-import org.junit.*
-import org.mockito.Mockito.mock
+import org.junit.After
+import org.junit.Before
+import org.junit.Test
 import retrofit2.HttpException
 
 class SessionServiceTest {

@@ -4,7 +4,6 @@ import java.util.List;
 
 import br.org.cesar.discordtime.stickysessions.data.remote.model.SessionRemote;
 import io.reactivex.Single;
-import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;

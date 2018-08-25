@@ -4,7 +4,6 @@ import br.org.cesar.discordtime.stickysessions.navigation.repository.IRouteRepos
 import br.org.cesar.discordtime.stickysessions.navigation.repository.RouteRepository;
 import br.org.cesar.discordtime.stickysessions.navigation.router.IRouter;
 import br.org.cesar.discordtime.stickysessions.navigation.router.Router;
-
 import dagger.Module;
 import dagger.Provides;
 

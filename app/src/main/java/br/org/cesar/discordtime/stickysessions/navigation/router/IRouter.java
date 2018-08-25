@@ -7,6 +7,6 @@ public interface IRouter {
     String CREATED_SESSION = "created_session";
     String ENTERED_SESSION = "entered_session";
 
-    Route goNext(String from, String event) throws InvalidRouteException;
+    Route getNext(String from, String event) throws InvalidRouteException;
 
 }

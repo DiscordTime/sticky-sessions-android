@@ -1,7 +1,6 @@
 package br.org.cesar.discordtime.stickysessions.domain.interactor;
 
 import br.org.cesar.discordtime.stickysessions.domain.model.Note;
-import br.org.cesar.discordtime.stickysessions.domain.model.Session;
 import br.org.cesar.discordtime.stickysessions.domain.repository.NoteRepository;
 import br.org.cesar.discordtime.stickysessions.domain.repository.SessionRepository;
 import io.reactivex.Single;

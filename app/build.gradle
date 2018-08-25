@@ -33,11 +33,11 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     // Android X
-    implementation 'androidx.appcompat:appcompat:1.0.0-rc01'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.2'
-    implementation 'androidx.recyclerview:recyclerview:1.0.0-rc01'
-    implementation 'androidx.annotation:annotation:1.0.0-rc01'
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0-rc01'
+    implementation "androidx.appcompat:appcompat:${versions.androidx}"
+    implementation "androidx.constraintlayout:constraintlayout:${versions.constraintlayout}"
+    implementation "androidx.recyclerview:recyclerview:${versions.androidx}"
+    implementation "androidx.annotation:annotation:${versions.androidx}"
+    implementation "androidx.legacy:legacy-support-v4:${versions.androidx}"
 
     // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${versions.kotlin}"

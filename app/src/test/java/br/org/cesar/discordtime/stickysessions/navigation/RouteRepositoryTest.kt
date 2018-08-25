@@ -4,8 +4,6 @@ import br.org.cesar.discordtime.stickysessions.navigation.repository.IRouteRepos
 import br.org.cesar.discordtime.stickysessions.navigation.repository.RouteRepository
 import br.org.cesar.discordtime.stickysessions.navigation.router.IRouter
 import br.org.cesar.discordtime.stickysessions.ui.ViewNames
-import br.org.cesar.discordtime.stickysessions.ui.lobby.LobbyActivity
-import br.org.cesar.discordtime.stickysessions.ui.session.SessionActivity
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
