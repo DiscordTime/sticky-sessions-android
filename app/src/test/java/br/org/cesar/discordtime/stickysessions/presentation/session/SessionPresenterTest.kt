@@ -55,7 +55,7 @@ class SessionPresenterTest {
         mCurrentUser = "User"
         mSession = Session()
         mSession.id = "1"
-        mSession.topics = listOf("a", "b", "c")
+        mSession.topics = listOf("start","a", "b", "c")
     }
 
     @Test
@@ -97,15 +97,77 @@ class SessionPresenterTest {
         verify(mockSaveCurrentUser).execute(booleanCaptor.capture(), eq(mCurrentUser))
 
         booleanCaptor.firstValue.onSuccess(true)
-        verify(mockEnterSession).execute(any(), eq(mSession.id))
+
+        verify(mockEnterSession).execute(sessionCaptor.capture(), eq(mSession.id))
+        sessionCaptor.firstValue.onSuccess(mSession)
+
     }
 
     @Test
-    fun `should start loading if has user during onResume`(){
+    fun `should start loading all notes when enter trying to set current user`(){
+        sessionPresenter.attachView(mockView)
+        sessionPresenter.currentUser(mCurrentUser)
+        verify(mockView).startLoadingAllNotes()
+    }
+
+    @Test
+    fun `should start loading all notes when call onResume `(){
+        sessionPresenter.attachView(mockView)
+        sessionPresenter.onResume()
+        verify(mockView).startLoadingAllNotes()
+    }
+
+    @Test
+    fun `should start loading a note when we add a Note `(){
+        configureActiveSessionSuccess()
+        val note = Note("doing tests", "Author", "start", mSession.id)
+        sessionPresenter.addNewNote(note.topic, note.description)
+        verify(mockView).startLoadingNote()
+    }
+
+    @Test
+    fun `should stop loading when the server added a Note `(){
+        configureActiveSessionSuccess()
+        val note = Note("doing tests", "Author", "start", mSession.id)
+        sessionPresenter.addNewNote(note.topic, note.description)
+        verify(mockAddNote).execute(noteCaptor.capture(), any())
+        noteCaptor.firstValue.onSuccess(note)
+        verify(mockView).stopLoadingNote();
+        verify(mockView).addNoteToNoteList(note);
+    }
+
+    @Test
+    fun `should stop loading after failed enter session`(){
         sessionPresenter.attachView(mockView)
         configureGetSavedUserSuccess()
-        verify(mockView).startLoadingSession()
+        configureEnterSessionError()
+        verify(mockView).stopLoadingAllNotes()
+        verify(mockView).displayError(any())
     }
+
+    @Test
+    fun `should stop loading when listNotesForCurrentSession success `(){
+        configureActiveSessionSuccess()
+        verify(mockListNotes).execute(listNoteCaptor.capture(), any())
+
+        val notes = listOf(
+                Note("d", "u", "a", "1"),
+                Note("d", "u", "b", "1"))
+        listNoteCaptor.firstValue.onSuccess(notes)
+        verify(mockView).displayNotes(notes)
+        verify(mockView).stopLoadingAllNotes()
+    }
+
+    @Test
+    fun `should stop loading when listNotesForCurrentSession error `(){
+        configureActiveSessionSuccess()
+        verify(mockListNotes).execute(listNoteCaptor.capture(), any())
+
+        listNoteCaptor.firstValue.onError(Exception())
+        verify(mockView).displayErrorInvalidNotes()
+        verify(mockView).stopLoadingAllNotes()
+    }
+
 
     @Test
     fun `should call enter session if has user during onResume`(){
@@ -116,20 +178,10 @@ class SessionPresenterTest {
 
     @Test
     fun `should display session after successful enter session`(){
-        sessionPresenter.attachView(mockView)
-        configureGetSavedUserSuccess()
-        configureEnterSessionSuccess()
+        configureActiveSessionSuccess()
         verify(mockView).displaySession()
     }
 
-    @Test
-    fun `should stop loading after failed enter session`(){
-        sessionPresenter.attachView(mockView)
-        configureGetSavedUserSuccess()
-        configureEnterSessionError()
-        verify(mockView).stopLoadingSession()
-        verify(mockView).displayError(any())
-    }
 
     @Test
     fun `should not call share if session is invalid`() {
@@ -170,7 +222,6 @@ class SessionPresenterTest {
                 Note("d", "u", "b", "1"))
         listNoteCaptor.firstValue.onSuccess(notes)
         verify(mockView).displayNotes(notes)
-        verify(mockView).stopLoadingSession()
     }
 
     @Test
@@ -180,7 +231,6 @@ class SessionPresenterTest {
 
         listNoteCaptor.firstValue.onError(Exception())
         verify(mockView).displayErrorInvalidNotes()
-        verify(mockView).stopLoadingSession()
     }
 
     @Test

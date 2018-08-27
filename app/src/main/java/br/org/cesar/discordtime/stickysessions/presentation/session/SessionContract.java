@@ -20,18 +20,20 @@ public interface SessionContract {
     }
 
     interface View {
+        void addNoteToNoteList(Note note);
+        void shareSession(String sessionId);
+        void cleanNotes();
+        void removeNote(Note note);
+        void startLoadingNote();
+        void stopLoadingNote();
+        void startLoadingAllNotes();
+        void stopLoadingAllNotes();
+        void showWidgetAddName();
         void displayAddNoteDialog(List<String> topics);
         void displaySession();
         void displayError(String message);
-        void startLoadingSession();
-        void stopLoadingSession();
-        void shareSession(String sessionId);
         void displayNotes(List<Note> notes);
         void displayErrorInvalidNotes();
         void displayNoteContent(Note note);
-        void addNoteToNoteList(Note note);
-        void showWidgetAddName();
-        void cleanNotes();
-        void removeNote(Note note);
     }
 }

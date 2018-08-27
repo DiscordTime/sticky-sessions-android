@@ -1,7 +1,5 @@
 <resources>
     <string name="app_name">Sticky Sessions</string>
-    <string name="enter_session_id">Put your session id</string>
-    <string name="session_id">Session id</string>
     <string name="confirm">Confirm</string>
     <string name="share_session">Hey fellow, you can get a new session here: http://stickysessions.com/enter?session=%s</string>
     <string name="bt_share_session">Share Session</string>

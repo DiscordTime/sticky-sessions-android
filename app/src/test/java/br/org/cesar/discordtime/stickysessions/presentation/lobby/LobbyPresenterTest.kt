@@ -44,13 +44,6 @@ class LobbyPresenterTest {
     }
 
     @Test
-    fun `should call displaySessionForm from view`() {
-        lobbyPresenter.attachView(mockView)
-        lobbyPresenter.onAskSessionId()
-        verify(mockView).displaySessionForm()
-    }
-
-    @Test
     fun `should call displayError in case of null session id`() {
         lobbyPresenter.attachView(mockView)
         lobbyPresenter.onEnterSession(null)
@@ -67,7 +60,9 @@ class LobbyPresenterTest {
     @Test
     fun `should call createSession use case with same type received`() {
         val type = SessionType.GAIN_PLEASURE
+        lobbyPresenter.attachView(mockView)
         lobbyPresenter.onCreateSession(type)
+        verify(mockView).startLoading()
         verify(mockCreateSession).execute(any(), eq(type))
     }
 
@@ -82,7 +77,7 @@ class LobbyPresenterTest {
         val type = SessionType.GAIN_PLEASURE
         lobbyPresenter.attachView(mockView)
         lobbyPresenter.onCreateSession(type)
-
+        verify(mockView).startLoading()
         /* Capture observer to make sure we have a way to control response */
         verify(mockCreateSession).execute(captor.capture(), eq(type))
 
@@ -90,6 +85,7 @@ class LobbyPresenterTest {
         val session = Session()
         session.id = "1"
         captor.firstValue.onSuccess(session)
+        verify(mockView).stopLoading()
         verify(mockView).goNext(any(), any())
     }
 
@@ -99,12 +95,13 @@ class LobbyPresenterTest {
         val type = SessionType.GAIN_PLEASURE
         lobbyPresenter.attachView(mockView)
         lobbyPresenter.onCreateSession(type)
-
+        verify(mockView).startLoading()
         /* Capture observer to make sure we have a way to control response */
         verify(mockCreateSession).execute(captor.capture(), eq(type))
-
         /* Test error flow */
         captor.firstValue.onError(Exception())
+        verify(mockView).stopLoading()
+
         verify(mockView).displayError(any())
     }
 

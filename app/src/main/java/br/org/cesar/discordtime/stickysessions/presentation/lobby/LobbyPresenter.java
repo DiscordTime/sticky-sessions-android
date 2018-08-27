@@ -45,6 +45,7 @@ public class LobbyPresenter implements LobbyContract.Presenter {
     @Override
     public void onCreateSession(SessionType type) {
         mLog.d(TAG, "onCreateSession " + type);
+        mView.startLoading();
         mObserver = new CreateSessionObserver();
         mCreateSession.execute(mObserver, type);
     }
@@ -64,11 +65,6 @@ public class LobbyPresenter implements LobbyContract.Presenter {
     }
 
     @Override
-    public void onAskSessionId() {
-        mView.displaySessionForm();
-    }
-
-    @Override
     public void onEnterSession(String sessionIdString) {
         if(sessionIdString == null || sessionIdString.isEmpty()) {
             mView.displayError("");
@@ -82,6 +78,7 @@ public class LobbyPresenter implements LobbyContract.Presenter {
         @Override
         public void onSuccess(Session session) {
             mLog.d(TAG, "create session success");
+            mView.stopLoading();
             goNext(IRouter.CREATED_SESSION, session.id);
         }
 
@@ -89,8 +86,11 @@ public class LobbyPresenter implements LobbyContract.Presenter {
         public void onError(Throwable e) {
             mLog.d(TAG, "create session error" + e.getLocalizedMessage());
             // TODO: Pass meaningful text to view depending on error
-            mView.displayError("");
+            mView.stopLoading();
+            mView.displayError("Error: "+e.getLocalizedMessage());
         }
+
+
     }
 
 }

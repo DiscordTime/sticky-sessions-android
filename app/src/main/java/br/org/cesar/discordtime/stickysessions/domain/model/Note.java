@@ -9,6 +9,8 @@ public class Note {
     public String topic;
     public String sessionId;
 
+    public Note(){}
+
     public Note(String description, String user, String topic, String sessionId) {
         this.id = null;
         this.description = description;

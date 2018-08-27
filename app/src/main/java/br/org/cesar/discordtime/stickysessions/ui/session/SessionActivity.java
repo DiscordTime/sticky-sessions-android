@@ -17,6 +17,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,8 +47,8 @@ public class SessionActivity extends AppCompatActivity implements SessionContrac
     private final static String TAG = "SessionActivity";
     private Context mContext;
     private ViewGroup parent;
-    private View mLoadingView;
     private RecyclerView mRecyclerView;
+    private ProgressBar mProgressBar;
 
     @Inject
     SessionContract.Presenter mPresenter;
@@ -78,8 +79,6 @@ public class SessionActivity extends AppCompatActivity implements SessionContrac
         mAddNewNoteView.setOnClickListener(this);
         mAddNewNoteView.setVisibility(View.INVISIBLE);
 
-        mLoadingView = findViewById(R.id.loading_preview);
-
         mRecyclerView = findViewById(R.id.user_notes_recyclerview);
         mRecyclerView.setLayoutManager(
             new NoteGridLayoutManager(this,
@@ -91,6 +90,8 @@ public class SessionActivity extends AppCompatActivity implements SessionContrac
 
         mRecyclerView.setAdapter(mNoteAdapter);
         mAnimationShow = AnimationUtils.loadAnimation(this, R.anim.show_animation);
+
+        mProgressBar = findViewById(R.id.progress_bar);
     }
 
     private void configureSession() {
@@ -301,16 +302,27 @@ public class SessionActivity extends AppCompatActivity implements SessionContrac
     }
 
     @Override
-    public void startLoadingSession() {
-        mLoadingView.setVisibility(View.VISIBLE);
+    public void startLoadingAllNotes() {
         mRecyclerView.setVisibility(View.INVISIBLE);
+        mProgressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
-    public void stopLoadingSession() {
-        mLoadingView.setVisibility(View.INVISIBLE);
+    public void stopLoadingAllNotes() {
         mRecyclerView.setVisibility(View.VISIBLE);
+        mProgressBar.setVisibility(View.GONE);
+    }
 
+    @Override
+    public void startLoadingNote() {
+        mNoteAdapter.startLoading();
+        mAddNewNoteView.setEnabled(false);
+    }
+
+    @Override
+    public void stopLoadingNote() {
+        mNoteAdapter.stopLoading();
+        mAddNewNoteView.setEnabled(true);
     }
 
     @Override
