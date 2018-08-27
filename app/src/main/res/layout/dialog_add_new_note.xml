@@ -38,6 +38,9 @@
         android:hint="@string/note_description_dialog_hint"
         android:imeOptions="actionDone"
         android:inputType="textMultiLine"
-        app:layout_constraintTop_toBottomOf="@+id/session_elements" />
+        app:layout_constraintTop_toBottomOf="@+id/session_elements"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

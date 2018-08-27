@@ -1,12 +1,14 @@
 package br.org.cesar.discordtime.stickysessions.ui.lobby;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.view.View;
+import android.view.WindowManager;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -14,7 +16,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
@@ -36,8 +37,8 @@ import io.reactivex.functions.Consumer;
 public class LobbyActivity extends AppCompatActivity implements LobbyContract.View {
 
     private Context mContext;
-    private ViewGroup parent;
     private Disposable mDisposable;
+    private ProgressBar mLoading;
 
     @Inject
     public LobbyContract.Presenter mPresenter;
@@ -53,14 +54,27 @@ public class LobbyActivity extends AppCompatActivity implements LobbyContract.Vi
         ((StickySessionApplication) getApplication()).inject(this);
 
         mContext = this;
-        parent = findViewById(R.id.container);
 
         TextView versionText = findViewById(R.id.version_text);
         versionText.setText(String.format("v%s", BuildConfig.VERSION_NAME));
 
         mPresenter.attachView(this);
-
+        mLoading = findViewById(R.id.progressBar);
         configureRecyclerView();
+    }
+
+    @Override
+    public void startLoading() {
+        mLoading.setVisibility(View.VISIBLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+    }
+
+    @Override
+    public void stopLoading() {
+        mLoading.setVisibility(View.INVISIBLE);
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
     }
 
     @Override
@@ -112,7 +126,7 @@ public class LobbyActivity extends AppCompatActivity implements LobbyContract.Vi
                 R.drawable.gain, SessionType.GAIN_PLEASURE));
         items.add(new SessionTypeViewModel(
                 R.string.custom, R.string.custom_description,
-                R.drawable.custom, null));
+                R.drawable.custom, SessionType.CUSTOM));
         return items;
     }
 
@@ -123,24 +137,6 @@ public class LobbyActivity extends AppCompatActivity implements LobbyContract.Vi
             middle += (itemCount-position);
         }
         recyclerView.getLayoutManager().scrollToPosition(middle);
-    }
-
-    @Override
-    public void displaySessionForm() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-        LayoutInflater inflater = LayoutInflater.from(mContext);
-        final android.view.View view =
-                inflater.inflate(R.layout.dialog_session_form, parent, false);
-        builder.setView(view);
-        builder.setMessage(getString(R.string.enter_session_id));
-        builder.setPositiveButton(getString(R.string.confirm), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                EditText editText = view.findViewById(R.id.editText);
-                String sessionIdString = editText.getText().toString();
-                mPresenter.onEnterSession(sessionIdString);
-            }
-        });
     }
 
     @Override

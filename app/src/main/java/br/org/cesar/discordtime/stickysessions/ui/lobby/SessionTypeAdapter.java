@@ -51,7 +51,7 @@ public class SessionTypeAdapter extends RecyclerView.Adapter<SessionTypeAdapter.
         holder.title.setText(sessionType.titleRes);
         holder.description.setText(sessionType.descriptionRes);
 
-        if (sessionType.type == null) {
+        if (sessionType.type == null || sessionType.type == SessionType.CUSTOM) {
             holder.changeToDisabledState();
         } else {
             holder.changeToEnabledState();

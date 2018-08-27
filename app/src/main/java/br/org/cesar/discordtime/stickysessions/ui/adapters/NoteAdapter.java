@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.animation.BounceInterpolator;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.security.InvalidParameterException;
@@ -23,6 +24,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
     private final Context mContext;
     private List<Note> mNotes;
     private NoteAdapterCallback mCallback;
+    private boolean isLoading;
 
     public NoteAdapter(Context context) {
         mContext = context;
@@ -80,7 +82,11 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
         Note note = mNotes.get(position);
         holder.mContent.setText(note.description);
         holder.mTitle.setText(note.topic);
-
+        if(isLoading && position == mNotes.size()-1){
+            holder.progressBar.setVisibility(View.VISIBLE);
+        } else {
+            holder.progressBar.setVisibility(View.GONE);
+        }
         AnimatorSet animator = (AnimatorSet) AnimatorInflater.loadAnimator(
             mContext, R.animator.show_note_animator);
 
@@ -112,10 +118,24 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
         return mNotes == null ? 0 : mNotes.size();
     }
 
+    public void startLoading(){
+        if(!isLoading){
+            isLoading = true;
+            addNote(new Note());
+        }
+    }
+
+    public void stopLoading(){
+        if(isLoading){
+            isLoading = false;
+            removeNote(new Note());
+        }
+    }
+
     class NoteViewHolder extends RecyclerView.ViewHolder {
         TextView mTitle;
         TextView mContent;
-
+        ProgressBar progressBar;
         NoteViewHolder(View itemView) {
             super(itemView);
 
@@ -130,6 +150,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
 
             mTitle = itemView.findViewById(R.id.title_note_element);
             mContent = itemView.findViewById(R.id.description_note_element);
+            progressBar = itemView.findViewById(R.id.progress_bar);
         }
 
     }

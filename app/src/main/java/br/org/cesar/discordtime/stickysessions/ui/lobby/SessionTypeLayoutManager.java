@@ -1,6 +1,7 @@
 package br.org.cesar.discordtime.stickysessions.ui.lobby;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -32,7 +33,8 @@ public class SessionTypeLayoutManager extends LinearLayoutManager {
     }
 
     @Override
-    public void onMeasure(RecyclerView.Recycler recycler, RecyclerView.State state, int widthSpec, int heightSpec) {
+    public void onMeasure(RecyclerView.Recycler recycler, RecyclerView.State state,
+                          int widthSpec, int heightSpec) {
         super.onMeasure(recycler, state, widthSpec, heightSpec);
         mRecycler = recycler;
         int orientation = getOrientation();

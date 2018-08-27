@@ -47,6 +47,7 @@ public class SessionPresenter implements SessionContract.Presenter {
 
     @Override
     public void onResume() {
+        mView.startLoadingAllNotes();
         mGetSavedUser.execute(new DisposableSingleObserver<String>() {
             @Override
             public void onSuccess(String userName) {
@@ -56,6 +57,7 @@ public class SessionPresenter implements SessionContract.Presenter {
     
             @Override
             public void onError(Throwable e) {
+                mView.stopLoadingAllNotes();
                 mView.showWidgetAddName();
             }
         }, null);
@@ -63,6 +65,7 @@ public class SessionPresenter implements SessionContract.Presenter {
 
     @Override
     public void currentUser(String userName) {
+        mView.startLoadingAllNotes();
         mSaveCurrentUser.execute(new DisposableSingleObserver<Boolean>() {
             @Override
             public void onSuccess(Boolean success) {
@@ -74,6 +77,7 @@ public class SessionPresenter implements SessionContract.Presenter {
     
             @Override
             public void onError(Throwable e) {
+                mView.stopLoadingAllNotes();
                 mView.showWidgetAddName();
                 mView.displayError(e.getMessage());
             }
@@ -115,31 +119,21 @@ public class SessionPresenter implements SessionContract.Presenter {
         mGetSavedUser.dispose();
     }
 
-    private void onLoadSession() {
-        mLog.d(TAG, "onLoadSession");
-        mView.startLoadingSession();
-    }
-
-    private void onStopLoadSession() {
-        mLog.d(TAG, "onStopLoadSession");
-        mView.stopLoadingSession();
-    }
 
     private void onEnterSession() {
         mLog.d(TAG, "onEnterSession : "+mSessionId);
-        onLoadSession();
         mEnterSession.execute(new DisposableSingleObserver<Session>() {
             @Override
             public void onSuccess(Session session) {
                 mActiveSession = session;
                 listNotesForCurrentSession();
-        
                 mView.displaySession();
             }
     
             @Override
             public void onError(Throwable e) {
-                onStopLoadSession();
+                // todo : handle errors gracefully
+                mView.stopLoadingAllNotes();
                 mView.displayError(e.getMessage());
             }
         }, mSessionId);
@@ -150,13 +144,13 @@ public class SessionPresenter implements SessionContract.Presenter {
             mListNotes.execute(new DisposableSingleObserver<List<Note>>() {
                 @Override
                 public void onSuccess(List<Note> notes) {
-                    onStopLoadSession();
+                    mView.stopLoadingAllNotes();
                     mView.displayNotes(notes);
                 }
     
                 @Override
                 public void onError(Throwable e) {
-                    onStopLoadSession();
+                    mView.stopLoadingAllNotes();
                     mView.displayErrorInvalidNotes();
                 }
             }, new NoteFilter(mActiveSession.id, mCurrentUser));
@@ -181,18 +175,20 @@ public class SessionPresenter implements SessionContract.Presenter {
 
     @Override
     public void addNewNote(String topic, String description) {
-        // TODO: Add loading logic
         if (mActiveSession != null && mActiveSession.id != null && mCurrentUser != null) {
+            mView.startLoadingNote();
             Note note = new Note(description, mCurrentUser, topic, mActiveSession.id);
             mAddNote.execute(new DisposableSingleObserver<Note>() {
-        
+
                 @Override
                 public void onSuccess(Note note) {
+                    mView.stopLoadingNote();
                     mView.addNoteToNoteList(note);
                 }
-        
+
                 @Override
                 public void onError(Throwable e) {
+                    mView.stopLoadingNote();
                     mView.displayError(e.getMessage());
                 }
             }, note);

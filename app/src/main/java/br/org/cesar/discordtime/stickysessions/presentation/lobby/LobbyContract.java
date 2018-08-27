@@ -11,14 +11,14 @@ public interface LobbyContract {
         void attachView(LobbyContract.View view);
         void detachView();
         void onCreateSession(SessionType type);
-        void onAskSessionId();
         void onEnterSession(String sessionId);
     }
 
     interface View {
         String getName();
         void goNext(Route route, IBundle bundle) throws InvalidViewNameException;
-        void displaySessionForm();
         void displayError(String message);
+        void startLoading();
+        void stopLoading();
     }
 }
