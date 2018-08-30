@@ -27,6 +27,30 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
+    flavorDimensions "server"
+
+    productFlavors {
+        online {
+            dimension "server"
+            ext {
+                url = "http://142.93.124.175"
+            }
+        }
+        local {
+            dimension "server"
+            applicationId = applicationId + ".local"
+            ext {
+                url = "http://localhost:3000"
+            }
+        }
+        applicationVariants.all { variant ->
+            def flavors = variant.productFlavors
+            // flavorDimensions "server" -> 0
+            def server = flavors[0]
+            variant.buildConfigField "String", "URL", "\"${server[url.name]}\""
+        }
+    }
+
 }
 
 dependencies {

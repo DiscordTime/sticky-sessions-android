@@ -1,8 +1,8 @@
 # StickySessions
 
-### Config to run in Android Studio
+### Server communication
 
-- To compile in Android Studio you'll need to download the google-services.json 
-file and add it in ~/sticky-sessions-android/app.
-- To download google-service.json go to 
-[console firebase](https://console.firebase.google.com/project/sticky-sessions-bf24d/settings/general/android:br.org.cesar.discordtime.stickysessions?hl=pt-br) and click "google-services.json". 
+- Project has two flavors (`Online` and `Local`) which change backend URL used by app.
+- `Local` flavor is intended for local backend development where developer could
+  connect device via USB and use `adb reverse tcp:3000 tcp:3000` command to redirect
+  requests to local machine.
