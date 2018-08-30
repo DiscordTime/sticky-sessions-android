@@ -65,11 +65,6 @@ public class SessionModule {
     }
 
     @Provides
-    public String WebUrlProvider(){
-        return "http://localhost:3000";
-    }
-
-    @Provides
     public ObservableUseCase<String, Session> provideEnterSessionUseCase(
         EnterSession enterSession, ThreadExecutor threadExecutor,
         PostExecutionThread postExecutionThread) {
