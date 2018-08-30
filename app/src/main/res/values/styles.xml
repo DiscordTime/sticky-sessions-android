@@ -1,11 +1,56 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Base.Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="NoteContent">
+        <item name="android:background">#ffff88</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:layout_marginLeft">5dp</item>
+        <item name="android:layout_marginRight">5dp</item>
+    </style>
+
+    <style name="NoteStyle">
+        <item name="android:fontFamily">@font/annie_use_your_telescope</item>
+        <item name="android:textColor">#000000</item>
+        <item name="android:layout_marginTop">30dp</item>
+        <item name="android:paddingLeft">5dp</item>
+        <item name="android:paddingRight">5dp</item>
+    </style>
+
+    <style name="NoteStyleTitle" parent="NoteStyle">
+        <item name="android:textSize">48sp</item>
+        <item name="android:gravity">center_horizontal</item>
+    </style>
+
+    <style name="NoteStyleTitlePreview" parent="NoteStyle">
+        <item name="android:textSize">36sp</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="NoteStyleContent" parent="NoteStyle">
+        <item name="android:textSize">36sp</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:paddingLeft">20dp</item>
+        <item name="android:paddingRight">20dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:layout_margin">0dp</item>
+    </style>
+
+    <style name="NoteStyleContentPreview" parent="NoteStyleContent">
+        <item name="android:textSize">18sp</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:ellipsize">marquee</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <style name="AnimationDialogNote">
+        <item name="android:windowEnterAnimation">@anim/show_animation_note</item>
     </style>
 
 </resources>

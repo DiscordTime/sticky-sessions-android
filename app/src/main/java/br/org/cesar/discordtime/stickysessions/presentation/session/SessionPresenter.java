@@ -14,13 +14,16 @@ public class SessionPresenter implements SessionContract.Presenter {
     private static final String TAG = "SessionPresenter";
     private ObservableUseCase<String, Session> mEnterSession;
     private ObservableUseCase<Note, Note> mAddNote;
+    private ObservableUseCase<String, List<Note>> mListNotes;
     private SessionContract.View mView;
     private Session mActiveSession;
 
     public SessionPresenter(ObservableUseCase<String, Session> enterSession,
-                            ObservableUseCase<Note, Note> addNote) {
+                            ObservableUseCase<Note, Note> addNote,
+                            ObservableUseCase<String, List<Note>> listNotes) {
         mEnterSession = enterSession;
         mAddNote = addNote;
+        mListNotes = listNotes;
     }
 
     @Override
@@ -33,14 +36,12 @@ public class SessionPresenter implements SessionContract.Presenter {
         mView = null;
     }
 
-    @Override
-    public void onLoadSession() {
+    private void onLoadSession() {
         Log.d(TAG, "onLoadSession");
         mView.startLoadingSession();
     }
 
-    @Override
-    public void onStopLoadSession() {
+    private void onStopLoadSession() {
         Log.d(TAG, "onStopLoadSession");
         mView.stopLoadingSession();
     }
@@ -49,11 +50,12 @@ public class SessionPresenter implements SessionContract.Presenter {
     public void onEnterSession(String sessionId) {
         Log.d(TAG, "onEnterSession : "+sessionId);
         onLoadSession();
-        // TODO change this DisposableSingleObserver to use Generics
-        mEnterSession.execute(new DisposableSingleObserver() {
+        mEnterSession.execute(new DisposableSingleObserver<Session>() {
             @Override
-            public void onSuccess(Object o) {
-                mActiveSession = (Session) o;
+            public void onSuccess(Session session) {
+                mActiveSession = session;
+                listNotesForCurrentSession();
+
                 mView.displaySession();
                 onStopLoadSession();
             }
@@ -64,6 +66,22 @@ public class SessionPresenter implements SessionContract.Presenter {
                 mView.displayError(e.getMessage());
             }
         }, sessionId);
+    }
+
+    private void listNotesForCurrentSession() {
+        if (mActiveSession != null && mActiveSession.id != null) {
+            mListNotes.execute(new DisposableSingleObserver<List<Note>>() {
+                @Override
+                public void onSuccess(List<Note> notes) {
+                    mView.displayNotes(notes);
+                }
+
+                @Override
+                public void onError(Throwable e) {
+                    mView.displayErrorInvalidNotes();
+                }
+            }, mActiveSession.id);
+        }
     }
 
     @Override
@@ -78,6 +96,7 @@ public class SessionPresenter implements SessionContract.Presenter {
             List<String> topics = mActiveSession.topics;
             mView.displayAddNoteDialog(topics);
         }
+
     }
 
     @Override
@@ -87,6 +106,7 @@ public class SessionPresenter implements SessionContract.Presenter {
             @Override
             public void onSuccess(Note note) {
                 mView.showAddNoteSuccessfullyMessage();
+                mView.addNoteToNoteList(note);
             }
 
             @Override
@@ -94,5 +114,10 @@ public class SessionPresenter implements SessionContract.Presenter {
                 mView.displayError(e.getMessage());
             }
         }, note);
+    }
+
+    @Override
+    public void onNoteWidgetClicked(Note note) {
+        mView.displayNoteContent(note);
     }
 }

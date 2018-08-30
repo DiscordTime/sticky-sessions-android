@@ -2,6 +2,8 @@ package br.org.cesar.discordtime.stickysessions.injectors.modules;
 
 import android.content.Context;
 
+import java.util.List;
+
 import br.org.cesar.discordtime.stickysessions.data.remote.model.NoteRemote;
 import br.org.cesar.discordtime.stickysessions.data.remote.repository.NoteRemoteRepository;
 import br.org.cesar.discordtime.stickysessions.data.remote.service.NoteService;
@@ -9,6 +11,7 @@ import br.org.cesar.discordtime.stickysessions.data.remote.service.RemoteService
 import br.org.cesar.discordtime.stickysessions.data.repository.mapper.Mapper;
 import br.org.cesar.discordtime.stickysessions.data.repository.mapper.NoteMapper;
 import br.org.cesar.discordtime.stickysessions.domain.interactor.AddNote;
+import br.org.cesar.discordtime.stickysessions.domain.interactor.ListNotesForSession;
 import br.org.cesar.discordtime.stickysessions.domain.model.Note;
 import br.org.cesar.discordtime.stickysessions.domain.repository.NoteRepository;
 import br.org.cesar.discordtime.stickysessions.domain.repository.SessionRepository;
@@ -32,8 +35,26 @@ public class NoteModule {
     }
 
     @Provides
+    public ObservableUseCase<String, List<Note>> provideObservableListNotesUseCase(
+        ListNotesForSession listNotesForSession, ThreadExecutor threadExecutor,
+        PostExecutionThread postExecutionThread
+    ) {
+        return new ObservableUseCase<>(
+          listNotesForSession,
+          threadExecutor,
+          postExecutionThread
+        );
+    }
+
+    @Provides
     public AddNote provideAddNote(NoteRepository noteRepository, SessionRepository sessionRepository) {
         return new AddNote(noteRepository, sessionRepository);
+    }
+
+    @Provides
+    public ListNotesForSession provideListNotes(NoteRepository noteRepository,
+                                                SessionRepository sessionRepository) {
+        return new ListNotesForSession(noteRepository, sessionRepository);
     }
 
     @Provides
