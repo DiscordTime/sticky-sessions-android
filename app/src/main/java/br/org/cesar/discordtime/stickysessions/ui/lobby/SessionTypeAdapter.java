@@ -124,7 +124,8 @@ public class SessionTypeAdapter extends RecyclerView.Adapter<SessionTypeAdapter.
 
         @Override
         public void onClick(View view) {
-            clickSubject.onNext(mSessionTypes.get(getLayoutPosition()).type);
+            int realPosition = getLayoutPosition() % mSessionTypes.size();
+            clickSubject.onNext(mSessionTypes.get(realPosition).type);
         }
     }
 }
