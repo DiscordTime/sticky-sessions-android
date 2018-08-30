@@ -1,20 +1,12 @@
 package br.org.cesar.discordtime.stickysessions.ui.session;
 
-import android.animation.ObjectAnimator;
-import android.animation.PropertyValuesHolder;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.transition.Transition;
-import android.transition.TransitionSet;
-import android.transition.TransitionValues;
 import android.util.Log;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,11 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
-import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
-import android.view.animation.ScaleAnimation;
-import android.view.animation.Transformation;
-import android.view.animation.TranslateAnimation;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -46,6 +34,7 @@ import br.org.cesar.discordtime.stickysessions.R;
 import br.org.cesar.discordtime.stickysessions.app.StickySessionApplication;
 import br.org.cesar.discordtime.stickysessions.domain.model.Note;
 import br.org.cesar.discordtime.stickysessions.presentation.session.SessionContract;
+import br.org.cesar.discordtime.stickysessions.ui.ExtraNames;
 import br.org.cesar.discordtime.stickysessions.ui.adapters.NoteAdapter;
 
 public class SessionActivity extends AppCompatActivity implements SessionContract.View,
@@ -60,7 +49,6 @@ public class SessionActivity extends AppCompatActivity implements SessionContrac
     @Inject
     SessionContract.Presenter mPresenter;
 
-    public static final String SESSION_ID = "session";
     private NoteAdapter mNoteAdapter;
     private View mAddNewNoteView;
     private Animation mAnimationShow;
@@ -104,15 +92,15 @@ public class SessionActivity extends AppCompatActivity implements SessionContrac
         if (Intent.ACTION_VIEW.equals(intent.getAction())) {
             Uri uri = intent.getData();
             if (uri != null) {
-                String sessionId = uri.getQueryParameter(SESSION_ID);
+                String sessionId = uri.getQueryParameter(ExtraNames.SESSION_ID);
                 Log.d(TAG, "sessionId " + sessionId);
                 mPresenter.onEnterSession(sessionId);
             } else {
                 //TODO error message to null data
             }
             //Enter in a session by Lobby
-        } else if(!TextUtils.isEmpty(intent.getStringExtra(SESSION_ID))) {
-            String sessionId = intent.getStringExtra(SESSION_ID);
+        } else if(!TextUtils.isEmpty(intent.getStringExtra(ExtraNames.SESSION_ID))) {
+            String sessionId = intent.getStringExtra(ExtraNames.SESSION_ID);
             Log.d(TAG, "sessionId " + sessionId);
             mPresenter.onEnterSession(sessionId);
         }

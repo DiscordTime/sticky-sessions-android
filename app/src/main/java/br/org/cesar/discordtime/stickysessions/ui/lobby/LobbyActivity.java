@@ -63,8 +63,8 @@ public class LobbyActivity extends AppCompatActivity implements LobbyContract.Vi
     }
 
     @Override
-    public void goNext(Route route) throws InvalidViewNameException{
-        mViewStarter.goNext(mContext, route.to, route.shouldClearStack);
+    public void goNext(Route route, Bundle bundle) throws InvalidViewNameException{
+        mViewStarter.goNext(mContext, route.to, route.shouldClearStack, bundle);
     }
 
     private void configureRecyclerView() {

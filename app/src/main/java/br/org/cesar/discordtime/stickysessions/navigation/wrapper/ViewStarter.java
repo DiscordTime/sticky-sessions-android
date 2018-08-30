@@ -3,6 +3,7 @@ package br.org.cesar.discordtime.stickysessions.navigation.wrapper;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 
 import java.util.HashMap;
 
@@ -21,14 +22,21 @@ public class ViewStarter implements IViewStarter {
 
     public void goNext(Context context, String activityName, boolean shouldClearStack)
             throws InvalidViewNameException{
+        goNext(context, activityName, shouldClearStack, new Bundle());
+    }
+
+    public void goNext(Context context, String activityName, boolean shouldClearStack,
+                       Bundle extras) throws InvalidViewNameException{
         Class<? extends Activity> className = activities.get(activityName);
         if(className == null){
             throw new InvalidViewNameException(activityName);
         }
         Intent intent = new Intent(context, className);
+        intent.putExtras(extras);
+
         if (shouldClearStack) {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|
-                    Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                Intent.FLAG_ACTIVITY_CLEAR_TASK);
         }
 
         context.startActivity(intent);
