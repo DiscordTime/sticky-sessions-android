@@ -1,5 +1,6 @@
 package br.org.cesar.discordtime.stickysessions.presentation.lobby;
 
+import android.os.Bundle;
 import android.util.Log;
 
 import br.org.cesar.discordtime.stickysessions.domain.model.Session;
@@ -9,6 +10,7 @@ import br.org.cesar.discordtime.stickysessions.navigation.exception.InvalidRoute
 import br.org.cesar.discordtime.stickysessions.navigation.exception.InvalidViewNameException;
 import br.org.cesar.discordtime.stickysessions.navigation.router.IRouter;
 import br.org.cesar.discordtime.stickysessions.navigation.router.Route;
+import br.org.cesar.discordtime.stickysessions.ui.ExtraNames;
 import io.reactivex.observers.DisposableSingleObserver;
 
 public class LobbyPresenter implements LobbyContract.Presenter {
@@ -17,6 +19,7 @@ public class LobbyPresenter implements LobbyContract.Presenter {
     private LobbyContract.View mView;
     private ObservableUseCase<SessionType, Session> mCreateSession;
     private IRouter mRouter;
+    private CreateSessionObserver mObserver;
 
     public LobbyPresenter(ObservableUseCase<SessionType, Session> createSession, IRouter router) {
         mCreateSession = createSession;
@@ -31,18 +34,26 @@ public class LobbyPresenter implements LobbyContract.Presenter {
     @Override
     public void detachView() {
         this.mView = null;
+        if (mObserver != null && !mObserver.isDisposed()) {
+            mObserver.dispose();
+        }
     }
 
     @Override
     public void onCreateSession(SessionType type) {
         Log.d(TAG, "onCreateSession " + type);
-        mCreateSession.execute(new CreateSessionObserver(), type);
+        mObserver = new CreateSessionObserver();
+        mCreateSession.execute(mObserver, type);
     }
 
-    private void goNext(String event){
+    private void goNext(String event, String sessionId){
         try {
+            Bundle bundle = new Bundle();
+            bundle.putString(ExtraNames.SESSION_ID, sessionId);
+
             Route route = mRouter.getNext(mView.getName(), event);
-            mView.goNext(route);
+
+            mView.goNext(route, bundle);
         } catch (InvalidRouteException | InvalidViewNameException e) {
             Log.e(TAG, e.getMessage());
             e.printStackTrace();
@@ -68,7 +79,7 @@ public class LobbyPresenter implements LobbyContract.Presenter {
         @Override
         public void onSuccess(Session session) {
             Log.d(TAG, "create session success");
-            goNext(IRouter.CREATED_SESSION);
+            goNext(IRouter.CREATED_SESSION, session.id);
         }
 
         @Override
