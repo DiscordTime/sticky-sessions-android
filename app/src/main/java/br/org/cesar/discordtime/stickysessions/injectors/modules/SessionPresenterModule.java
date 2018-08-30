@@ -1,5 +1,7 @@
 package br.org.cesar.discordtime.stickysessions.injectors.modules;
 
+import java.util.List;
+
 import br.org.cesar.discordtime.stickysessions.domain.model.Note;
 import br.org.cesar.discordtime.stickysessions.domain.model.Session;
 import br.org.cesar.discordtime.stickysessions.executor.ObservableUseCase;
@@ -13,9 +15,11 @@ public class SessionPresenterModule {
 
     @Provides
     public SessionContract.Presenter providesPresenter(
-        ObservableUseCase<String, Session> enterSession, ObservableUseCase<Note, Note> addNote){
+        ObservableUseCase<String, Session> enterSession,
+        ObservableUseCase<Note, Note> addNote,
+        ObservableUseCase<String, List<Note>> listNotes){
 
-        return new SessionPresenter(enterSession, addNote);
+        return new SessionPresenter(enterSession, addNote, listNotes);
     }
 
 }
