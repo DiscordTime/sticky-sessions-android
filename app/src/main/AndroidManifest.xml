@@ -25,7 +25,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.session.SessionActivity">
+        <activity android:name=".ui.session.SessionActivity"
+            android:launchMode="singleTask">
             <intent-filter android:label="@string/app_name">
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
