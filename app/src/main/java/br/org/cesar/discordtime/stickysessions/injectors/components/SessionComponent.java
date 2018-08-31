@@ -6,6 +6,7 @@ import br.org.cesar.discordtime.stickysessions.injectors.modules.ServerModule;
 import br.org.cesar.discordtime.stickysessions.injectors.modules.SessionModule;
 import br.org.cesar.discordtime.stickysessions.injectors.modules.SessionPresenterModule;
 import br.org.cesar.discordtime.stickysessions.injectors.modules.ThreadModule;
+import br.org.cesar.discordtime.stickysessions.injectors.modules.UserModule;
 import br.org.cesar.discordtime.stickysessions.ui.session.SessionActivity;
 import dagger.Component;
 
@@ -16,7 +17,8 @@ import dagger.Component;
         SessionModule.class,
         ThreadModule.class,
         ContextModule.class,
-        ServerModule.class
+        ServerModule.class,
+        UserModule.class
     }
 )
 public interface SessionComponent {

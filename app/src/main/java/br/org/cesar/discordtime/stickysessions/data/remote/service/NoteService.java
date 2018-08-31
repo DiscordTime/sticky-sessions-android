@@ -13,6 +13,6 @@ public interface NoteService {
     @POST("/notes")
     Single<NoteRemote> addNote(@Body NoteRemote note);
 
-    @GET("/notes/{id}")
-    Single<List<NoteRemote>> listNotesForSession(@Path("id") String id);
+    @GET("/notes/{id}/{user}")
+    Single<List<NoteRemote>> listNotesForSession(@Path("id") String id, @Path("user") String user);
 }

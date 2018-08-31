@@ -53,4 +53,8 @@
         <item name="android:windowEnterAnimation">@anim/show_animation_note</item>
     </style>
 
+    <style name="UserNameInput">
+        <item name="android:textSize">24sp</item>
+    </style>
+
 </resources>
