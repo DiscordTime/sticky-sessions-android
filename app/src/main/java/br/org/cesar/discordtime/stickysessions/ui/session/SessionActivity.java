@@ -62,7 +62,7 @@ public class SessionActivity extends AppCompatActivity implements SessionContrac
         mContext = this;
 
         bindView();
-        enterSession();
+        configureSession();
     }
 
     private void bindView() {
@@ -73,6 +73,7 @@ public class SessionActivity extends AppCompatActivity implements SessionContrac
 
         mAddNewNoteView = findViewById(R.id.add_note_view);
         mAddNewNoteView.setOnClickListener(this);
+        mAddNewNoteView.setVisibility(View.INVISIBLE);
 
         mLoadingView = findViewById(R.id.loading_preview);
 
@@ -86,7 +87,7 @@ public class SessionActivity extends AppCompatActivity implements SessionContrac
         mAnimationShow = AnimationUtils.loadAnimation(this, R.anim.show_animation);
     }
 
-    private void enterSession() {
+    private void configureSession() {
         Intent intent = getIntent();
         //Enter in a session by link
         if (Intent.ACTION_VIEW.equals(intent.getAction())) {
@@ -94,7 +95,7 @@ public class SessionActivity extends AppCompatActivity implements SessionContrac
             if (uri != null) {
                 String sessionId = uri.getQueryParameter(ExtraNames.SESSION_ID);
                 Log.d(TAG, "sessionId " + sessionId);
-                mPresenter.onEnterSession(sessionId);
+                mPresenter.currentSession(sessionId);
             } else {
                 //TODO error message to null data
             }
@@ -102,14 +103,14 @@ public class SessionActivity extends AppCompatActivity implements SessionContrac
         } else if(!TextUtils.isEmpty(intent.getStringExtra(ExtraNames.SESSION_ID))) {
             String sessionId = intent.getStringExtra(ExtraNames.SESSION_ID);
             Log.d(TAG, "sessionId " + sessionId);
-            mPresenter.onEnterSession(sessionId);
+            mPresenter.currentSession(sessionId);
         }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        mAddNewNoteView.startAnimation(mAnimationShow);
+        mPresenter.onResume();
     }
 
     @Override
@@ -142,7 +143,7 @@ public class SessionActivity extends AppCompatActivity implements SessionContrac
 
     @Override
     public void displayAddNoteDialog(final List<String> topics) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.NoteContent);
         LayoutInflater inflater = LayoutInflater.from(mContext);
         final android.view.View view =
             inflater.inflate(R.layout.dialog_add_new_note, parent, false);
@@ -203,13 +204,48 @@ public class SessionActivity extends AppCompatActivity implements SessionContrac
     }
 
     @Override
-    public void displaySession() {
+    public void showWidgetAddName() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.NoteContent);
+        LayoutInflater inflater = LayoutInflater.from(mContext);
+        final android.view.View view =
+            inflater.inflate(R.layout.user_input_dialog, parent, false);
 
+        builder.setView(view);
+
+        builder.setPositiveButton(getString(R.string.confirm), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                EditText editText = view.findViewById(R.id.user_name_dialog);
+                String userName = editText.getText().toString();
+                currentUser(userName);
+            }
+        });
+
+        builder.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                finish();
+            }
+        });
+
+        builder.setTitle(R.string.enter_your_name);
+        builder.setCancelable(false);
+        builder.show();
+    }
+
+    private void currentUser(String userName) {
+        mPresenter.currentUser(userName);
+    }
+
+    @Override
+    public void displaySession() {
+        mAddNewNoteView.startAnimation(mAnimationShow);
+        mAddNewNoteView.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void displayError(String message) {
-
+        Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show();
     }
 
     @Override

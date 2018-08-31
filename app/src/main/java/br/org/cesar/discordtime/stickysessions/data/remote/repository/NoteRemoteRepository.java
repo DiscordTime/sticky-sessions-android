@@ -7,6 +7,7 @@ import br.org.cesar.discordtime.stickysessions.data.remote.model.NoteRemote;
 import br.org.cesar.discordtime.stickysessions.data.remote.service.NoteService;
 import br.org.cesar.discordtime.stickysessions.data.repository.mapper.Mapper;
 import br.org.cesar.discordtime.stickysessions.domain.model.Note;
+import br.org.cesar.discordtime.stickysessions.domain.model.NoteFilter;
 import br.org.cesar.discordtime.stickysessions.domain.repository.NoteRepository;
 import io.reactivex.Single;
 
@@ -30,8 +31,8 @@ public class NoteRemoteRepository implements NoteRepository {
     }
 
     @Override
-    public Single<List<Note>> listNotesForSession(String id) {
-        return mNoteService.listNotesForSession(id).map(
+    public Single<List<Note>> listNotesForSession(NoteFilter noteFilter) {
+        return mNoteService.listNotesForSession(noteFilter.idSession, noteFilter.user).map(
             noteRemotes -> {
                 List<Note> mNotes = new ArrayList<>();
 

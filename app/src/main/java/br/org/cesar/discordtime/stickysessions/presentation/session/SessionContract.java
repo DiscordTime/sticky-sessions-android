@@ -9,11 +9,13 @@ public interface SessionContract {
     interface Presenter {
         void attachView(SessionContract.View view);
         void detachView();
-        void onEnterSession(String sessionId);
         void onShareSession();
         void onAddNoteClicked();
         void addNewNote(String sessionId, String description);
         void onNoteWidgetClicked(Note note);
+        void onResume();
+        void currentUser(String userName);
+        void currentSession(String sessionId);
     }
 
     interface View {
@@ -28,5 +30,6 @@ public interface SessionContract {
         void displayErrorInvalidNotes();
         void displayNoteContent(Note note);
         void addNoteToNoteList(Note note);
+        void showWidgetAddName();
     }
 }

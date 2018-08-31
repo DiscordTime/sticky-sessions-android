@@ -1,6 +1,8 @@
 package br.org.cesar.discordtime.stickysessions.domain.interactor
 
+import android.provider.ContactsContract
 import br.org.cesar.discordtime.stickysessions.domain.model.Note
+import br.org.cesar.discordtime.stickysessions.domain.model.NoteFilter
 import br.org.cesar.discordtime.stickysessions.domain.model.Session
 import br.org.cesar.discordtime.stickysessions.domain.repository.NoteRepository
 import br.org.cesar.discordtime.stickysessions.domain.repository.SessionRepository
@@ -29,6 +31,7 @@ class ListNotesForSessionTest {
     @Test
     fun `invalid session id should throw an exception`(){
         val sessionId = "invalid_session_id"
+        val user = "any_user"
 
         whenever(mSessionRepositoryMock.getSession(sessionId))
                 .thenReturn(Single.create { emitter ->
@@ -36,7 +39,7 @@ class ListNotesForSessionTest {
                 })
 
         val listNotes = ListNotesForSession(mNoteRepositoryMock, mSessionRepositoryMock)
-        val singleListNote: Single <List<Note>> = listNotes.execute(sessionId)
+        val singleListNote: Single<List<Note>> = listNotes.execute(NoteFilter(sessionId, user))
 
         val testObserver: TestObserver<List<Note>> = singleListNote.test()
         testObserver.awaitTerminalEvent()
@@ -46,6 +49,7 @@ class ListNotesForSessionTest {
     @Test
     fun `valid session id should return value`() {
         val sessionId = "session"
+        val user = "valid_user"
 
         whenever(mSessionRepositoryMock.getSession(sessionId))
                 .thenReturn(Single.create { emitter ->
@@ -65,13 +69,13 @@ class ListNotesForSessionTest {
                 })
 
         val listNotes = ListNotesForSession(mNoteRepositoryMock, mSessionRepositoryMock)
-        val singleListNote: Single <List<Note>> = listNotes.execute(sessionId)
+        val singleListNote: Single <List<Note>> = listNotes.execute(NoteFilter(sessionId, user))
 
         val testObserver: TestObserver<List<Note>> = singleListNote.test()
         testObserver.awaitTerminalEvent()
         testObserver.assertNoErrors()
 
         verify(mSessionRepositoryMock).getSession(sessionId)
-        verify(mNoteRepositoryMock).listNotesForSession(sessionId)
+        verify(mNoteRepositoryMock).listNotesForSession(any())
     }
 }

@@ -2,9 +2,11 @@ package br.org.cesar.discordtime.stickysessions.presentation.session;
 
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import br.org.cesar.discordtime.stickysessions.domain.model.Note;
+import br.org.cesar.discordtime.stickysessions.domain.model.NoteFilter;
 import br.org.cesar.discordtime.stickysessions.domain.model.Session;
 import br.org.cesar.discordtime.stickysessions.executor.ObservableUseCase;
 import io.reactivex.observers.DisposableSingleObserver;
@@ -14,19 +16,24 @@ public class SessionPresenter implements SessionContract.Presenter {
     private static final String TAG = "SessionPresenter";
     private ObservableUseCase<String, Session> mEnterSession;
     private ObservableUseCase<Note, Note> mAddNote;
-    private ObservableUseCase<String, List<Note>> mListNotes;
+    private ObservableUseCase<NoteFilter, List<Note>> mListNotes;
+    private ObservableUseCase<String, Boolean> mSaveCurrentUser;
+    private ObservableUseCase<Void, String> mGetSavedUser;
     private SessionContract.View mView;
     private Session mActiveSession;
-    private DisposableSingleObserver<Session> mSessionObserver;
-    private DisposableSingleObserver<Note> mNoteObserver;
-    private DisposableSingleObserver<List<Note>> mListNotesObserver;
+    private String mSessionId;
+    private String mCurrentUser;
 
     public SessionPresenter(ObservableUseCase<String, Session> enterSession,
                             ObservableUseCase<Note, Note> addNote,
-                            ObservableUseCase<String, List<Note>> listNotes) {
+                            ObservableUseCase<NoteFilter, List<Note>> listNotes,
+                            ObservableUseCase<String, Boolean> saveCurrentUser,
+                            ObservableUseCase<Void, String> getSavedUser) {
         mEnterSession = enterSession;
         mAddNote = addNote;
         mListNotes = listNotes;
+        mSaveCurrentUser = saveCurrentUser;
+        mGetSavedUser = getSavedUser;
     }
 
     @Override
@@ -35,19 +42,57 @@ public class SessionPresenter implements SessionContract.Presenter {
     }
 
     @Override
+    public void onResume() {
+        mGetSavedUser.execute(new DisposableSingleObserver<String>() {
+            @Override
+            public void onSuccess(String userName) {
+                mCurrentUser = userName;
+                onEnterSession();
+            }
+    
+            @Override
+            public void onError(Throwable e) {
+                mView.showWidgetAddName();
+            }
+        }, null);
+    }
+
+    @Override
+    public void currentUser(String userName) {
+        mSaveCurrentUser.execute(new DisposableSingleObserver<Boolean>() {
+            @Override
+            public void onSuccess(Boolean success) {
+                if (success) {
+                    mCurrentUser = userName;
+                    onEnterSession();
+                }
+            }
+    
+            @Override
+            public void onError(Throwable e) {
+                mView.showWidgetAddName();
+                mView.displayError(e.getMessage());
+            }
+        }, userName);
+    }
+
+    @Override
+    public void currentSession(String sessionId) {
+        mSessionId = sessionId;
+    }
+
+    @Override
     public void detachView() {
         mView = null;
-        if (mSessionObserver != null && !mSessionObserver.isDisposed()) {
-            mSessionObserver.dispose();
-        }
+        disposeObservers();
+    }
 
-        if (mNoteObserver != null && !mNoteObserver.isDisposed()) {
-            mNoteObserver.dispose();
-        }
-
-        if (mListNotesObserver != null && !mListNotesObserver.isDisposed()) {
-            mListNotesObserver.dispose();
-        }
+    private void disposeObservers() {
+        mEnterSession.dispose();
+        mAddNote.dispose();
+        mListNotes.dispose();
+        mSaveCurrentUser.dispose();
+        mGetSavedUser.dispose();
     }
 
     private void onLoadSession() {
@@ -60,43 +105,40 @@ public class SessionPresenter implements SessionContract.Presenter {
         mView.stopLoadingSession();
     }
 
-    @Override
-    public void onEnterSession(String sessionId) {
-        Log.d(TAG, "onEnterSession : "+sessionId);
+    private void onEnterSession() {
+        Log.d(TAG, "onEnterSession : "+mSessionId);
         onLoadSession();
-        mSessionObserver = new DisposableSingleObserver<Session>() {
+        mEnterSession.execute(new DisposableSingleObserver<Session>() {
             @Override
             public void onSuccess(Session session) {
                 mActiveSession = session;
                 listNotesForCurrentSession();
-
+        
                 mView.displaySession();
                 onStopLoadSession();
             }
-
+    
             @Override
             public void onError(Throwable e) {
                 onStopLoadSession();
                 mView.displayError(e.getMessage());
             }
-        };
-        mEnterSession.execute(mSessionObserver, sessionId);
+        }, mSessionId);
     }
 
     private void listNotesForCurrentSession() {
         if (mActiveSession != null && mActiveSession.id != null) {
-            mListNotesObserver = new DisposableSingleObserver<List<Note>>() {
+            mListNotes.execute(new DisposableSingleObserver<List<Note>>() {
                 @Override
                 public void onSuccess(List<Note> notes) {
                     mView.displayNotes(notes);
                 }
-
+    
                 @Override
                 public void onError(Throwable e) {
                     mView.displayErrorInvalidNotes();
                 }
-            };
-            mListNotes.execute(mListNotesObserver, mActiveSession.id);
+            }, new NoteFilter(mActiveSession.id, mCurrentUser));
         }
     }
 
@@ -117,20 +159,20 @@ public class SessionPresenter implements SessionContract.Presenter {
 
     @Override
     public void addNewNote(String topic, String description) {
-        Note note = new Note(description, "Author", topic, mActiveSession.id);
-        mNoteObserver = new DisposableSingleObserver<Note>() {
+        Note note = new Note(description, mCurrentUser, topic, mActiveSession.id);
+        mAddNote.execute(new DisposableSingleObserver<Note>() {
+    
             @Override
             public void onSuccess(Note note) {
                 mView.showAddNoteSuccessfullyMessage();
                 mView.addNoteToNoteList(note);
             }
-
+    
             @Override
             public void onError(Throwable e) {
                 mView.displayError(e.getMessage());
             }
-        };
-        mAddNote.execute(mNoteObserver, note);
+        }, note);
     }
 
     @Override
