@@ -1,10 +1,9 @@
 package br.org.cesar.discordtime.stickysessions.presentation.lobby;
 
-import android.os.Bundle;
-
 import br.org.cesar.discordtime.stickysessions.navigation.exception.InvalidViewNameException;
 import br.org.cesar.discordtime.stickysessions.navigation.router.Route;
 import br.org.cesar.discordtime.stickysessions.domain.model.SessionType;
+import br.org.cesar.discordtime.stickysessions.navigation.wrapper.IBundle;
 
 public interface LobbyContract {
 
@@ -18,7 +17,7 @@ public interface LobbyContract {
 
     interface View {
         String getName();
-        void goNext(Route route, Bundle bundle) throws InvalidViewNameException;
+        void goNext(Route route, IBundle bundle) throws InvalidViewNameException;
         void displaySessionForm();
         void displayError(String message);
     }

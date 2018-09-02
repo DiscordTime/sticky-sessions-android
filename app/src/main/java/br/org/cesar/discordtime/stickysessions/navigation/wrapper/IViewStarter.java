@@ -10,6 +10,6 @@ public interface IViewStarter {
     void goNext(Context context, String activityName, boolean shouldClearStack)
             throws InvalidViewNameException;
 
-    void goNext(Context context, String activityName, boolean shouldClearStack, Bundle extras)
+    void goNext(Context context, String activityName, boolean shouldClearStack, IBundle extras)
         throws InvalidViewNameException;
 }

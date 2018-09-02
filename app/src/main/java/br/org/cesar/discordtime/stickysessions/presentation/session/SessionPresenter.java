@@ -1,14 +1,12 @@
 package br.org.cesar.discordtime.stickysessions.presentation.session;
 
-import android.util.Log;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import br.org.cesar.discordtime.stickysessions.domain.model.Note;
 import br.org.cesar.discordtime.stickysessions.domain.model.NoteFilter;
 import br.org.cesar.discordtime.stickysessions.domain.model.Session;
 import br.org.cesar.discordtime.stickysessions.executor.ObservableUseCase;
+import br.org.cesar.discordtime.stickysessions.logger.Logger;
 import io.reactivex.observers.DisposableSingleObserver;
 
 public class SessionPresenter implements SessionContract.Presenter {
@@ -19,6 +17,7 @@ public class SessionPresenter implements SessionContract.Presenter {
     private ObservableUseCase<NoteFilter, List<Note>> mListNotes;
     private ObservableUseCase<String, Boolean> mSaveCurrentUser;
     private ObservableUseCase<Void, String> mGetSavedUser;
+    private Logger mLog;
     private SessionContract.View mView;
     private Session mActiveSession;
     private String mSessionId;
@@ -28,12 +27,14 @@ public class SessionPresenter implements SessionContract.Presenter {
                             ObservableUseCase<Note, Note> addNote,
                             ObservableUseCase<NoteFilter, List<Note>> listNotes,
                             ObservableUseCase<String, Boolean> saveCurrentUser,
-                            ObservableUseCase<Void, String> getSavedUser) {
+                            ObservableUseCase<Void, String> getSavedUser,
+                            Logger logger) {
         mEnterSession = enterSession;
         mAddNote = addNote;
         mListNotes = listNotes;
         mSaveCurrentUser = saveCurrentUser;
         mGetSavedUser = getSavedUser;
+        mLog = logger;
     }
 
     @Override
@@ -96,17 +97,17 @@ public class SessionPresenter implements SessionContract.Presenter {
     }
 
     private void onLoadSession() {
-        Log.d(TAG, "onLoadSession");
+        mLog.d(TAG, "onLoadSession");
         mView.startLoadingSession();
     }
 
     private void onStopLoadSession() {
-        Log.d(TAG, "onStopLoadSession");
+        mLog.d(TAG, "onStopLoadSession");
         mView.stopLoadingSession();
     }
 
     private void onEnterSession() {
-        Log.d(TAG, "onEnterSession : "+mSessionId);
+        mLog.d(TAG, "onEnterSession : "+mSessionId);
         onLoadSession();
         mEnterSession.execute(new DisposableSingleObserver<Session>() {
             @Override
