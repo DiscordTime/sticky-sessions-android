@@ -2,6 +2,7 @@ package br.org.cesar.discordtime.stickysessions.injectors.modules;
 
 import br.org.cesar.discordtime.stickysessions.domain.model.Session;
 import br.org.cesar.discordtime.stickysessions.domain.model.SessionType;
+import br.org.cesar.discordtime.stickysessions.executor.IObservableUseCase;
 import br.org.cesar.discordtime.stickysessions.executor.ObservableUseCase;
 import br.org.cesar.discordtime.stickysessions.logger.Logger;
 import br.org.cesar.discordtime.stickysessions.navigation.router.IRouter;
@@ -16,7 +17,7 @@ public class LobbyPresenterModule {
 
     @Provides
     public LobbyContract.Presenter providesPresenter(
-            ObservableUseCase<SessionType, Session> createSession,
+            IObservableUseCase<SessionType, Session> createSession,
             IRouter router,
             Logger logger,
             IBundleFactory bundleFactory

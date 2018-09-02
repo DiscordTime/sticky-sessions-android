@@ -9,7 +9,7 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 
-public class ObservableUseCase<P, R> {
+public class ObservableUseCase<P, R> implements IObservableUseCase<P, R>{
 
     protected final CompositeDisposable disposables;
     private final UseCase<P, R> useCase;
@@ -25,6 +25,7 @@ public class ObservableUseCase<P, R> {
         this.disposables = new CompositeDisposable();
     }
 
+    @Override
     public void execute(@NotNull DisposableSingleObserver observer, P params) {
         Single<R> single = useCase.execute(params)
                 .subscribeOn(Schedulers.from(threadExecutor))
@@ -32,6 +33,7 @@ public class ObservableUseCase<P, R> {
         addDisposable(single.subscribeWith(observer));
     }
 
+    @Override
     public final void dispose() {
         if (!this.disposables.isDisposed()) {
             this.disposables.dispose();
