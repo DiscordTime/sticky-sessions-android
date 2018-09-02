@@ -2,11 +2,11 @@ package br.org.cesar.discordtime.stickysessions.injectors.components;
 
 import br.org.cesar.discordtime.stickysessions.injectors.modules.ContextModule;
 import br.org.cesar.discordtime.stickysessions.injectors.modules.LobbyPresenterModule;
-import br.org.cesar.discordtime.stickysessions.injectors.modules.RouterModule;
+import br.org.cesar.discordtime.stickysessions.injectors.modules.LoggerModule;
+import br.org.cesar.discordtime.stickysessions.injectors.modules.NavigationModule;
 import br.org.cesar.discordtime.stickysessions.injectors.modules.ServerModule;
 import br.org.cesar.discordtime.stickysessions.injectors.modules.SessionModule;
 import br.org.cesar.discordtime.stickysessions.injectors.modules.ThreadModule;
-import br.org.cesar.discordtime.stickysessions.injectors.modules.ViewStarterModule;
 import br.org.cesar.discordtime.stickysessions.ui.lobby.LobbyActivity;
 import dagger.Component;
 
@@ -16,9 +16,9 @@ import dagger.Component;
                 SessionModule.class,
                 ThreadModule.class,
                 ContextModule.class,
-                RouterModule.class,
-                ViewStarterModule.class,
-                ServerModule.class
+                NavigationModule.class,
+                ServerModule.class,
+                LoggerModule.class
         }
 )
 public interface LobbyComponent {

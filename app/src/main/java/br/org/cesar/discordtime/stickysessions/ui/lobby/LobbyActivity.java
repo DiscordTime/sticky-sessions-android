@@ -23,6 +23,7 @@ import br.org.cesar.discordtime.stickysessions.R;
 import br.org.cesar.discordtime.stickysessions.app.StickySessionApplication;
 import br.org.cesar.discordtime.stickysessions.navigation.exception.InvalidViewNameException;
 import br.org.cesar.discordtime.stickysessions.navigation.router.Route;
+import br.org.cesar.discordtime.stickysessions.navigation.wrapper.IBundle;
 import br.org.cesar.discordtime.stickysessions.navigation.wrapper.IViewStarter;
 import br.org.cesar.discordtime.stickysessions.presentation.lobby.LobbyContract;
 import br.org.cesar.discordtime.stickysessions.ui.ViewNames;
@@ -63,7 +64,7 @@ public class LobbyActivity extends AppCompatActivity implements LobbyContract.Vi
     }
 
     @Override
-    public void goNext(Route route, Bundle bundle) throws InvalidViewNameException{
+    public void goNext(Route route, IBundle bundle) throws InvalidViewNameException{
         mViewStarter.goNext(mContext, route.to, route.shouldClearStack, bundle);
     }
 

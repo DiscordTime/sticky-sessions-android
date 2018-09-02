@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import br.org.cesar.discordtime.stickysessions.navigation.exception.InvalidViewNameException;
 import br.org.cesar.discordtime.stickysessions.ui.ViewNames;
@@ -22,17 +23,24 @@ public class ViewStarter implements IViewStarter {
 
     public void goNext(Context context, String activityName, boolean shouldClearStack)
             throws InvalidViewNameException{
-        goNext(context, activityName, shouldClearStack, new Bundle());
+        goNext(context, activityName, shouldClearStack, null);
     }
 
     public void goNext(Context context, String activityName, boolean shouldClearStack,
-                       Bundle extras) throws InvalidViewNameException{
+                       IBundle iBundle) throws InvalidViewNameException{
         Class<? extends Activity> className = activities.get(activityName);
         if(className == null){
             throw new InvalidViewNameException(activityName);
         }
         Intent intent = new Intent(context, className);
-        intent.putExtras(extras);
+
+        if (iBundle != null) {
+            Bundle bundle = new Bundle();
+            for (Map.Entry<String, String> entry : iBundle.getExtras().entrySet()) {
+                bundle.putString(entry.getKey(), entry.getValue());
+            }
+            intent.putExtras(bundle);
+        }
 
         if (shouldClearStack) {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|

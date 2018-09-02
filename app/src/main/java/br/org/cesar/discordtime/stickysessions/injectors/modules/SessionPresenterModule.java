@@ -6,6 +6,7 @@ import br.org.cesar.discordtime.stickysessions.domain.model.Note;
 import br.org.cesar.discordtime.stickysessions.domain.model.NoteFilter;
 import br.org.cesar.discordtime.stickysessions.domain.model.Session;
 import br.org.cesar.discordtime.stickysessions.executor.ObservableUseCase;
+import br.org.cesar.discordtime.stickysessions.logger.Logger;
 import br.org.cesar.discordtime.stickysessions.presentation.session.SessionContract;
 import br.org.cesar.discordtime.stickysessions.presentation.session.SessionPresenter;
 import dagger.Module;
@@ -20,9 +21,11 @@ public class SessionPresenterModule {
         ObservableUseCase<Note, Note> addNote,
         ObservableUseCase<NoteFilter, List<Note>> listNotes,
         ObservableUseCase<String, Boolean> saveCurrentUser,
-        ObservableUseCase<Void, String> getSavedUser){
+        ObservableUseCase<Void, String> getSavedUser,
+        Logger logger){
 
-        return new SessionPresenter(enterSession, addNote, listNotes, saveCurrentUser, getSavedUser);
+        return new SessionPresenter(enterSession, addNote, listNotes,
+                saveCurrentUser, getSavedUser, logger);
     }
 
 }
