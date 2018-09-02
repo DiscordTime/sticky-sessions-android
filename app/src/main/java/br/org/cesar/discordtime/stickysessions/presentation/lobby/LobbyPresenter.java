@@ -2,7 +2,7 @@ package br.org.cesar.discordtime.stickysessions.presentation.lobby;
 
 import br.org.cesar.discordtime.stickysessions.domain.model.Session;
 import br.org.cesar.discordtime.stickysessions.domain.model.SessionType;
-import br.org.cesar.discordtime.stickysessions.executor.ObservableUseCase;
+import br.org.cesar.discordtime.stickysessions.executor.IObservableUseCase;
 import br.org.cesar.discordtime.stickysessions.logger.Logger;
 import br.org.cesar.discordtime.stickysessions.navigation.exception.InvalidRouteException;
 import br.org.cesar.discordtime.stickysessions.navigation.exception.InvalidViewNameException;
@@ -18,12 +18,12 @@ public class LobbyPresenter implements LobbyContract.Presenter {
     private static final String TAG = "LobbyPresenter";
     private final IBundleFactory mBundleFactory;
     private LobbyContract.View mView;
-    private ObservableUseCase<SessionType, Session> mCreateSession;
+    private IObservableUseCase<SessionType, Session> mCreateSession;
     private IRouter mRouter;
     private Logger mLog;
     private CreateSessionObserver mObserver;
 
-    public LobbyPresenter(ObservableUseCase<SessionType, Session> createSession,
+    public LobbyPresenter(IObservableUseCase<SessionType, Session> createSession,
                           IRouter router, Logger logger, IBundleFactory bundleFactory) {
         mCreateSession = createSession;
         mRouter = router;
@@ -39,9 +39,7 @@ public class LobbyPresenter implements LobbyContract.Presenter {
     @Override
     public void detachView() {
         this.mView = null;
-        if (mObserver != null && !mObserver.isDisposed()) {
-            mObserver.dispose();
-        }
+        mCreateSession.dispose();
     }
 
     @Override
@@ -72,7 +70,7 @@ public class LobbyPresenter implements LobbyContract.Presenter {
 
     @Override
     public void onEnterSession(String sessionIdString) {
-        if( sessionIdString == null) {
+        if(sessionIdString == null || sessionIdString.isEmpty()) {
             mView.displayError("");
         } else {
             int sessionId = Integer.parseInt(sessionIdString);
@@ -90,6 +88,8 @@ public class LobbyPresenter implements LobbyContract.Presenter {
         @Override
         public void onError(Throwable e) {
             mLog.d(TAG, "create session error" + e.getLocalizedMessage());
+            // TODO: Pass meaningful text to view depending on error
+            mView.displayError("");
         }
     }
 

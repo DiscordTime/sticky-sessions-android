@@ -14,6 +14,7 @@ import br.org.cesar.discordtime.stickysessions.domain.interactor.UseCase;
 import br.org.cesar.discordtime.stickysessions.domain.model.Session;
 import br.org.cesar.discordtime.stickysessions.domain.model.SessionType;
 import br.org.cesar.discordtime.stickysessions.domain.repository.SessionRepository;
+import br.org.cesar.discordtime.stickysessions.executor.IObservableUseCase;
 import br.org.cesar.discordtime.stickysessions.executor.ObservableUseCase;
 import br.org.cesar.discordtime.stickysessions.executor.PostExecutionThread;
 import br.org.cesar.discordtime.stickysessions.executor.ThreadExecutor;
@@ -47,7 +48,7 @@ public class SessionModule {
     }
 
     @Provides
-    public ObservableUseCase<SessionType, Session> provideCreateSessionUseCase(
+    public IObservableUseCase<SessionType, Session> provideCreateSessionUseCase(
             UseCase<SessionType, Session> createSession,
             ThreadExecutor threadExecutor,
             PostExecutionThread postExecutionThread
