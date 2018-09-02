@@ -16,6 +16,7 @@ import br.org.cesar.discordtime.stickysessions.domain.model.Note;
 import br.org.cesar.discordtime.stickysessions.domain.model.NoteFilter;
 import br.org.cesar.discordtime.stickysessions.domain.repository.NoteRepository;
 import br.org.cesar.discordtime.stickysessions.domain.repository.SessionRepository;
+import br.org.cesar.discordtime.stickysessions.executor.IObservableUseCase;
 import br.org.cesar.discordtime.stickysessions.executor.ObservableUseCase;
 import br.org.cesar.discordtime.stickysessions.executor.PostExecutionThread;
 import br.org.cesar.discordtime.stickysessions.executor.ThreadExecutor;
@@ -26,7 +27,7 @@ import dagger.Provides;
 public class NoteModule {
 
     @Provides
-    public ObservableUseCase<Note, Note> provideObservableAddNoteUseCase(
+    public IObservableUseCase<Note, Note> provideObservableAddNoteUseCase(
         AddNote addNote, ThreadExecutor threadExecutor, PostExecutionThread postExecutionThread) {
         return new ObservableUseCase<>(
             addNote,
@@ -36,10 +37,9 @@ public class NoteModule {
     }
 
     @Provides
-    public ObservableUseCase<NoteFilter, List<Note>> provideObservableListNotesUseCase(
+    public IObservableUseCase<NoteFilter, List<Note>> provideObservableListNotesUseCase(
         ListNotesForSession listNotesForSession, ThreadExecutor threadExecutor,
-        PostExecutionThread postExecutionThread
-    ) {
+        PostExecutionThread postExecutionThread) {
         return new ObservableUseCase<>(
           listNotesForSession,
           threadExecutor,
@@ -48,7 +48,8 @@ public class NoteModule {
     }
 
     @Provides
-    public AddNote provideAddNote(NoteRepository noteRepository, SessionRepository sessionRepository) {
+    public AddNote provideAddNote(NoteRepository noteRepository,
+                                  SessionRepository sessionRepository) {
         return new AddNote(noteRepository, sessionRepository);
     }
 

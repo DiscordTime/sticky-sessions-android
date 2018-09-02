@@ -119,6 +119,4 @@ class LobbyPresenterTest {
     private fun configureViewGetName(name: String) {
         whenever(mockView.name).thenReturn(name)
     }
-
-
 }
