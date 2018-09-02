@@ -66,7 +66,7 @@ public class SessionModule {
     }
 
     @Provides
-    public ObservableUseCase<String, Session> provideEnterSessionUseCase(
+    public IObservableUseCase<String, Session> provideEnterSessionUseCase(
         EnterSession enterSession, ThreadExecutor threadExecutor,
         PostExecutionThread postExecutionThread) {
 

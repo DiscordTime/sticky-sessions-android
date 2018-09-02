@@ -8,6 +8,7 @@ import br.org.cesar.discordtime.stickysessions.data.local.repository.UserLocalRe
 import br.org.cesar.discordtime.stickysessions.domain.interactor.GetLocalUser;
 import br.org.cesar.discordtime.stickysessions.domain.interactor.SaveCurrentUser;
 import br.org.cesar.discordtime.stickysessions.domain.repository.UserRepository;
+import br.org.cesar.discordtime.stickysessions.executor.IObservableUseCase;
 import br.org.cesar.discordtime.stickysessions.executor.ObservableUseCase;
 import br.org.cesar.discordtime.stickysessions.executor.PostExecutionThread;
 import br.org.cesar.discordtime.stickysessions.executor.ThreadExecutor;
@@ -18,7 +19,7 @@ import dagger.Provides;
 public class UserModule {
 
     @Provides
-    public ObservableUseCase<String, Boolean> providesObservableSaveCurrentUser(
+    public IObservableUseCase<String, Boolean> providesObservableSaveCurrentUser(
         SaveCurrentUser saveCurrentUser,
         ThreadExecutor threadExecutor,
         PostExecutionThread postExecutionThread) {
@@ -26,7 +27,7 @@ public class UserModule {
     }
 
     @Provides
-    public ObservableUseCase<Void, String> providesObservableGetSavedUser(
+    public IObservableUseCase<Void, String> providesObservableGetSavedUser(
         GetLocalUser getLocalUser, ThreadExecutor threadExecutor,
         PostExecutionThread postExecutionThread) {
 

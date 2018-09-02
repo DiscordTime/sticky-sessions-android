@@ -5,7 +5,7 @@ import java.util.List;
 import br.org.cesar.discordtime.stickysessions.domain.model.Note;
 import br.org.cesar.discordtime.stickysessions.domain.model.NoteFilter;
 import br.org.cesar.discordtime.stickysessions.domain.model.Session;
-import br.org.cesar.discordtime.stickysessions.executor.ObservableUseCase;
+import br.org.cesar.discordtime.stickysessions.executor.IObservableUseCase;
 import br.org.cesar.discordtime.stickysessions.logger.Logger;
 import br.org.cesar.discordtime.stickysessions.presentation.session.SessionContract;
 import br.org.cesar.discordtime.stickysessions.presentation.session.SessionPresenter;
@@ -17,12 +17,12 @@ public class SessionPresenterModule {
 
     @Provides
     public SessionContract.Presenter providesPresenter(
-        ObservableUseCase<String, Session> enterSession,
-        ObservableUseCase<Note, Note> addNote,
-        ObservableUseCase<NoteFilter, List<Note>> listNotes,
-        ObservableUseCase<String, Boolean> saveCurrentUser,
-        ObservableUseCase<Void, String> getSavedUser,
-        Logger logger){
+            IObservableUseCase<String, Session> enterSession,
+            IObservableUseCase<Note, Note> addNote,
+            IObservableUseCase<NoteFilter, List<Note>> listNotes,
+            IObservableUseCase<String, Boolean> saveCurrentUser,
+            IObservableUseCase<Void, String> getSavedUser,
+            Logger logger){
 
         return new SessionPresenter(enterSession, addNote, listNotes,
                 saveCurrentUser, getSavedUser, logger);
