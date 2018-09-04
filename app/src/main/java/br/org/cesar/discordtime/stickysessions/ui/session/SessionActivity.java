@@ -21,6 +21,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
+
 import java.util.List;
 
 import javax.inject.Inject;
@@ -143,39 +146,57 @@ public class SessionActivity extends AppCompatActivity implements SessionContrac
 
     @Override
     public void displayAddNoteDialog(final List<String> topics) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.NoteContent);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
         LayoutInflater inflater = LayoutInflater.from(mContext);
         final android.view.View view =
             inflater.inflate(R.layout.dialog_add_new_note, parent, false);
 
-        final Spinner spinner = view.findViewById(R.id.session_spinner);
-        spinner.setAdapter(new ArrayAdapter<>(mContext, android.R.layout.simple_list_item_1,
-            topics));
+        final ChipGroup chipGroup = view.findViewById(R.id.session_elements);
+
+        for (int i = 0; i < topics.size(); i++) {
+            String topic = topics.get(i);
+            Chip chip = (Chip) inflater.inflate(R.layout.chip_element, null);
+            chip.setText(topic);
+            chip.setId(i);
+            chipGroup.addView(chip);
+        }
 
         final EditText editText = view.findViewById(R.id.note_description);
+        View confirm = view.findViewById(R.id.confirm);
+        View cancel = view.findViewById(R.id.cancel);
 
         builder.setView(view);
-        builder.setMessage(getString(R.string.note_dialog_add_title));
-        builder.setPositiveButton(getString(R.string.confirm),
-            new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    String topic = topics.get(spinner.getSelectedItemPosition());
+
+        AlertDialog alertDialog = builder.create();
+
+        confirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int position = chipGroup.getCheckedChipId();
+                if (position > 0) {
+                    String topic = topics.get(position);
+
                     String description = editText.getText().toString();
                     mPresenter.addNewNote(topic, description);
+                    alertDialog.cancel();
+                } else {
+                    showShouldChoiceTopicMessage();
                 }
             }
-        );
+        });
 
-        builder.setNegativeButton(getString(R.string.cancel),
-            new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    dialogInterface.cancel();
-                }
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.cancel();
             }
-        );
-        builder.show();
+        });
+
+        alertDialog.show();
+    }
+
+    private void showShouldChoiceTopicMessage() {
+        Toast.makeText(this, R.string.select_topic_dialog_message, Toast.LENGTH_SHORT).show();
     }
 
     @Override

@@ -22,4 +22,6 @@
     <string name="close">Close</string>
     <string name="session_title_activity">My Notes</string>
     <string name="enter_your_name">Enter your name</string>
+    <string name="topic_title">Topic</string>
+    <string name="select_topic_dialog_message">Should select a topic</string>
 </resources>
