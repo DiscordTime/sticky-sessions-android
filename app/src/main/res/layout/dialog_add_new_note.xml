@@ -32,7 +32,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
-        android:maxLines="4"
+        android:maxLength="200"
         android:scrollHorizontally="false"
         android:ems="10"
         android:hint="@string/note_description_dialog_hint"
