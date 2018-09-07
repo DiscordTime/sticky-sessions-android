@@ -21,7 +21,8 @@ public class CreateSession extends UseCase<SessionType, Session> {
         map.put(SessionType.STARFISH,
                 Arrays.asList("Less", "More", "Start", "Stop", "Keep"));
         map.put(SessionType.GAIN_PLEASURE,
-                Arrays.asList("Loss & Pain", "Loss & Pleasure", "Gain & Pain", "Gain & Pleasure"));
+                Arrays.asList("Loss & Pleasure (1)", "Gain & Pleasure (2)"
+                        , "Loss & Pain (3)", "Gain & Pain (4)"));
         mTopicsMap = Collections.unmodifiableMap(map);
     }
 

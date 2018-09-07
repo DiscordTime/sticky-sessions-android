@@ -24,8 +24,8 @@ class CreateSessionTest {
         mockSessionRepository = mock()
         createSession = CreateSession(mockSessionRepository)
         startfishList = Arrays.asList("Less", "More", "Start", "Stop", "Keep")
-        gainPleasureList = Arrays.asList("Loss & Pain", "Loss & Pleasure",
-                "Gain & Pain", "Gain & Pleasure")
+        gainPleasureList = Arrays.asList("Loss & Pleasure (1)", "Gain & Pleasure (2)"
+                , "Loss & Pain (3)", "Gain & Pain (4)")
     }
 
     @Test
