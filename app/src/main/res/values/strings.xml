@@ -1,15 +1,11 @@
 <resources>
     <string name="app_name">Sticky Sessions</string>
-    <string name="create_starfish">Create Starfish</string>
-    <string name="create_gain_pleasure">Create Gain Pleasure</string>
-    <string name="enter_session">Enter</string>
     <string name="enter_session_id">Put your session id</string>
     <string name="session_id">Session id</string>
     <string name="confirm">Confirm</string>
     <string name="share_session">Hey fellow, you can get a new session here: http://stickysessions.com/enter?session=%s</string>
     <string name="bt_share_session">Share Session</string>
     <string name="note_description_dialog_hint">What you want to add?</string>
-    <string name="note_dialog_add_title">Create New Note</string>
     <string name="new_note_added_message">New Note Added Successfully</string>
     <string name="cancel">Cancel</string>
     <string name="starfish">Starfish</string>
@@ -19,9 +15,11 @@
     <string name="gain_description">Great for talking about all work related things and how does if affects each participant.</string>
     <string name="custom">Custom</string>
     <string name="custom_description">Coming Soon! Create your own session and define which topics team will discuss about!</string>
-    <string name="close">Close</string>
     <string name="session_title_activity">My Notes</string>
     <string name="enter_your_name">Enter your name</string>
     <string name="topic_title">Topic</string>
     <string name="select_topic_dialog_message">Should select a topic</string>
+    <string name="user_name">User Name</string>
+    <string name="content_description_add_note_action_button">add note action button</string>
+    <string name="content_description_session_type">image with a session representation</string>
 </resources>

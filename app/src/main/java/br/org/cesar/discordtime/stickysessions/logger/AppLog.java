@@ -2,6 +2,8 @@ package br.org.cesar.discordtime.stickysessions.logger;
 
 import android.util.Log;
 
+import br.org.cesar.discordtime.stickysessions.BuildConfig;
+
 public class AppLog implements Logger {
 
     private static final String TAG = "StickySessions";
@@ -15,7 +17,7 @@ public class AppLog implements Logger {
 
     @Override
     public void d(String tag, String message) {
-        if (Log.isLoggable(TAG, Log.DEBUG)) {
+        if (Log.isLoggable(TAG, Log.DEBUG) || BuildConfig.DEBUG) {
             Log.d(TAG, "[" + tag + "]: " + message);
         }
     }
@@ -32,6 +34,8 @@ public class AppLog implements Logger {
 
     @Override
     public void i(String tag, String message) {
-        Log.i(TAG, "[" + tag + "]: " + message);
+        if (Log.isLoggable(TAG, Log.INFO)) {
+            Log.i(TAG, "[" + tag + "]: " + message);
+        }
     }
 }

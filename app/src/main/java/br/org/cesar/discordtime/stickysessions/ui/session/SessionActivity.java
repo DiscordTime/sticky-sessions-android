@@ -15,9 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -137,7 +135,7 @@ public class SessionActivity extends AppCompatActivity implements SessionContrac
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId() == item.getItemId()) {
+        if(item.getItemId() == R.id.action_share) {
             mPresenter.onShareSession();
             return true;
         }
@@ -155,7 +153,7 @@ public class SessionActivity extends AppCompatActivity implements SessionContrac
 
         for (int i = 0; i < topics.size(); i++) {
             String topic = topics.get(i);
-            Chip chip = (Chip) inflater.inflate(R.layout.chip_element, null);
+            Chip chip = (Chip) inflater.inflate(R.layout.chip_element, parent, false);
             chip.setText(topic);
             chip.setId(i);
             chipGroup.addView(chip);

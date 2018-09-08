@@ -15,7 +15,8 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Note Title" />
+        tools:text="Note Title"
+        android:textIsSelectable="true"/>
 
     <TextView
         android:id="@+id/description_note_element"
@@ -25,7 +26,8 @@
         app:layout_constraintLeft_toLeftOf="@+id/title_note_element"
         app:layout_constraintRight_toRightOf="@+id/title_note_element"
         app:layout_constraintTop_toBottomOf="@+id/title_note_element"
-        tools:text="This is a great text to check if the textview will break asdsadsadsad" />
+        tools:text="This is a great text to check if the textview will break asdsadsadsad"
+        android:textIsSelectable="true"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

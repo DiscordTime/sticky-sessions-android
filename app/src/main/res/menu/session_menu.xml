@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/action_share"
-        android:icon="@mipmap/baseline_share_white_24"
+        android:icon="@drawable/ic_baseline_share_white_24"
         android:showAsAction="always"
         android:title="@string/bt_share_session">
     </item>

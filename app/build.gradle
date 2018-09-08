@@ -51,6 +51,13 @@ android {
         }
     }
 
+    lintOptions {
+        lintConfig file("lint.xml")
+        abortOnError true
+        checkAllWarnings true
+        warningsAsErrors true
+    }
+
 }
 
 dependencies {
@@ -63,7 +70,7 @@ dependencies {
     implementation "androidx.annotation:annotation:${versions.androidx}"
     implementation "androidx.legacy:legacy-support-v4:${versions.androidx}"
     implementation "androidx.cardview:cardview:${versions.androidx}"
-    implementation "com.google.android.material:material:${versions.androidx}"
+    implementation "com.google.android.material:material:${versions.material}"
 
     // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${versions.kotlin}"
