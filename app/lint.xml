@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lint>
+    <!-- Lint is not recognizing androidx, material and
+    constraintlayout dependencies. -->
+    <issue id="MissingRegistered">
+        <ignore path="src/main/res/layout/*" />
+    </issue>
+
+    <!-- Lint is complaining about a possible overdraw
+    even after setting AppTheme background to @null -->
+    <issue id="Overdraw">
+        <ignore path="src/main/res/layout/toolbar_session.xml"/>
+        <ignore path="src/main/res/layout/activity_main.xml" />
+    </issue>
+
+    <!-- We might need to unsuppress this warning later
+    if we face 64K method limit or any performance issues,
+    but right now Android Studio actually tells to keep
+    private access and it would be annoying to config the
+    contrary on every machine. -->
+    <issue id="SyntheticAccessor" severity="ignore" />
+
+    <!-- Need to discuss this one with the team since this
+    warning has more than 300 ocurrences and forces use of
+    NotNull or Nullable annotations everywhere. -->
+    <issue id="UnknownNullness" severity="ignore" />
+
+    <!-- Autofill property for EditTexts is only used on API 26
+    or later. Providing it causes another lint warning which would
+    force us to have new layout files only for v26 -->
+    <issue id="Autofill" severity="ignore" />
+
+    <!-- Can't include Firebase App Indexing dependency right now
+    without conflicting with androidx support library -->
+    <issue id="GoogleAppIndexingApiWarning" severity="ignore" />
+</lint>

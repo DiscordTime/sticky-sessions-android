@@ -15,7 +15,6 @@
     app:cardElevation="1dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -31,7 +30,8 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_chainStyle="packed"
-                app:srcCompat="@drawable/starfish" />
+                app:srcCompat="@drawable/starfish"
+                android:contentDescription="@string/content_description_session_type" />
 
             <TextView
                 android:id="@+id/title"
