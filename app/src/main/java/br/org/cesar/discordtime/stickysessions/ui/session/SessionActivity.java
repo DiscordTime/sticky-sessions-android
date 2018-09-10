@@ -13,8 +13,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -232,32 +235,40 @@ public class SessionActivity extends AppCompatActivity implements SessionContrac
 
     @Override
     public void showWidgetAddName() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.NoteContent);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AddUserContent);
         LayoutInflater inflater = LayoutInflater.from(mContext);
         final android.view.View view =
             inflater.inflate(R.layout.user_input_dialog, parent, false);
 
+        final Button btConfirm = view.findViewById(R.id.bt_positive);
+        EditText editText = view.findViewById(R.id.user_name_dialog);
+        editText.requestFocus();
+
+        builder.setTitle(R.string.enter_your_name);
+        builder.setCancelable(false);
         builder.setView(view);
 
-        builder.setPositiveButton(getString(R.string.confirm), new DialogInterface.OnClickListener() {
+        AlertDialog alertDialog = builder.create();
+
+        btConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                EditText editText = view.findViewById(R.id.user_name_dialog);
+            public void onClick(View view) {
                 String userName = editText.getText().toString();
                 currentUser(userName);
+                alertDialog.dismiss();
             }
         });
 
-        builder.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+        final Button btCancel = view.findViewById(R.id.bt_negative);
+        btCancel.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
+            public void onClick(View view) {
                 finish();
             }
         });
 
-        builder.setTitle(R.string.enter_your_name);
-        builder.setCancelable(false);
-        builder.show();
+
+        alertDialog.show();
     }
 
     @Override
