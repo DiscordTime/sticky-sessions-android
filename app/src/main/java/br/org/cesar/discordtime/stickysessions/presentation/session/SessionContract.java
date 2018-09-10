@@ -31,5 +31,6 @@ public interface SessionContract {
         void displayNoteContent(Note note);
         void addNoteToNoteList(Note note);
         void showWidgetAddName();
+        void cleanNotes();
     }
 }
