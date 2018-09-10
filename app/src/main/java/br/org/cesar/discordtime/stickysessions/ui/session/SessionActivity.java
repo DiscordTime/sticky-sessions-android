@@ -109,6 +109,14 @@ public class SessionActivity extends AppCompatActivity implements SessionContrac
     }
 
     @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+        cleanNotes();
+        configureSession();
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
         mPresenter.onResume();
@@ -250,6 +258,12 @@ public class SessionActivity extends AppCompatActivity implements SessionContrac
         builder.setTitle(R.string.enter_your_name);
         builder.setCancelable(false);
         builder.show();
+    }
+
+    @Override
+    public void cleanNotes() {
+        mNoteAdapter = new NoteAdapter(this);
+        mRecyclerView.setAdapter(mNoteAdapter);
     }
 
     private void currentUser(String userName) {
