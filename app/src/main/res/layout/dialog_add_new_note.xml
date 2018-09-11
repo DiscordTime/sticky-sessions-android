@@ -40,23 +40,4 @@
         android:inputType="textMultiLine"
         app:layout_constraintTop_toBottomOf="@+id/session_elements" />
 
-    <Button
-        android:id="@+id/confirm"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/confirm"
-        app:layout_constraintTop_toBottomOf="@id/note_description"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"/>
-
-    <Button
-        android:id="@+id/cancel"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/cancel"
-        android:layout_marginEnd="10dp"
-        app:layout_constraintTop_toTopOf="@id/confirm"
-        app:layout_constraintBottom_toBottomOf="@id/confirm"
-        app:layout_constraintRight_toLeftOf="@id/confirm"/>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

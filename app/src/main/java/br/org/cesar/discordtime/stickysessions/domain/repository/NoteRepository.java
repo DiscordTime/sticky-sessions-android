@@ -9,4 +9,5 @@ import io.reactivex.Single;
 public interface NoteRepository {
     Single<Note> addNote(Note note);
     Single<List<Note>> listNotesForSession(NoteFilter noteFilter);
+    Single<Boolean> removeNote(Note note);
 }

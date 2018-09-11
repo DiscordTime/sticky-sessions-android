@@ -6,7 +6,6 @@
     <string name="share_session">Hey fellow, you can get a new session here: http://stickysessions.com/enter?session=%s</string>
     <string name="bt_share_session">Share Session</string>
     <string name="note_description_dialog_hint">What you want to add?</string>
-    <string name="new_note_added_message">New Note Added Successfully</string>
     <string name="cancel">Cancel</string>
     <string name="starfish">Starfish</string>
     <string name="starfish_description">Great data gathering activity to foster the thinking around practices and the value the team get from it.</string>
@@ -22,4 +21,5 @@
     <string name="user_name">User Name</string>
     <string name="content_description_add_note_action_button">add note action button</string>
     <string name="content_description_session_type">image with a session representation</string>
+    <string name="remove">Remove</string>
 </resources>

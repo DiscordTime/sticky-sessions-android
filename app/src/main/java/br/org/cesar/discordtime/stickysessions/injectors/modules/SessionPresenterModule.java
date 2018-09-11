@@ -6,6 +6,7 @@ import br.org.cesar.discordtime.stickysessions.domain.model.Note;
 import br.org.cesar.discordtime.stickysessions.domain.model.NoteFilter;
 import br.org.cesar.discordtime.stickysessions.domain.model.Session;
 import br.org.cesar.discordtime.stickysessions.executor.IObservableUseCase;
+import br.org.cesar.discordtime.stickysessions.executor.ObservableUseCase;
 import br.org.cesar.discordtime.stickysessions.logger.Logger;
 import br.org.cesar.discordtime.stickysessions.presentation.session.SessionContract;
 import br.org.cesar.discordtime.stickysessions.presentation.session.SessionPresenter;
@@ -17,15 +18,16 @@ public class SessionPresenterModule {
 
     @Provides
     public SessionContract.Presenter providesPresenter(
-            IObservableUseCase<String, Session> enterSession,
-            IObservableUseCase<Note, Note> addNote,
-            IObservableUseCase<NoteFilter, List<Note>> listNotes,
-            IObservableUseCase<String, Boolean> saveCurrentUser,
-            IObservableUseCase<Void, String> getSavedUser,
-            Logger logger){
+        IObservableUseCase<String, Session> enterSession,
+        IObservableUseCase<Note, Note> addNote,
+        IObservableUseCase<Note, Boolean> removeNote,
+        IObservableUseCase<NoteFilter, List<Note>> listNotes,
+        IObservableUseCase<String, Boolean> saveCurrentUser,
+        IObservableUseCase<Void, String> getSavedUser,
+        Logger logger){
 
-        return new SessionPresenter(enterSession, addNote, listNotes,
-                saveCurrentUser, getSavedUser, logger);
+        return new SessionPresenter(enterSession, addNote, removeNote, listNotes, saveCurrentUser,
+            getSavedUser, logger);
     }
 
 }

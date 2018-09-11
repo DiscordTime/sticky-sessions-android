@@ -44,4 +44,11 @@ public class NoteRemoteRepository implements NoteRepository {
             }
         );
     }
+
+    @Override
+    public Single<Boolean> removeNote(Note note) {
+        return  mNoteService.removeNote(note.id).map(
+            responseBody -> true
+        );
+    }
 }

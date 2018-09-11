@@ -16,6 +16,7 @@ public interface SessionContract {
         void onResume();
         void currentUser(String userName);
         void currentSession(String sessionId);
+        void removeNote(Note note);
     }
 
     interface View {
@@ -25,12 +26,12 @@ public interface SessionContract {
         void startLoadingSession();
         void stopLoadingSession();
         void shareSession(String sessionId);
-        void showAddNoteSuccessfullyMessage();
         void displayNotes(List<Note> notes);
         void displayErrorInvalidNotes();
         void displayNoteContent(Note note);
         void addNoteToNoteList(Note note);
         void showWidgetAddName();
         void cleanNotes();
+        void removeNote(Note note);
     }
 }

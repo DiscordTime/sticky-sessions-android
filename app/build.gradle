@@ -2,9 +2,12 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
 android {
+
+    def packageId = "br.org.cesar.discordtime.stickysessions"
+
     compileSdkVersion 28
     defaultConfig {
-        applicationId "br.org.cesar.discordtime.stickysessions"
+        applicationId packageId
         minSdkVersion 24
         targetSdkVersion 28
         versionCode 1
@@ -38,7 +41,7 @@ android {
         }
         local {
             dimension "server"
-            applicationId = applicationId + ".local"
+            applicationId = "${packageId}.local"
             ext {
                 url = "http://localhost:3000"
             }

@@ -5,6 +5,9 @@ import com.google.gson.annotations.SerializedName;
 
 public class NoteRemote {
 
+    @SerializedName("id")
+    @Expose
+    public String id;
     @SerializedName("description")
     @Expose
     public String description;
