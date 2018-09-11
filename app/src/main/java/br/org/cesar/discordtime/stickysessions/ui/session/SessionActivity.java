@@ -4,7 +4,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,6 +18,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.animation.GridLayoutAnimationController;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -32,7 +35,6 @@ import javax.inject.Inject;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import br.org.cesar.discordtime.stickysessions.R;
 import br.org.cesar.discordtime.stickysessions.app.StickySessionApplication;
@@ -40,6 +42,8 @@ import br.org.cesar.discordtime.stickysessions.domain.model.Note;
 import br.org.cesar.discordtime.stickysessions.presentation.session.SessionContract;
 import br.org.cesar.discordtime.stickysessions.ui.ExtraNames;
 import br.org.cesar.discordtime.stickysessions.ui.adapters.NoteAdapter;
+import br.org.cesar.discordtime.stickysessions.ui.custom.CustomGridLayoutManager;
+import br.org.cesar.discordtime.stickysessions.ui.custom.CustomItemAnimator;
 
 public class SessionActivity extends AppCompatActivity implements SessionContract.View,
         View.OnClickListener, NoteAdapter.NoteAdapterCallback {
@@ -82,7 +86,8 @@ public class SessionActivity extends AppCompatActivity implements SessionContrac
         mLoadingView = findViewById(R.id.loading_preview);
 
         mRecyclerView = findViewById(R.id.user_notes_recyclerview);
-        mRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+        mRecyclerView.setLayoutManager(new CustomGridLayoutManager(this, 2));
+        mRecyclerView.setItemAnimator(new CustomItemAnimator(this));
 
         mNoteAdapter = new NoteAdapter(this);
         mNoteAdapter.setCallback(this);
@@ -171,37 +176,31 @@ public class SessionActivity extends AppCompatActivity implements SessionContrac
         }
 
         final EditText editText = view.findViewById(R.id.note_description);
-        View confirm = view.findViewById(R.id.confirm);
-        View cancel = view.findViewById(R.id.cancel);
-
         builder.setView(view);
 
-        AlertDialog alertDialog = builder.create();
-
-        confirm.setOnClickListener(new View.OnClickListener() {
+        builder.setPositiveButton(getString(R.string.confirm), new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(DialogInterface dialog, int which) {
                 int position = chipGroup.getCheckedChipId();
-                if (position > 0) {
+                if (position >= 0) {
                     String topic = topics.get(position);
 
                     String description = editText.getText().toString();
                     mPresenter.addNewNote(topic, description);
-                    alertDialog.cancel();
                 } else {
                     showShouldChoiceTopicMessage();
                 }
             }
         });
 
-        cancel.setOnClickListener(new View.OnClickListener() {
+        builder.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                alertDialog.cancel();
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
             }
         });
 
-        alertDialog.show();
+        builder.show();
     }
 
     private void showShouldChoiceTopicMessage() {
@@ -221,16 +220,28 @@ public class SessionActivity extends AppCompatActivity implements SessionContrac
         TextView content = view.findViewById(R.id.description_note_element);
         content.setText(note.description);
 
-        builder.setView(view);
+        builder.setPositiveButton(getString(R.string.remove), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                mPresenter.removeNote(note);
+            }
+        });
 
-        AlertDialog alertDialog = builder.create();
-        alertDialog.getWindow().getAttributes().windowAnimations = R.style.AnimationDialogNote;
-        alertDialog.show();
+        builder.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.setView(view);
+        builder.show();
     }
 
     @Override
     public void addNoteToNoteList(Note note) {
         mNoteAdapter.addNote(note);
+        mRecyclerView.scrollToPosition(mNoteAdapter.getItemCount() - 1);
     }
 
     @Override
@@ -302,6 +313,7 @@ public class SessionActivity extends AppCompatActivity implements SessionContrac
     public void stopLoadingSession() {
         mLoadingView.setVisibility(View.INVISIBLE);
         mRecyclerView.setVisibility(View.VISIBLE);
+
     }
 
     @Override
@@ -311,10 +323,6 @@ public class SessionActivity extends AppCompatActivity implements SessionContrac
         sendIntent.putExtra(Intent.EXTRA_TEXT,
         String.format(getString(R.string.share_session),sessionId));
         startActivity(sendIntent);
-    }
-
-    public void showAddNoteSuccessfullyMessage() {
-        Toast.makeText(mContext, R.string.new_note_added_message, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -327,8 +335,6 @@ public class SessionActivity extends AppCompatActivity implements SessionContrac
         Toast.makeText(mContext, "Invalid Notes for Session", Toast.LENGTH_SHORT).show();
     }
 
-
-
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -338,5 +344,10 @@ public class SessionActivity extends AppCompatActivity implements SessionContrac
     @Override
     public void onItemClicked(Note note) {
         mPresenter.onNoteWidgetClicked(note);
+    }
+
+    @Override
+    public void removeNote(Note note) {
+        mNoteAdapter.removeNote(note);
     }
 }

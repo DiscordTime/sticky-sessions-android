@@ -31,17 +31,20 @@ class SessionPresenterTest {
     private lateinit var mCurrentUser: String
     private lateinit var mSession: Session
 
+    private lateinit var mockRemoveNote:  IObservableUseCase<Note, Boolean>
+
     @Before
     fun setUp() {
         mockEnterSession = mock()
         mockAddNote = mock()
+        mockRemoveNote = mock()
         mockListNotes = mock()
         mockSaveCurrentUser = mock()
         mockGetSavedUser = mock()
         mockLogger = mock()
         mockView = mock()
-        sessionPresenter = SessionPresenter(mockEnterSession, mockAddNote,mockListNotes,
-                mockSaveCurrentUser, mockGetSavedUser, mockLogger)
+        sessionPresenter = SessionPresenter(mockEnterSession, mockAddNote, mockRemoveNote,
+                mockListNotes, mockSaveCurrentUser, mockGetSavedUser, mockLogger)
 
         sessionCaptor = argumentCaptor<DisposableSingleObserver<Session>>()
         noteCaptor = argumentCaptor<DisposableSingleObserver<Note>>()
@@ -224,7 +227,6 @@ class SessionPresenterTest {
         verify(mockAddNote).execute(noteCaptor.capture(), any())
 
         noteCaptor.firstValue.onSuccess(note)
-        verify(mockView).showAddNoteSuccessfullyMessage();
         verify(mockView).addNoteToNoteList(note);
     }
 

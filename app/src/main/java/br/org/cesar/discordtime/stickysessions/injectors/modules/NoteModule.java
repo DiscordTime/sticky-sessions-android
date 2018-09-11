@@ -12,6 +12,7 @@ import br.org.cesar.discordtime.stickysessions.data.repository.mapper.Mapper;
 import br.org.cesar.discordtime.stickysessions.data.repository.mapper.NoteMapper;
 import br.org.cesar.discordtime.stickysessions.domain.interactor.AddNote;
 import br.org.cesar.discordtime.stickysessions.domain.interactor.ListNotesForSession;
+import br.org.cesar.discordtime.stickysessions.domain.interactor.RemoveNote;
 import br.org.cesar.discordtime.stickysessions.domain.model.Note;
 import br.org.cesar.discordtime.stickysessions.domain.model.NoteFilter;
 import br.org.cesar.discordtime.stickysessions.domain.repository.NoteRepository;
@@ -48,9 +49,25 @@ public class NoteModule {
     }
 
     @Provides
-    public AddNote provideAddNote(NoteRepository noteRepository,
-                                  SessionRepository sessionRepository) {
+    public IObservableUseCase<Note, Boolean> provideObservableRemoveNoteUseCase(
+        RemoveNote removeNote,
+        ThreadExecutor threadExecutor,
+        PostExecutionThread postExecutionThread) {
+        return new ObservableUseCase<>(
+            removeNote,
+            threadExecutor,
+            postExecutionThread
+        );
+    }
+
+    @Provides
+    public AddNote provideAddNote(NoteRepository noteRepository, SessionRepository sessionRepository) {
         return new AddNote(noteRepository, sessionRepository);
+    }
+
+    @Provides
+    public RemoveNote provideRemoveNote(NoteRepository noteRepository) {
+        return new RemoveNote(noteRepository);
     }
 
     @Provides

@@ -14,6 +14,7 @@ public class SessionPresenter implements SessionContract.Presenter {
     private static final String TAG = "SessionPresenter";
     private IObservableUseCase<String, Session> mEnterSession;
     private IObservableUseCase<Note, Note> mAddNote;
+    private IObservableUseCase<Note, Boolean> mRemoveNote;
     private IObservableUseCase<NoteFilter, List<Note>> mListNotes;
     private IObservableUseCase<String, Boolean> mSaveCurrentUser;
     private IObservableUseCase<Void, String> mGetSavedUser;
@@ -25,12 +26,14 @@ public class SessionPresenter implements SessionContract.Presenter {
 
     public SessionPresenter(IObservableUseCase<String, Session> enterSession,
                             IObservableUseCase<Note, Note> addNote,
+                            IObservableUseCase<Note, Boolean> removeNote,
                             IObservableUseCase<NoteFilter, List<Note>> listNotes,
                             IObservableUseCase<String, Boolean> saveCurrentUser,
                             IObservableUseCase<Void, String> getSavedUser,
                             Logger logger) {
         mEnterSession = enterSession;
         mAddNote = addNote;
+        mRemoveNote = removeNote;
         mListNotes = listNotes;
         mSaveCurrentUser = saveCurrentUser;
         mGetSavedUser = getSavedUser;
@@ -83,6 +86,21 @@ public class SessionPresenter implements SessionContract.Presenter {
     }
 
     @Override
+    public void removeNote(Note note) {
+        mRemoveNote.execute(new DisposableSingleObserver() {
+            @Override
+            public void onSuccess(Object o) {
+                mView.removeNote(note);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                mView.displayError(e.getMessage());
+            }
+        }, note);
+    }
+
+    @Override
     public void detachView() {
         mView = null;
         disposeObservers();
@@ -91,6 +109,7 @@ public class SessionPresenter implements SessionContract.Presenter {
     private void disposeObservers() {
         mEnterSession.dispose();
         mAddNote.dispose();
+        mRemoveNote.dispose();
         mListNotes.dispose();
         mSaveCurrentUser.dispose();
         mGetSavedUser.dispose();
@@ -153,6 +172,7 @@ public class SessionPresenter implements SessionContract.Presenter {
 
     @Override
     public void onAddNoteClicked() {
+
         if (mActiveSession != null && mActiveSession.topics != null) {
             List<String> topics = mActiveSession.topics;
             mView.displayAddNoteDialog(topics);
@@ -165,12 +185,12 @@ public class SessionPresenter implements SessionContract.Presenter {
         if (mActiveSession != null && mActiveSession.id != null && mCurrentUser != null) {
             Note note = new Note(description, mCurrentUser, topic, mActiveSession.id);
             mAddNote.execute(new DisposableSingleObserver<Note>() {
+        
                 @Override
                 public void onSuccess(Note note) {
-                    mView.showAddNoteSuccessfullyMessage();
                     mView.addNoteToNoteList(note);
                 }
-
+        
                 @Override
                 public void onError(Throwable e) {
                     mView.displayError(e.getMessage());
