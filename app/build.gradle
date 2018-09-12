@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply from: 'versioning.gradle'
 apply plugin: 'io.fabric'
+apply from: '../jacoco.gradle'
 
 android {
 
@@ -23,6 +24,9 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            testCoverageEnabled = true
         }
     }
 

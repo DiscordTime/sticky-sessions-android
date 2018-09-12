@@ -1,0 +1,76 @@
+apply plugin: "jacoco"
+
+jacoco {
+    toolVersion = versions.jacoco
+}
+
+tasks.withType(Test) {
+    jacoco.includeNoLocationClasses = true
+}
+
+task('jacocoReports') {
+    group = "Reporting"
+    description = "Generate Jacoco coverage reports for all variants"
+}
+
+variants().all { variant ->
+    def variantName = variant.name
+    def variantCapName = variant.name.capitalize()
+    if (!variantCapName.contains("Debug")) {
+        return
+    }
+    def variantTask = task(
+            "jacoco${variantCapName}Report",
+            type: JacocoReport,
+            dependsOn: [
+                "test${variantCapName}UnitTest",
+                "create${variantCapName}CoverageReport"
+        ]) {
+        group = "Reporting"
+        description = "Generate Jacoco coverage reports for $variantCapName"
+        reports {
+            xml.enabled = false
+            html.enabled = true
+        }
+        def fileFilter = [ '**/R.class',
+                           '**/R$*.class',
+                           '**/BuildConfig.*',
+                           '**/Manifest*.*',
+                           '**/*Test*.*',
+                           '**/injectors/**/*.*',
+                           'android/**/*.*',
+                           'androidx/**/*.*',
+                           'com/**/*.*',
+                           'io/**/*.*'
+        ]
+        def classTree = fileTree(
+                dir: variant.javaCompiler.destinationDir,
+                excludes: fileFilter
+        ) + fileTree(
+                dir: "$buildDir/tmp/kotlin-classes/$variantName",
+                excludes: fileFilter
+        )
+
+        sourceDirectories = files([
+                "src/main/java", "src/main/kotlin",
+                "src/$variantName/java", "src/$variantName/kotlin"
+        ])
+        classDirectories = files([classTree])
+        executionData = fileTree(dir: "$buildDir", includes: [
+                "jacoco/test${variantCapName}UnitTest.exec",
+                "jacoco/junitPlatformTest${variantCapName}.exec",
+                "outputs/code-coverage/connected/flavors/**/*coverage.ec"
+        ])
+    }
+    jacocoReports.dependsOn variantTask
+}
+
+check.dependsOn jacocoReports
+
+def variants() {
+    if (project.android.hasProperty('libraryVariants')) {
+        return project.android.libraryVariants
+    } else {
+        return project.android.applicationVariants
+    }
+}
