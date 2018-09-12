@@ -1,5 +1,7 @@
 # StickySessions
 
+[![CircleCI](https://circleci.com/gh/DiscordTime/sticky-sessions-android.svg?style=svg)](https://circleci.com/gh/DiscordTime/sticky-sessions-android)
+
 ### Server communication
 
 - Project has two flavors (`Online` and `Local`) which change backend URL used by app.
