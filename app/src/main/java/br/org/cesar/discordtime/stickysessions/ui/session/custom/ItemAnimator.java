@@ -1,4 +1,4 @@
-package br.org.cesar.discordtime.stickysessions.ui.custom;
+package br.org.cesar.discordtime.stickysessions.ui.session.custom;
 
 import android.animation.Animator;
 import android.animation.AnimatorInflater;
@@ -15,14 +15,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SimpleItemAnimator;
 import br.org.cesar.discordtime.stickysessions.R;
 
-public class CustomItemAnimator extends SimpleItemAnimator {
+public class ItemAnimator extends SimpleItemAnimator {
 
     private final Context mContext;
     private List<RecyclerView.ViewHolder> mPendingAdd;
     private List<RecyclerView.ViewHolder> mPendingRemove;
     private List<MoveInfo> mPendingMove;
 
-    public CustomItemAnimator(Context context) {
+    public ItemAnimator(Context context) {
         mContext = context;
 
         mPendingAdd = new ArrayList<>();

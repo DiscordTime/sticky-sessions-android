@@ -4,9 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,11 +13,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.view.animation.GridLayoutAnimationController;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -42,8 +37,8 @@ import br.org.cesar.discordtime.stickysessions.domain.model.Note;
 import br.org.cesar.discordtime.stickysessions.presentation.session.SessionContract;
 import br.org.cesar.discordtime.stickysessions.ui.ExtraNames;
 import br.org.cesar.discordtime.stickysessions.ui.adapters.NoteAdapter;
-import br.org.cesar.discordtime.stickysessions.ui.custom.CustomGridLayoutManager;
-import br.org.cesar.discordtime.stickysessions.ui.custom.CustomItemAnimator;
+import br.org.cesar.discordtime.stickysessions.ui.session.custom.NoteGridLayoutManager;
+import br.org.cesar.discordtime.stickysessions.ui.session.custom.ItemAnimator;
 
 public class SessionActivity extends AppCompatActivity implements SessionContract.View,
         View.OnClickListener, NoteAdapter.NoteAdapterCallback {
@@ -86,8 +81,10 @@ public class SessionActivity extends AppCompatActivity implements SessionContrac
         mLoadingView = findViewById(R.id.loading_preview);
 
         mRecyclerView = findViewById(R.id.user_notes_recyclerview);
-        mRecyclerView.setLayoutManager(new CustomGridLayoutManager(this, 2));
-        mRecyclerView.setItemAnimator(new CustomItemAnimator(this));
+        mRecyclerView.setLayoutManager(
+            new NoteGridLayoutManager(this,
+                getResources().getInteger(R.integer.session_grid_elements_columns)));
+        mRecyclerView.setItemAnimator(new ItemAnimator(this));
 
         mNoteAdapter = new NoteAdapter(this);
         mNoteAdapter.setCallback(this);

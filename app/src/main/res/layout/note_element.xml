@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<br.org.cesar.discordtime.stickysessions.ui.session.custom.SquaredConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="0dp"
     android:visibility="invisible"
-    style="@style/NoteContent">
+    style="@style/NoteContent"
+    tools:visibility="visible">
 
     <TextView
         android:id="@+id/title_note_element"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         style="@style/NoteStyleTitlePreview"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -22,13 +23,14 @@
     <TextView
         android:id="@+id/description_note_element"
         android:layout_width="0dp"
-        android:layout_height="40dp"
+        android:layout_height="0dp"
         style="@style/NoteStyleContentPreview"
         app:layout_constraintLeft_toLeftOf="@+id/title_note_element"
         app:layout_constraintRight_toRightOf="@+id/title_note_element"
         app:layout_constraintTop_toBottomOf="@+id/title_note_element"
-        tools:text="This is a great text to check if the textview will break asdsadsadsad"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:text="This is a great text to check if the textview will break the textview"
         android:textIsSelectable="false"/>
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</br.org.cesar.discordtime.stickysessions.ui.session.custom.SquaredConstraintLayout>

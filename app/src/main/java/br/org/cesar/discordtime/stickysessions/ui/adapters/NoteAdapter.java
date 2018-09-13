@@ -6,6 +6,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.animation.BounceInterpolator;
 import android.widget.TextView;
 
@@ -85,6 +86,23 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
         animator.setInterpolator(new BounceInterpolator());
         animator.setDuration(750);
         animator.start();
+
+        holder.mContent.getViewTreeObserver().addOnGlobalLayoutListener(
+            new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                int lineHeight = holder.mContent.getLineHeight();
+                int height = holder.mContent.getHeight();
+
+                if (lineHeight != 0) {
+                    int maxLines = height / lineHeight;
+                    holder.mContent.setMaxLines(maxLines);
+                    holder.mContent.invalidate();
+                }
+
+                holder.mContent.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+            }
+        });
     }
 
     @Override
