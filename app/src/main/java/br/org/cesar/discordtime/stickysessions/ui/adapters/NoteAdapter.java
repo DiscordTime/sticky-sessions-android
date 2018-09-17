@@ -56,7 +56,9 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
 
         mNotes.clear();
         mNotes.addAll(notes);
-        notifyItemRangeInserted(0, mNotes.size());
+        // TODO: fix animation crash -> IndexOutOfBoundsException: Inconsistency detected.
+        //notifyItemRangeInserted(0, mNotes.size());
+        notifyDataSetChanged();
     }
 
     public void setCallback(NoteAdapterCallback callback) {
