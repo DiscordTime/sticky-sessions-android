@@ -33,4 +33,10 @@
     <!-- Can't include Firebase App Indexing dependency right now
     without conflicting with androidx support library -->
     <issue id="GoogleAppIndexingApiWarning" severity="ignore" />
+
+    <!-- Lint keeps switching warning from android:showAsAction to
+    app:showAsAction and never goes way. It may be related to the
+    fact it can't find androidx dependencies correclty -->
+    <issue id="AppCompatResource" severity="ignore" />
+
 </lint>

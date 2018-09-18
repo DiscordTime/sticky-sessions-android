@@ -1,0 +1,31 @@
+ext.getVersionMap = { ->
+    def versionPropsFile = file('version.properties')
+
+    if (versionPropsFile.canRead()) {
+        Properties versionProps = new Properties()
+
+        versionProps.load(new FileInputStream(versionPropsFile))
+
+        def major = versionProps['VERSION_MAJOR'].toInteger()
+        def minor = versionProps['VERSION_MINOR'].toInteger()
+        def buildBase = versionProps['VERSION_BUILD_BASE'].toInteger()
+        def out
+        exec {
+            commandLine "git"
+            args "rev-list", "HEAD", "--count"
+            out = standardOutput = new ByteArrayOutputStream()
+        }
+        def inStream = new ByteArrayInputStream(out.toByteArray())
+        def buildNo = Integer.parseInt(inStream.getText().replace("\n", "")) - buildBase
+        def name = String.format("%d.%d.%d", major, minor, buildNo)
+        def code = Integer.parseInt(String.format("%02d%02d%02d", major, minor, buildNo))
+
+        def versionMap = [:]
+        versionMap.name = name
+        versionMap.code = code
+        return versionMap
+
+    } else {
+        throw new GradleException("Could not read version.properties!")
+    }
+}

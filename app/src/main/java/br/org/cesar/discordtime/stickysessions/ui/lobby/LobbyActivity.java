@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SnapHelper;
+import br.org.cesar.discordtime.stickysessions.BuildConfig;
 import br.org.cesar.discordtime.stickysessions.R;
 import br.org.cesar.discordtime.stickysessions.app.StickySessionApplication;
 import br.org.cesar.discordtime.stickysessions.navigation.exception.InvalidViewNameException;
@@ -52,6 +54,9 @@ public class LobbyActivity extends AppCompatActivity implements LobbyContract.Vi
 
         mContext = this;
         parent = findViewById(R.id.container);
+
+        TextView versionText = findViewById(R.id.version_text);
+        versionText.setText(String.format("v%s", BuildConfig.VERSION_NAME));
 
         mPresenter.attachView(this);
 
