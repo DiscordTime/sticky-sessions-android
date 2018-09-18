@@ -1,19 +1,23 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
+apply from: 'versioning.gradle'
 
 android {
 
     def packageId = "br.org.cesar.discordtime.stickysessions"
+
+    def versionMap = getVersionMap()
 
     compileSdkVersion 28
     defaultConfig {
         applicationId packageId
         minSdkVersion 24
         targetSdkVersion 28
-        versionCode 1
-        versionName "1.0"
+        versionCode versionMap.code
+        versionName versionMap.name
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -60,7 +64,6 @@ android {
         checkAllWarnings true
         warningsAsErrors true
     }
-
 }
 
 dependencies {
