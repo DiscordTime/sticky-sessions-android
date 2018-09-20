@@ -59,11 +59,12 @@ class LobbyPresenterTest {
 
     @Test
     fun `should call createSession use case with same type received`() {
-        val type = SessionType.GAIN_PLEASURE
+        val type = LobbyContract.ActionType.CREATE_GAIN_N_PLEASURE_SESSION;
+        val sessionType = SessionType.GAIN_PLEASURE;
         lobbyPresenter.attachView(mockView)
-        lobbyPresenter.onCreateSession(type)
+        lobbyPresenter.onClickSessionOption(type)
         verify(mockView).startLoading()
-        verify(mockCreateSession).execute(any(), eq(type))
+        verify(mockCreateSession).execute(any(), eq(sessionType))
     }
 
     @Test
@@ -74,12 +75,13 @@ class LobbyPresenterTest {
         configureViewGetName("viewName")
 
         /* Call create session */
-        val type = SessionType.GAIN_PLEASURE
+        val type = LobbyContract.ActionType.CREATE_GAIN_N_PLEASURE_SESSION
+        val sessionType = SessionType.GAIN_PLEASURE
         lobbyPresenter.attachView(mockView)
-        lobbyPresenter.onCreateSession(type)
+        lobbyPresenter.onClickSessionOption(type)
         verify(mockView).startLoading()
         /* Capture observer to make sure we have a way to control response */
-        verify(mockCreateSession).execute(captor.capture(), eq(type))
+        verify(mockCreateSession).execute(captor.capture(), eq(sessionType))
 
         /* Test success flow */
         val session = Session()
@@ -92,12 +94,14 @@ class LobbyPresenterTest {
     @Test
     fun `should show error on view after a failed create session`() {
         /* Call create session */
-        val type = SessionType.GAIN_PLEASURE
+        val type = LobbyContract.ActionType.CREATE_GAIN_N_PLEASURE_SESSION
+        val sessionType = SessionType.GAIN_PLEASURE
         lobbyPresenter.attachView(mockView)
-        lobbyPresenter.onCreateSession(type)
+        lobbyPresenter.onClickSessionOption(type)
         verify(mockView).startLoading()
+        
         /* Capture observer to make sure we have a way to control response */
-        verify(mockCreateSession).execute(captor.capture(), eq(type))
+        verify(mockCreateSession).execute(captor.capture(), eq(sessionType))
         /* Test error flow */
         captor.firstValue.onError(Exception())
         verify(mockView).stopLoading()

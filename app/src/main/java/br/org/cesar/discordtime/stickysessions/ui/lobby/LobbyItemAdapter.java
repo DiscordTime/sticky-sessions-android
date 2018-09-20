@@ -15,21 +15,21 @@ import java.util.List;
 
 import androidx.recyclerview.widget.RecyclerView;
 import br.org.cesar.discordtime.stickysessions.R;
-import br.org.cesar.discordtime.stickysessions.domain.model.SessionType;
+import br.org.cesar.discordtime.stickysessions.presentation.lobby.LobbyContract;
 import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;
 
-public class SessionTypeAdapter extends RecyclerView.Adapter<SessionTypeAdapter.ViewHolder> {
+public class LobbyItemAdapter extends RecyclerView.Adapter<LobbyItemAdapter.ViewHolder> {
 
     private Context mContext;
-    private List<SessionTypeViewModel> mSessionTypes;
+    private List<LobbyItemViewModel> mLobbyItems;
 
-    private PublishSubject<SessionType> clickSubject;
-    Observable<SessionType> clickEvent;
+    private PublishSubject<LobbyContract.ActionType> clickSubject;
+    Observable<LobbyContract.ActionType> clickEvent;
 
-    SessionTypeAdapter(Context context, List<SessionTypeViewModel> sessionTypes) {
+    LobbyItemAdapter(Context context, List<LobbyItemViewModel> lobbyItems) {
         mContext = context;
-        mSessionTypes = sessionTypes;
+        mLobbyItems = lobbyItems;
         clickSubject = PublishSubject.create();
         clickEvent = clickSubject;
     }
@@ -44,14 +44,16 @@ public class SessionTypeAdapter extends RecyclerView.Adapter<SessionTypeAdapter.
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        int realPosition = position % mSessionTypes.size();
+        int realPosition = position % mLobbyItems.size();
 
-        SessionTypeViewModel sessionType = mSessionTypes.get(realPosition);
-        holder.media.setImageResource(sessionType.mediaImageRes);
-        holder.title.setText(sessionType.titleRes);
-        holder.description.setText(sessionType.descriptionRes);
+        LobbyItemViewModel lobbyItemViewModel = mLobbyItems.get(realPosition);
+        holder.media.setImageResource(lobbyItemViewModel.mediaImageRes);
+        holder.title.setText(lobbyItemViewModel.titleRes);
+        holder.description.setText(lobbyItemViewModel.descriptionRes);
+        holder.button.setText(lobbyItemViewModel.buttonText);
 
-        if (sessionType.type == null || sessionType.type == SessionType.CUSTOM) {
+        if (lobbyItemViewModel.type == null
+                || lobbyItemViewModel.type == LobbyContract.ActionType.CREATE_CUSTOM_SESSION) {
             holder.changeToDisabledState();
         } else {
             holder.changeToEnabledState();
@@ -67,7 +69,7 @@ public class SessionTypeAdapter extends RecyclerView.Adapter<SessionTypeAdapter.
         ImageView media;
         TextView title;
         TextView description;
-        Button createButton;
+        Button button;
 
         boolean previouslyDisabled = false;
         ColorFilter mediaColorFilter;
@@ -80,15 +82,15 @@ public class SessionTypeAdapter extends RecyclerView.Adapter<SessionTypeAdapter.
             media = itemView.findViewById(R.id.media_image);
             title = itemView.findViewById(R.id.title);
             description = itemView.findViewById(R.id.description);
-            createButton = itemView.findViewById(R.id.create_button);
-            createButton.setOnClickListener(this);
+            button = itemView.findViewById(R.id.create_button);
+            button.setOnClickListener(this);
         }
 
         void changeToDisabledState() {
             if (!previouslyDisabled) {
                 holdCurrentColors();
                 setDisabledColors();
-                createButton.setEnabled(false);
+                button.setEnabled(false);
                 previouslyDisabled = true;
             }
         }
@@ -96,7 +98,7 @@ public class SessionTypeAdapter extends RecyclerView.Adapter<SessionTypeAdapter.
         void changeToEnabledState() {
             if (previouslyDisabled) {
                 restorePreviousColors();
-                createButton.setEnabled(true);
+                button.setEnabled(true);
                 previouslyDisabled = false;
             }
         }
@@ -105,27 +107,27 @@ public class SessionTypeAdapter extends RecyclerView.Adapter<SessionTypeAdapter.
             media.setColorFilter(Color.BLACK, PorterDuff.Mode.LIGHTEN);
             title.setTextColor(mContext.getResources().getColor(android.R.color.darker_gray));
             description.setTextColor(mContext.getResources().getColor(android.R.color.darker_gray));
-            createButton.setTextColor(mContext.getResources().getColor(R.color.colorSecondaryDark));
+            button.setTextColor(mContext.getResources().getColor(R.color.colorSecondaryDark));
         }
 
         private void holdCurrentColors() {
             mediaColorFilter = media.getColorFilter();
             titleTextColor = title.getCurrentTextColor();
             descriptionTextColor = description.getCurrentTextColor();
-            createButtonTextColor = createButton.getCurrentTextColor();
+            createButtonTextColor = button.getCurrentTextColor();
         }
 
         private void restorePreviousColors() {
             media.setColorFilter(mediaColorFilter);
             title.setTextColor(titleTextColor);
             description.setTextColor(descriptionTextColor);
-            createButton.setTextColor(createButtonTextColor);
+            button.setTextColor(createButtonTextColor);
         }
 
         @Override
         public void onClick(View view) {
-            int realPosition = getLayoutPosition() % mSessionTypes.size();
-            clickSubject.onNext(mSessionTypes.get(realPosition).type);
+            int realPosition = getLayoutPosition() % mLobbyItems.size();
+            clickSubject.onNext(mLobbyItems.get(realPosition).type);
         }
     }
 }

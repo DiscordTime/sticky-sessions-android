@@ -18,12 +18,30 @@ public interface IRouteRepository {
                     false)
         );
         put(
-                ViewNames.LOBBY_ACTIVITY+IRouter.ENTERED_SESSION,
+            ViewNames.LOBBY_ACTIVITY+IRouter.ENTERED_SESSION,
             new Route(
                     ViewNames.LOBBY_ACTIVITY,
                     IRouter.ENTERED_SESSION,
                     ViewNames.SESSION_ACTIVITY,
                     false)
+        );
+        put(
+            ViewNames.LOBBY_ACTIVITY+IRouter.LISTED_SESSION,
+            new Route(
+                ViewNames.LOBBY_ACTIVITY,
+                IRouter.LISTED_SESSION,
+                ViewNames.LIST_ACTIVITY,
+                false
+            )
+        );
+        put(
+                ViewNames.LIST_ACTIVITY+IRouter.USER_SELECTED_SESSION,
+                new Route(
+                        ViewNames.LIST_ACTIVITY,
+                        IRouter.USER_SELECTED_SESSION,
+                        ViewNames.SESSION_ACTIVITY,
+                        false
+                )
         );
     }};
 
