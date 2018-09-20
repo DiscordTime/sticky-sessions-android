@@ -26,16 +26,16 @@ public class SessionTypePageIndicator extends RecyclerView.ItemDecoration {
     /**
      * Indicator stroke width.
      */
-    private final float mIndicatorStrokeWidth = DP * 2;
+    private final float mIndicatorStrokeWidth = DP * 4;
 
     /**
      * Indicator width.
      */
-    private final float mIndicatorItemLength = DP * 16;
+    private final float mIndicatorItemLength = DP * 4;
     /**
      * Padding between indicators.
      */
-    private final float mIndicatorItemPadding = DP * 4;
+    private final float mIndicatorItemPadding = DP * 16;
 
     /**
      * Some more natural animation interpolation
@@ -47,7 +47,6 @@ public class SessionTypePageIndicator extends RecyclerView.ItemDecoration {
     private int realItemCount;
 
     SessionTypePageIndicator(int realItemCount) {
-        mPaint.setStrokeCap(Paint.Cap.ROUND);
         mPaint.setStrokeWidth(mIndicatorStrokeWidth);
         mPaint.setStyle(Paint.Style.STROKE);
         mPaint.setAntiAlias(true);
@@ -58,7 +57,6 @@ public class SessionTypePageIndicator extends RecyclerView.ItemDecoration {
     public void onDrawOver(Canvas c, RecyclerView parent, RecyclerView.State state) {
         super.onDrawOver(c, parent, state);
 
-        //int itemCount = parent.getAdapter().getItemCount();
         int itemCount = realItemCount;
 
         // center horizontally, calculate width and subtract half from center
@@ -74,7 +72,13 @@ public class SessionTypePageIndicator extends RecyclerView.ItemDecoration {
 
         // find active page (which should be highlighted)
         LinearLayoutManager layoutManager = (LinearLayoutManager) parent.getLayoutManager();
-        int activePosition = layoutManager.findFirstVisibleItemPosition();
+        int completePosition = layoutManager.findFirstCompletelyVisibleItemPosition();
+        int activePosition;
+        if (completePosition != RecyclerView.NO_POSITION) {
+            activePosition = completePosition;
+        } else {
+            activePosition = layoutManager.findFirstVisibleItemPosition();
+        }
         if (activePosition == RecyclerView.NO_POSITION) {
             return;
         }
@@ -89,10 +93,11 @@ public class SessionTypePageIndicator extends RecyclerView.ItemDecoration {
         float progress = mInterpolator.getInterpolation(left * -1 / (float) width);
 
         activePosition = activePosition % itemCount;
-        drawHighlights(c, indicatorStartX, indicatorPosY, activePosition, progress, itemCount);
+        drawHighlights(c, indicatorStartX, indicatorPosY, activePosition, progress);
     }
 
-    private void drawInactiveIndicators(Canvas c, float indicatorStartX, float indicatorPosY, int itemCount) {
+    private void drawInactiveIndicators(Canvas c, float indicatorStartX,
+                                        float indicatorPosY, int itemCount) {
         mPaint.setColor(colorInactive);
 
         // width of item indicator including padding
@@ -100,45 +105,38 @@ public class SessionTypePageIndicator extends RecyclerView.ItemDecoration {
 
         float start = indicatorStartX;
         for (int i = 0; i < itemCount; i++) {
-            // draw the line for every item
-            c.drawLine(start, indicatorPosY, start + mIndicatorItemLength, indicatorPosY, mPaint);
+            // draw for every item
+            c.drawCircle(start,indicatorPosY, mIndicatorItemLength / 2F, mPaint);
             start += itemWidth;
         }
+
     }
 
     private void drawHighlights(Canvas c, float indicatorStartX, float indicatorPosY,
-                                int highlightPosition, float progress, int itemCount) {
+                                int highlightPosition, float progress) {
         mPaint.setColor(colorActive);
 
         // width of item indicator including padding
         final float itemWidth = mIndicatorItemLength + mIndicatorItemPadding;
-        final float diff = 0.002F;
 
-        if (progress <= diff) {
+        if (progress == 0F) {
             // no swipe, draw a normal indicator
             float highlightStart = indicatorStartX + itemWidth * highlightPosition;
-            c.drawLine(highlightStart, indicatorPosY,
-                    highlightStart + mIndicatorItemLength, indicatorPosY, mPaint);
+            c.drawCircle(highlightStart, indicatorPosY,  mIndicatorItemLength / 2F, mPaint);
         } else {
             float highlightStart = indicatorStartX + itemWidth * highlightPosition;
             // calculate partial highlight
-            float partialLength = mIndicatorItemLength * progress;
+            float partialLength =
+                    mIndicatorItemLength * progress + mIndicatorItemPadding * progress;
 
-            // draw the cut off highlight
-            c.drawLine(highlightStart + partialLength, indicatorPosY,
-                    highlightStart + mIndicatorItemLength, indicatorPosY, mPaint);
-
-            // draw the highlight overlapping to the next item as well
-            if (highlightPosition < itemCount - 1) {
-                highlightStart += itemWidth;
-                c.drawLine(highlightStart, indicatorPosY,
-                        highlightStart + partialLength, indicatorPosY, mPaint);
-            }
+            c.drawCircle(highlightStart + partialLength, indicatorPosY,
+                    mIndicatorItemLength / 2F, mPaint);
         }
     }
 
     @Override
-    public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+    public void getItemOffsets(Rect outRect, View view,
+                               RecyclerView parent, RecyclerView.State state) {
         super.getItemOffsets(outRect, view, parent, state);
         outRect.bottom = mIndicatorHeight;
     }
