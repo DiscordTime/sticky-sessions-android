@@ -6,7 +6,7 @@ import android.util.Log;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class NoteGridLayoutManager extends androidx.recyclerview.widget.GridLayoutManager {
+public class NoteGridLayoutManager extends GridLayoutManager {
     public NoteGridLayoutManager(Context context, int spanCount) {
         super(context, spanCount);
     }

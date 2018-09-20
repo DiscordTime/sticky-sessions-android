@@ -2,6 +2,8 @@ package br.org.cesar.discordtime.stickysessions.injectors.modules;
 
 import android.content.Context;
 
+import java.util.List;
+
 import br.org.cesar.discordtime.stickysessions.data.remote.model.SessionRemote;
 import br.org.cesar.discordtime.stickysessions.data.remote.repository.SessionRemoteRepository;
 import br.org.cesar.discordtime.stickysessions.data.remote.service.RemoteServiceFactory;
@@ -10,6 +12,7 @@ import br.org.cesar.discordtime.stickysessions.data.repository.mapper.Mapper;
 import br.org.cesar.discordtime.stickysessions.data.repository.mapper.SessionMapper;
 import br.org.cesar.discordtime.stickysessions.domain.interactor.CreateSession;
 import br.org.cesar.discordtime.stickysessions.domain.interactor.EnterSession;
+import br.org.cesar.discordtime.stickysessions.domain.interactor.ListSessions;
 import br.org.cesar.discordtime.stickysessions.domain.interactor.UseCase;
 import br.org.cesar.discordtime.stickysessions.domain.model.Session;
 import br.org.cesar.discordtime.stickysessions.domain.model.SessionType;
@@ -77,9 +80,25 @@ public class SessionModule {
     }
 
     @Provides
+    public IObservableUseCase<Void, List<Session>> provideListUseCase(
+        ListSessions listSessions,
+        ThreadExecutor threadExecutor,
+        PostExecutionThread postExecutionThread
+    ) {
+        return new ObservableUseCase<>(
+            listSessions,
+            threadExecutor,
+            postExecutionThread
+        );
+    }
+
+    @Provides
     public EnterSession provideEnterSession(SessionRepository repository) {
         return new EnterSession(repository);
     }
 
-
+    @Provides
+    public ListSessions provideListSessions(SessionRepository repository) {
+        return new ListSessions(repository);
+    }
 }

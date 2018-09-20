@@ -17,4 +17,7 @@ public interface SessionService {
     @GET("/sessions/{id}")
     Single<SessionRemote> getSession(@Path("id") String sessionId);
 
+    @GET("/sessions/")
+    Single<List<SessionRemote>> getSessions();
+
 }
