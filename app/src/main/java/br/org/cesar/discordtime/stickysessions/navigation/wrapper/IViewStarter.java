@@ -1,7 +1,6 @@
 package br.org.cesar.discordtime.stickysessions.navigation.wrapper;
 
 import android.content.Context;
-import android.os.Bundle;
 
 import br.org.cesar.discordtime.stickysessions.navigation.exception.InvalidViewNameException;
 

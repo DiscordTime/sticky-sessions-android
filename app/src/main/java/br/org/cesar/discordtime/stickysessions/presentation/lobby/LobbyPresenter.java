@@ -21,7 +21,7 @@ public class LobbyPresenter implements LobbyContract.Presenter {
     private IObservableUseCase<SessionType, Session> mCreateSession;
     private IRouter mRouter;
     private Logger mLog;
-    private CreateSessionObserver mObserver;
+    private DisposableSingleObserver mObserver;
 
     public LobbyPresenter(IObservableUseCase<SessionType, Session> createSession,
                           IRouter router, Logger logger, IBundleFactory bundleFactory) {
@@ -43,11 +43,25 @@ public class LobbyPresenter implements LobbyContract.Presenter {
     }
 
     @Override
-    public void onCreateSession(SessionType type) {
-        mLog.d(TAG, "onCreateSession " + type);
-        mView.startLoading();
-        mObserver = new CreateSessionObserver();
-        mCreateSession.execute(mObserver, type);
+    public void onClickSessionOption(LobbyContract.ActionType type) {
+        mLog.d(TAG, "onClickSessionOption " + type);
+
+        if (LobbyContract.ActionType.LIST_SESSIONS == type) {
+            goNext(IRouter.LISTED_SESSION);
+
+        } else {
+            mObserver = new CreateSessionObserver();
+            SessionType sessionType = null;
+
+            if (LobbyContract.ActionType.CREATE_GAIN_N_PLEASURE_SESSION == type) {
+                sessionType = SessionType.GAIN_PLEASURE;
+
+            } else if (LobbyContract.ActionType.CREATE_STARFISH_SESSION == type){
+                sessionType = SessionType.STARFISH;
+            }
+
+            mCreateSession.execute(mObserver, sessionType);
+        }
     }
 
     private void goNext(String event, String sessionId){
@@ -58,6 +72,16 @@ public class LobbyPresenter implements LobbyContract.Presenter {
             Route route = mRouter.getNext(mView.getName(), event);
 
             mView.goNext(route, bundle);
+        } catch (InvalidRouteException | InvalidViewNameException e) {
+            mLog.e(TAG, e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    private void goNext(String event) {
+        try {
+            Route route = mRouter.getNext(mView.getName(), event);
+            mView.goNext(route, null);
         } catch (InvalidRouteException | InvalidViewNameException e) {
             mLog.e(TAG, e.getMessage());
             e.printStackTrace();
@@ -91,6 +115,21 @@ public class LobbyPresenter implements LobbyContract.Presenter {
         }
 
 
+    }
+
+    class ListSessionObserver extends DisposableSingleObserver<Void> {
+        @Override
+        public void onSuccess(Void aVoid) {
+            mLog.d(TAG, "list sessions success");
+            goNext(IRouter.LISTED_SESSION);
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            mLog.d(TAG, "list session error" + e.getLocalizedMessage());
+            // TODO: Pass meaningful text to view depending on error
+            mView.displayError("");
+        }
     }
 
 }

@@ -8,10 +8,14 @@
     <string name="starfish">Starfish</string>
     <string name="starfish_description">Great data gathering activity to foster the thinking around practices and the value the team get from it.</string>
     <string name="create">Create</string>
+    <string name="start">Start</string>
+    <string name="join">Join</string>
     <string name="gain"><![CDATA[Gain & Pleasure]]></string>
     <string name="gain_description">Great for talking about all work related things and how does if affects each participant.</string>
     <string name="custom">Custom</string>
     <string name="custom_description">Coming Soon! Create your own session and define which topics team will discuss about!</string>
+    <string name="list">Enter Session</string>
+    <string name="list_description">Enter in a Session previously created!</string>
     <string name="session_title_activity">My Notes</string>
     <string name="enter_your_name">Enter your name</string>
     <string name="topic_title">Topic</string>
