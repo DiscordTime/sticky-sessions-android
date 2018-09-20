@@ -21,7 +21,6 @@ import androidx.recyclerview.widget.SnapHelper;
 import br.org.cesar.discordtime.stickysessions.BuildConfig;
 import br.org.cesar.discordtime.stickysessions.R;
 import br.org.cesar.discordtime.stickysessions.app.StickySessionApplication;
-import br.org.cesar.discordtime.stickysessions.domain.model.SessionType;
 import br.org.cesar.discordtime.stickysessions.navigation.exception.InvalidViewNameException;
 import br.org.cesar.discordtime.stickysessions.navigation.router.Route;
 import br.org.cesar.discordtime.stickysessions.navigation.wrapper.IBundle;
@@ -88,14 +87,14 @@ public class LobbyActivity extends AppCompatActivity implements LobbyContract.Vi
 
     private void configureRecyclerView() {
 
-        List<SessionTypeViewModel> sessionTypes = loadItems();
+        List<LobbyItemViewModel> sessionTypes = loadItems();
 
-        SessionTypeAdapter adapter = new SessionTypeAdapter(this, sessionTypes);
+        LobbyItemAdapter adapter = new LobbyItemAdapter(this, sessionTypes);
 
-        mDisposable = adapter.clickEvent.subscribe(new Consumer<SessionType>() {
+        mDisposable = adapter.clickEvent.subscribe(new Consumer<LobbyContract.ActionType>() {
             @Override
-            public void accept(SessionType type) throws Exception {
-                mPresenter.onCreateSession(type);
+            public void accept(LobbyContract.ActionType actionType) throws Exception {
+                mPresenter.onClickSessionOption(actionType);
             }
         });
 
@@ -115,17 +114,43 @@ public class LobbyActivity extends AppCompatActivity implements LobbyContract.Vi
         scrollToFirstRealItemOnInfiniteList(recyclerView, sessionTypes.size());
     }
 
-    private List<SessionTypeViewModel> loadItems() {
-        List<SessionTypeViewModel> items = new ArrayList<>();
-        items.add(new SessionTypeViewModel(
-                R.string.starfish, R.string.starfish_description,
-                R.drawable.starfish, SessionType.STARFISH));
-        items.add(new SessionTypeViewModel(
-                R.string.gain, R.string.gain_description,
-                R.drawable.gain, SessionType.GAIN_PLEASURE));
-        items.add(new SessionTypeViewModel(
-                R.string.custom, R.string.custom_description,
-                R.drawable.custom, SessionType.CUSTOM));
+    private List<LobbyItemViewModel> loadItems() {
+        List<LobbyItemViewModel> items = new ArrayList<>();
+        items.add(
+                new LobbyItemViewModel(
+                        R.string.list,
+                        R.string.list_description,
+                        R.drawable.brainstorm,
+                        R.string.join,
+                        LobbyContract.ActionType.LIST_SESSIONS)
+        );
+
+        items.add(
+                new LobbyItemViewModel(
+                        R.string.starfish,
+                        R.string.starfish_description,
+                        R.drawable.starfish,
+                        R.string.start,
+                        LobbyContract.ActionType.CREATE_STARFISH_SESSION)
+        );
+
+        items.add(
+                new LobbyItemViewModel(
+                        R.string.gain,
+                        R.string.gain_description,
+                        R.drawable.gain,
+                        R.string.start,
+                        LobbyContract.ActionType.CREATE_GAIN_N_PLEASURE_SESSION)
+        );
+
+        items.add(
+                new LobbyItemViewModel(
+                        R.string.custom,
+                        R.string.custom_description,
+                        R.drawable.custom,
+                        R.string.create,
+                        null)
+        );
         return items;
     }
 

@@ -1,5 +1,9 @@
 package br.org.cesar.discordtime.stickysessions.data.remote.repository;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import br.org.cesar.discordtime.stickysessions.data.remote.model.SessionRemote;
@@ -15,7 +19,7 @@ public class SessionRemoteRepository implements SessionRepository {
     private SessionService mService;
     private Mapper<Session, SessionRemote> mMapper;
 
-    public SessionRemoteRepository (SessionService service, Mapper mapper) {
+    public SessionRemoteRepository(SessionService service, Mapper<Session, SessionRemote> mapper) {
         mService = service;
         mMapper = mapper;
     }
@@ -38,5 +42,33 @@ public class SessionRemoteRepository implements SessionRepository {
                 return mMapper.mapToDomain(sessionRemote);
             }
         });
+    }
+
+    @Override
+    public Single<List<Session>> listSessions() {
+        return mService.getSessions().map(new Function<List<SessionRemote>, List<Session>>() {
+            @Override
+            public List<Session> apply(List<SessionRemote> sessionRemotes) throws Exception {
+                List<Session> sessions = new ArrayList<>();
+
+                sessionRemotes.sort(new SessionRemoteComparator());
+
+                for (SessionRemote sessionRemote : sessionRemotes) {
+                    sessions.add(mMapper.mapToDomain(sessionRemote));
+                }
+
+                return sessions;
+            }
+        });
+    }
+
+    private class SessionRemoteComparator implements Comparator<SessionRemote> {
+        @Override
+        public int compare(SessionRemote sessionRemote, SessionRemote sessionRemoteOther) {
+            long secondsRemote = sessionRemote.getDate().getSeconds();
+            long secondsRemoteOther = sessionRemoteOther.getDate().getSeconds();
+
+            return (int) (secondsRemoteOther - secondsRemote);
+        }
     }
 }

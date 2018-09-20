@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    style="@style/StyleSessionContentElement">
+
+    <TextView
+        android:id="@+id/session_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        style="@style/StyleSessionNameElement"
+        tools:text="Session Name"/>
+
+    <TextView
+        android:id="@+id/session_create_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        style="@style/StyleSessionDateElement"
+        tools:text="10.05.2015"/>
+
+    <TextView
+        android:id="@+id/session_author_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/session_create_time"
+        app:layout_constraintRight_toRightOf="@+id/session_create_time"
+        style="@style/StyleSessionAuthorElement"
+        tools:text="Author"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
