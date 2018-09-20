@@ -17,19 +17,19 @@ import javax.inject.Inject;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.LinearSnapHelper;
+import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SnapHelper;
 import br.org.cesar.discordtime.stickysessions.BuildConfig;
 import br.org.cesar.discordtime.stickysessions.R;
 import br.org.cesar.discordtime.stickysessions.app.StickySessionApplication;
+import br.org.cesar.discordtime.stickysessions.domain.model.SessionType;
 import br.org.cesar.discordtime.stickysessions.navigation.exception.InvalidViewNameException;
 import br.org.cesar.discordtime.stickysessions.navigation.router.Route;
 import br.org.cesar.discordtime.stickysessions.navigation.wrapper.IBundle;
 import br.org.cesar.discordtime.stickysessions.navigation.wrapper.IViewStarter;
 import br.org.cesar.discordtime.stickysessions.presentation.lobby.LobbyContract;
 import br.org.cesar.discordtime.stickysessions.ui.ViewNames;
-import br.org.cesar.discordtime.stickysessions.domain.model.SessionType;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 
@@ -75,16 +75,7 @@ public class LobbyActivity extends AppCompatActivity implements LobbyContract.Vi
 
     private void configureRecyclerView() {
 
-        List<SessionTypeViewModel> sessionTypes = new ArrayList<>();
-        sessionTypes.add(new SessionTypeViewModel(
-                R.string.starfish, R.string.starfish_description,
-                R.drawable.starfish, SessionType.STARFISH));
-        sessionTypes.add(new SessionTypeViewModel(
-                R.string.gain, R.string.gain_description,
-                R.drawable.gain, SessionType.GAIN_PLEASURE));
-        sessionTypes.add(new SessionTypeViewModel(
-                R.string.custom, R.string.custom_description,
-                R.drawable.custom, null));
+        List<SessionTypeViewModel> sessionTypes = loadItems();
 
         SessionTypeAdapter adapter = new SessionTypeAdapter(this, sessionTypes);
 
@@ -97,16 +88,41 @@ public class LobbyActivity extends AppCompatActivity implements LobbyContract.Vi
 
         SessionTypeLayoutManager layoutManager = new SessionTypeLayoutManager(
                 this, LinearLayoutManager.HORIZONTAL, false);
+
         SessionTypePageIndicator pageIndicator = new SessionTypePageIndicator(sessionTypes.size());
 
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        RecyclerView recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(pageIndicator);
         recyclerView.setLayoutManager(layoutManager);
-        recyclerView.getLayoutManager().scrollToPosition(Integer.MAX_VALUE / 2);
 
-        SnapHelper snapHelper = new LinearSnapHelper();
+        SnapHelper snapHelper = new PagerSnapHelper();
         snapHelper.attachToRecyclerView(recyclerView);
+
+        scrollToFirstRealItemOnInfiniteList(recyclerView, sessionTypes.size());
+    }
+
+    private List<SessionTypeViewModel> loadItems() {
+        List<SessionTypeViewModel> items = new ArrayList<>();
+        items.add(new SessionTypeViewModel(
+                R.string.starfish, R.string.starfish_description,
+                R.drawable.starfish, SessionType.STARFISH));
+        items.add(new SessionTypeViewModel(
+                R.string.gain, R.string.gain_description,
+                R.drawable.gain, SessionType.GAIN_PLEASURE));
+        items.add(new SessionTypeViewModel(
+                R.string.custom, R.string.custom_description,
+                R.drawable.custom, null));
+        return items;
+    }
+
+    private void scrollToFirstRealItemOnInfiniteList(RecyclerView recyclerView, int itemCount) {
+        int middle = Integer.MAX_VALUE / 2;
+        int position = middle % itemCount;
+        if (position != 0) {
+            middle += (itemCount-position);
+        }
+        recyclerView.getLayoutManager().scrollToPosition(middle);
     }
 
     @Override
