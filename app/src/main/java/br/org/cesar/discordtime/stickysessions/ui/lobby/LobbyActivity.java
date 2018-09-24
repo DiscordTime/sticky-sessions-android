@@ -2,13 +2,10 @@ package br.org.cesar.discordtime.stickysessions.ui.lobby;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.TextView;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -31,6 +28,7 @@ import br.org.cesar.discordtime.stickysessions.navigation.wrapper.IBundle;
 import br.org.cesar.discordtime.stickysessions.navigation.wrapper.IViewStarter;
 import br.org.cesar.discordtime.stickysessions.presentation.lobby.LobbyContract;
 import br.org.cesar.discordtime.stickysessions.ui.ViewNames;
+import br.org.cesar.discordtime.stickysessions.ui.lobby.indicator.PageIndicator;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 
@@ -103,7 +101,7 @@ public class LobbyActivity extends AppCompatActivity implements LobbyContract.Vi
         SessionTypeLayoutManager layoutManager = new SessionTypeLayoutManager(
                 this, LinearLayoutManager.HORIZONTAL, false);
 
-        SessionTypePageIndicator pageIndicator = new SessionTypePageIndicator(sessionTypes.size());
+        PageIndicator pageIndicator = new PageIndicator(sessionTypes.size());
 
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setAdapter(adapter);
