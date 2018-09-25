@@ -38,8 +38,8 @@ import br.org.cesar.discordtime.stickysessions.domain.model.Note;
 import br.org.cesar.discordtime.stickysessions.presentation.session.SessionContract;
 import br.org.cesar.discordtime.stickysessions.ui.ExtraNames;
 import br.org.cesar.discordtime.stickysessions.ui.adapters.NoteAdapter;
-import br.org.cesar.discordtime.stickysessions.ui.session.custom.NoteGridLayoutManager;
 import br.org.cesar.discordtime.stickysessions.ui.session.custom.ItemAnimator;
+import br.org.cesar.discordtime.stickysessions.ui.session.custom.NoteGridLayoutManager;
 
 public class SessionActivity extends AppCompatActivity implements SessionContract.View,
         View.OnClickListener, NoteAdapter.NoteAdapterCallback {
@@ -49,6 +49,8 @@ public class SessionActivity extends AppCompatActivity implements SessionContrac
     private ViewGroup parent;
     private RecyclerView mRecyclerView;
     private ProgressBar mProgressBar;
+    private TextView mSessionTypeTextView;
+    private TextView mSessionDateTextView;
 
     @Inject
     SessionContract.Presenter mPresenter;
@@ -73,6 +75,8 @@ public class SessionActivity extends AppCompatActivity implements SessionContrac
         parent = findViewById(R.id.container);
         Toolbar toolbar = findViewById(R.id.include);
         setSupportActionBar(toolbar);
+        mSessionDateTextView = toolbar.findViewById(R.id.session_date);
+        mSessionTypeTextView = toolbar.findViewById(R.id.session_type);
         mPresenter.attachView(this);
 
         mAddNewNoteView = findViewById(R.id.add_note_view);
@@ -294,6 +298,8 @@ public class SessionActivity extends AppCompatActivity implements SessionContrac
     public void displaySession() {
         mAddNewNoteView.startAnimation(mAnimationShow);
         mAddNewNoteView.setVisibility(View.VISIBLE);
+        mSessionDateTextView.setText(mPresenter.getSessionDate());
+        mSessionTypeTextView.setText(mPresenter.getSessionType().toString());
     }
 
     @Override

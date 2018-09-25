@@ -1,8 +1,8 @@
 package br.org.cesar.discordtime.stickysessions.presentation.session;
 
 import java.util.List;
-
 import br.org.cesar.discordtime.stickysessions.domain.model.Note;
+import br.org.cesar.discordtime.stickysessions.domain.model.SessionType;
 
 public interface SessionContract {
 
@@ -17,6 +17,8 @@ public interface SessionContract {
         void currentUser(String userName);
         void currentSession(String sessionId);
         void removeNote(Note note);
+        SessionType getSessionType();
+        String getSessionDate();
     }
 
     interface View {

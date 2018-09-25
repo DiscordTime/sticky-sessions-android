@@ -5,6 +5,7 @@ import java.util.List;
 import br.org.cesar.discordtime.stickysessions.domain.model.Note;
 import br.org.cesar.discordtime.stickysessions.domain.model.NoteFilter;
 import br.org.cesar.discordtime.stickysessions.domain.model.Session;
+import br.org.cesar.discordtime.stickysessions.domain.model.SessionType;
 import br.org.cesar.discordtime.stickysessions.executor.IObservableUseCase;
 import br.org.cesar.discordtime.stickysessions.logger.Logger;
 import io.reactivex.observers.DisposableSingleObserver;
@@ -200,5 +201,21 @@ public class SessionPresenter implements SessionContract.Presenter {
         if (note != null) {
             mView.displayNoteContent(note);
         }
+    }
+
+    @Override
+    public SessionType getSessionType() {
+        if(mActiveSession == null)
+            return null;
+        else
+            return mActiveSession.sessionType;
+    }
+
+    @Override
+    public String getSessionDate() {
+        if(mActiveSession == null)
+            return null;
+        else
+            return mActiveSession.createdAt;
     }
 }
