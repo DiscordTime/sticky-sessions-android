@@ -27,6 +27,7 @@
         </activity>
 
         <activity android:name=".ui.session.SessionActivity"
+            android:theme="@style/ActivityTheme"
             android:launchMode="singleTop">
             <intent-filter android:label="@string/app_name">
                 <action android:name="android.intent.action.VIEW" />

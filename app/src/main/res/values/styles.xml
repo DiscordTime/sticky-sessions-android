@@ -10,6 +10,10 @@
         <item name="android:windowBackground">@drawable/launch_screen</item>
     </style>
 
+    <style name="ActivityTheme" parent="AppTheme">
+        <item name="android:windowBackground">@android:color/white</item>
+    </style>
+
     <style name="NoteContent">
         <item name="android:background">#ffff88</item>
         <item name="android:layout_marginTop">5dp</item>
