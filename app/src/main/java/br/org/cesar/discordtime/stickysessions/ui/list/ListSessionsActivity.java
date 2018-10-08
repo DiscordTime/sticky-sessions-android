@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
 import java.util.List;
 
 import javax.inject.Inject;
@@ -25,6 +24,7 @@ import br.org.cesar.discordtime.stickysessions.presentation.list.ListSessionsCon
 import br.org.cesar.discordtime.stickysessions.ui.ViewNames;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
+import br.org.cesar.discordtime.stickysessions.ui.adapters.SessionAdapter;
 
 public class ListSessionsActivity extends AppCompatActivity implements ListSessionsContract.View {
 
@@ -54,7 +54,7 @@ public class ListSessionsActivity extends AppCompatActivity implements ListSessi
         configureToolbar();
         configureRecycleView();
 
-        mPresenter.attachView(this);
+
     }
 
     private void configureToolbar() {
@@ -91,6 +91,7 @@ public class ListSessionsActivity extends AppCompatActivity implements ListSessi
     @Override
     protected void onResume() {
         super.onResume();
+        mPresenter.attachView(this);
         mPresenter.onLoad();
     }
 
@@ -106,7 +107,6 @@ public class ListSessionsActivity extends AppCompatActivity implements ListSessi
         mPresenter.detachView();
     }
 
-    @Override
     public void startLoadingData() {
         mRecyclerView.setVisibility(View.INVISIBLE);
         mProgressBar.setVisibility(View.VISIBLE);

@@ -50,7 +50,7 @@ public class ListSessionPresenter implements ListSessionsContract.Presenter {
     }
 
     private void disposeObservers() {
-        mListSessions.dispose();
+        mView = null;
         mSessionsListObserver.dispose();
     }
 
@@ -63,6 +63,7 @@ public class ListSessionPresenter implements ListSessionsContract.Presenter {
     }
 
     private void initObservers() {
+        mLogger.d(TAG, "observers started ");
         mSessionsListObserver = new DisposableSingleObserver<List<Session>>() {
             @Override
             public void onSuccess(List<Session> sessions) {
@@ -100,7 +101,6 @@ public class ListSessionPresenter implements ListSessionsContract.Presenter {
         try {
             Route route = mRouter.getNext(mView.getName(), IRouter.USER_SELECTED_SESSION);
             mView.goNext(route, bundle);
-
         } catch (InvalidRouteException e) {
             mLogger.e(TAG, e.getMessage());
             e.printStackTrace();
