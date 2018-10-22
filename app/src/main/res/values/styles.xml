@@ -7,11 +7,11 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:background">@null</item>
-        <item name="android:windowBackground">@drawable/launch_screen</item>
+        <item name="android:windowBackground">@android:color/white</item>
     </style>
 
-    <style name="ActivityTheme" parent="AppTheme">
-        <item name="android:windowBackground">@android:color/white</item>
+    <style name="LaunchTheme" parent="AppTheme">
+        <item name="android:windowBackground">@drawable/launch_screen</item>
     </style>
 
     <style name="NoteContent">
