@@ -5,34 +5,38 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    style="@style/StyleSessionContentElement">
+    android:background="?selectableItemBackground"
+    android:padding="16dp">
 
     <TextView
         android:id="@+id/session_name"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        style="@style/StyleSessionNameElement"
-        tools:text="Session Name"/>
+        android:textSize="16sp"
+        android:textIsSelectable="true"
+        tools:text="Session Name" />
 
     <TextView
         android:id="@+id/session_create_time"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBaseline_toBaselineOf="@+id/session_name"
         app:layout_constraintRight_toRightOf="parent"
-        style="@style/StyleSessionDateElement"
-        tools:text="10.05.2015"/>
+        android:textSize="12sp"
+        android:textIsSelectable="true"
+        tools:text="10.05.2015" />
 
     <TextView
         android:id="@+id/session_author_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/session_create_time"
+        android:layout_marginTop="8dp"
         app:layout_constraintRight_toRightOf="@+id/session_create_time"
-        style="@style/StyleSessionAuthorElement"
-        tools:text="Author"/>
+        app:layout_constraintTop_toBottomOf="@+id/session_create_time"
+        android:textSize="12sp"
+        android:textIsSelectable="true"
+        tools:text="Author" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

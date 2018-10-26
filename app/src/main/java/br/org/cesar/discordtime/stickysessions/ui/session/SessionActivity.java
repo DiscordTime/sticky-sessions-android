@@ -106,6 +106,7 @@ public class SessionActivity extends AppCompatActivity implements SessionContrac
                 mPresenter.currentSession(sessionId);
             } else {
                 //TODO error message to null data
+                Log.d(TAG, "null sessionId.");
             }
             //Enter in a session by Lobby
         } else if(!TextUtils.isEmpty(intent.getStringExtra(ExtraNames.SESSION_ID))) {

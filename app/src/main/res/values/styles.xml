@@ -6,7 +6,6 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:background">@null</item>
         <item name="android:windowBackground">@android:color/white</item>
     </style>
 
@@ -73,34 +72,6 @@
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">#FFFFFF</item>
         <item name="chipBackgroundColor">@color/chip_state_colors</item>
-    </style>
-
-    <style name="StyleSessionContentElement">
-        <item name="android:layout_margin">2dp</item>
-        <item name="android:layout_marginLeft">5dp</item>
-        <item name="android:layout_marginRight">5dp</item>
-
-        <item name="android:paddingStart">8dp</item>
-        <item name="android:paddingEnd">8dp</item>
-        <item name="android:background">@color/colorPrimary</item>
-    </style>
-
-    <style name="StyleSessionTextElement">
-        <item name="android:fontFamily">@font/annie_use_your_telescope</item>
-        <item name="android:textColor">#FFFFFF</item>
-    </style>
-
-    <style name="StyleSessionNameElement" parent="StyleSessionTextElement">
-        <item name="android:textSize">36sp</item>
-    </style>
-
-    <style name="StyleSessionDateElement" parent="StyleSessionTextElement">
-        <item name="android:textSize">18sp</item>
-        <item name="android:textStyle">bold|italic</item>
-    </style>
-
-    <style name="StyleSessionAuthorElement" parent="StyleSessionTextElement">
-        <item name="android:textSize">18sp</item>
     </style>
 
 </resources>

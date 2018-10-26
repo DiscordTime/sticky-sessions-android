@@ -26,12 +26,21 @@ public interface IRouteRepository {
                     false)
         );
         put(
-            ViewNames.LOBBY_ACTIVITY+IRouter.LISTED_SESSION,
+            ViewNames.LOBBY_ACTIVITY+IRouter.LIST_SESSIONS,
             new Route(
                 ViewNames.LOBBY_ACTIVITY,
-                IRouter.LISTED_SESSION,
+                IRouter.LIST_SESSIONS,
                 ViewNames.LIST_ACTIVITY,
                 false
+            )
+        );
+        put(
+            ViewNames.LIST_ACTIVITY+IRouter.USER_SELECTED_SESSION,
+            new Route(
+                    ViewNames.LIST_ACTIVITY,
+                    IRouter.USER_SELECTED_SESSION,
+                    ViewNames.SESSION_ACTIVITY,
+                    false
             )
         );
     }};

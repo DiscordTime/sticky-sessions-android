@@ -47,7 +47,7 @@ public class LobbyPresenter implements LobbyContract.Presenter {
         mLog.d(TAG, "onClickSessionOption " + type);
 
         if (LobbyContract.ActionType.LIST_SESSIONS == type) {
-            goNext(IRouter.LISTED_SESSION);
+            goNext(IRouter.LIST_SESSIONS);
 
         } else {
             mObserver = new CreateSessionObserver();
@@ -121,7 +121,7 @@ public class LobbyPresenter implements LobbyContract.Presenter {
         @Override
         public void onSuccess(Void aVoid) {
             mLog.d(TAG, "list sessions success");
-            goNext(IRouter.LISTED_SESSION);
+            goNext(IRouter.LIST_SESSIONS);
         }
 
         @Override

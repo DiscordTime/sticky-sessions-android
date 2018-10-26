@@ -7,7 +7,7 @@ import br.org.cesar.discordtime.stickysessions.executor.IObservableUseCase;
 import br.org.cesar.discordtime.stickysessions.logger.Logger;
 import br.org.cesar.discordtime.stickysessions.navigation.router.IRouter;
 import br.org.cesar.discordtime.stickysessions.navigation.wrapper.IBundleFactory;
-import br.org.cesar.discordtime.stickysessions.presentation.list.ListSessionPresenter;
+import br.org.cesar.discordtime.stickysessions.presentation.list.ListSessionsPresenter;
 import br.org.cesar.discordtime.stickysessions.presentation.list.ListSessionsContract;
 import dagger.Module;
 import dagger.Provides;
@@ -19,6 +19,6 @@ public class ListSessionsModule {
     public ListSessionsContract.Presenter providePresenter(
         IObservableUseCase<Void, List<Session>> listSessions,
         IRouter router, Logger logger, IBundleFactory bundleFactory) {
-        return new ListSessionPresenter(listSessions, router, logger, bundleFactory);
+        return new ListSessionsPresenter(listSessions, router, logger, bundleFactory);
     }
 }
