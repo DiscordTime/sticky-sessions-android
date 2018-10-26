@@ -39,4 +39,8 @@
     fact it can't find androidx dependencies correclty -->
     <issue id="AppCompatResource" severity="ignore" />
 
+    <!-- Lint will just inform that there is a new version for dependencies -->
+    <issue id="NewerVersionAvailable" severity="informational" />
+    <issue id="GradleDependency" severity="informational" />
+
 </lint>
