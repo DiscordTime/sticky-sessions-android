@@ -65,6 +65,7 @@ public class SessionPresenter implements SessionContract.Presenter {
 
     @Override
     public void currentUser(String userName) {
+        mLog.d(TAG, "currentUser : "+userName);
         mView.startLoadingAllNotes();
         mSaveCurrentUser.execute(new DisposableSingleObserver<Boolean>() {
             @Override
@@ -154,6 +155,9 @@ public class SessionPresenter implements SessionContract.Presenter {
                     mView.displayErrorInvalidNotes();
                 }
             }, new NoteFilter(mActiveSession.id, mCurrentUser));
+        } else {
+            mView.stopLoadingAllNotes();
+            mView.displayErrorInvalidNotes();
         }
     }
 

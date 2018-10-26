@@ -2,6 +2,7 @@ package br.org.cesar.discordtime.stickysessions.data.service
 
 import android.content.Context
 import br.org.cesar.discordtime.stickysessions.data.remote.model.SessionRemote
+import br.org.cesar.discordtime.stickysessions.data.remote.model.TimeStampRemote
 import br.org.cesar.discordtime.stickysessions.data.remote.service.RemoteServiceFactory
 import br.org.cesar.discordtime.stickysessions.data.remote.service.SessionService
 import com.nhaarman.mockito_kotlin.mock
@@ -20,10 +21,12 @@ class SessionServiceTest {
     private lateinit var sessionId: String
     private lateinit var topics: List<String>
     private val date: Long = 1522415925281
+    private lateinit var timeStampRemote : TimeStampRemote;
 
     @Before
     fun setUp() {
         mockWebServer = MockWebServer()
+        timeStampRemote = TimeStampRemote(date);
         sessionId = "d6600558-f101-45be-bf8a-4b5aed40cf9f"
         topics = listOf("Less","More","Start","Stop","Keep")
         contextMock = mock()
@@ -76,6 +79,6 @@ class SessionServiceTest {
     }
 
     private fun createValidSessionRemote(): SessionRemote {
-        return SessionRemote(sessionId, topics, date)
+        return SessionRemote(sessionId, topics, timeStampRemote)
     }
 }

@@ -9,7 +9,8 @@
     <!-- Lint is complaining about a possible overdraw
     even after setting AppTheme background to @null -->
     <issue id="Overdraw">
-        <ignore path="src/main/res/layout/toolbar_session.xml"/>
+        <ignore path="src/main/res/layout/toolbar_session.xml"/>\
+        <ignore path="src/main/res/layout/toolbar.xml"/>
         <ignore path="src/main/res/layout/activity_main.xml" />
     </issue>
 

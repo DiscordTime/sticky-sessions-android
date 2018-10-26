@@ -5,6 +5,7 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Interpolator;
 
 import java.text.NumberFormat;
+import java.util.Locale;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -72,7 +73,7 @@ class AnimationController {
     }
 
     private void setProgressPrecision(float rawProgress) {
-        NumberFormat formatter = NumberFormat.getNumberInstance();
+        NumberFormat formatter = NumberFormat.getNumberInstance(Locale.US);
         formatter.setMinimumFractionDigits(PROGRESS_PRECISION);
         formatter.setMaximumFractionDigits(PROGRESS_PRECISION);
         progress = Float.valueOf(formatter.format(rawProgress));
