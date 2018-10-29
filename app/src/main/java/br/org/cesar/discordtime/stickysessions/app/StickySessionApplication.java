@@ -2,6 +2,8 @@ package br.org.cesar.discordtime.stickysessions.app;
 
 import android.app.Application;
 
+import com.crashlytics.android.Crashlytics;
+
 import br.org.cesar.discordtime.stickysessions.domain.interactor.ListSessions;
 import br.org.cesar.discordtime.stickysessions.injectors.components.DaggerListSessionComponent;
 import br.org.cesar.discordtime.stickysessions.injectors.components.DaggerLobbyComponent;
@@ -10,6 +12,7 @@ import br.org.cesar.discordtime.stickysessions.injectors.modules.ContextModule;
 import br.org.cesar.discordtime.stickysessions.ui.list.ListSessionsActivity;
 import br.org.cesar.discordtime.stickysessions.ui.lobby.LobbyActivity;
 import br.org.cesar.discordtime.stickysessions.ui.session.SessionActivity;
+import io.fabric.sdk.android.Fabric;
 
 public class StickySessionApplication extends Application {
 
@@ -24,6 +27,8 @@ public class StickySessionApplication extends Application {
         configureMainInjectorBuilder();
         configureSessionInjectorBuilder();
         configureSessionListInjectorBuilder();
+
+        Fabric.with(this, new Crashlytics());
     }
 
 
