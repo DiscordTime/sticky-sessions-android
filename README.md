@@ -17,7 +17,9 @@ An usual session would follow steps below:
 
 ## Server communication
 
-- Project has two flavors (`Online` and `Local`) which change backend URL used by app.
+- Project has 3 flavors (`Prod`, `Stag` and `Local`) which change backend URL used by app.
+- `Prod` is intended for production and should be used only on real meetings
+- `Stag` is intended for usual development on Android client's side
 - `Local` flavor is intended for local backend development where developer
   connects the device via USB and uses `adb reverse tcp:3000 tcp:3000` command to redirect
   requests to local machine.

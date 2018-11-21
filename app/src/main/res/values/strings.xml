@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Sticky Sessions</string>
+    <!-- app_name is defined by flavor, please see app/build.gradle -->
     <string name="confirm">Confirm</string>
     <string name="share_session">Hey fellow, you can get a new session here: http://stickysessions.com/enter?session=%s</string>
     <string name="bt_share_session">Share Session</string>
