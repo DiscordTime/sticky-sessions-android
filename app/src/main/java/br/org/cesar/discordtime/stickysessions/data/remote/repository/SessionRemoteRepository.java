@@ -50,8 +50,7 @@ public class SessionRemoteRepository implements SessionRepository {
             @Override
             public List<Session> apply(List<SessionRemote> sessionRemotes) throws Exception {
                 List<Session> sessions = new ArrayList<>();
-
-                sessionRemotes.sort(new SessionRemoteComparator());
+                Collections.sort(sessionRemotes, new SessionRemoteComparator());
 
                 for (SessionRemote sessionRemote : sessionRemotes) {
                     sessions.add(mMapper.mapToDomain(sessionRemote));
