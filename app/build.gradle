@@ -12,7 +12,7 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId packageId
-        minSdkVersion 24
+        minSdkVersion 23
         targetSdkVersion 28
         versionCode versionMap.code
         versionName versionMap.name
@@ -124,8 +124,8 @@ dependencies {
     testImplementation "com.squareup.okhttp3:mockwebserver:${versions.okhttp}"
 
     // Instrumentation tests
-    androidTestImplementation 'androidx.test:runner:1.1.0-beta02'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-beta02'
+    androidTestImplementation 'androidx.test:runner:1.1.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
     androidTestImplementation 'com.google.dagger:dagger:2.18'
 
     //Fabric
