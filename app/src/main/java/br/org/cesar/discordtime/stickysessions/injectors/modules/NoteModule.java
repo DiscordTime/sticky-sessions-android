@@ -8,6 +8,7 @@ import br.org.cesar.discordtime.stickysessions.data.remote.model.NoteRemote;
 import br.org.cesar.discordtime.stickysessions.data.remote.repository.NoteRemoteRepository;
 import br.org.cesar.discordtime.stickysessions.data.remote.service.NoteService;
 import br.org.cesar.discordtime.stickysessions.data.remote.service.RemoteServiceFactory;
+import br.org.cesar.discordtime.stickysessions.data.remote.wrapper.INetworkWrapper;
 import br.org.cesar.discordtime.stickysessions.data.repository.mapper.Mapper;
 import br.org.cesar.discordtime.stickysessions.data.repository.mapper.NoteMapper;
 import br.org.cesar.discordtime.stickysessions.domain.interactor.AddNote;
@@ -23,6 +24,7 @@ import br.org.cesar.discordtime.stickysessions.executor.PostExecutionThread;
 import br.org.cesar.discordtime.stickysessions.executor.ThreadExecutor;
 import dagger.Module;
 import dagger.Provides;
+import okhttp3.Interceptor;
 
 @Module
 public class NoteModule {
@@ -83,9 +85,10 @@ public class NoteModule {
     }
 
     @Provides
-    public NoteService provideNoteService(Context context, String baseUrl) {
+    public NoteService provideNoteService(Context context, String baseUrl,
+                                          List<Interceptor> interceptors) {
         return new RemoteServiceFactory<NoteService>()
-            .makeRemoteService(context, baseUrl, true, NoteService.class);
+            .makeRemoteService(context, baseUrl, NoteService.class, interceptors);
     }
 
     @Provides

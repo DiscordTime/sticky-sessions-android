@@ -78,7 +78,7 @@ public class ListSessionsPresenter implements ListSessionsContract.Presenter {
             @Override
             public void onError(Throwable e) {
                 if (mView != null) {
-                    mLogger.d(TAG, "onError load data ");
+                    mLogger.d(TAG, "onError load data "+e.getMessage());
                     mView.stopLoadingData();
                     mView.showError(e.getMessage());
                 }

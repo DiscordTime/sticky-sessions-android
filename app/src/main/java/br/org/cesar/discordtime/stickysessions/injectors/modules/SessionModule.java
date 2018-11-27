@@ -8,6 +8,7 @@ import br.org.cesar.discordtime.stickysessions.data.remote.model.SessionRemote;
 import br.org.cesar.discordtime.stickysessions.data.remote.repository.SessionRemoteRepository;
 import br.org.cesar.discordtime.stickysessions.data.remote.service.RemoteServiceFactory;
 import br.org.cesar.discordtime.stickysessions.data.remote.service.SessionService;
+import br.org.cesar.discordtime.stickysessions.data.remote.wrapper.INetworkWrapper;
 import br.org.cesar.discordtime.stickysessions.data.repository.mapper.Mapper;
 import br.org.cesar.discordtime.stickysessions.data.repository.mapper.SessionMapper;
 import br.org.cesar.discordtime.stickysessions.domain.interactor.CreateSession;
@@ -23,6 +24,7 @@ import br.org.cesar.discordtime.stickysessions.executor.PostExecutionThread;
 import br.org.cesar.discordtime.stickysessions.executor.ThreadExecutor;
 import dagger.Module;
 import dagger.Provides;
+import okhttp3.Interceptor;
 
 
 @Module
@@ -34,9 +36,10 @@ public class SessionModule {
     }
     
     @Provides
-    public SessionService provideSessionService(Context context, String url) {
+    public SessionService provideSessionService(Context context, String url,
+                                                List<Interceptor> interceptors) {
         return new RemoteServiceFactory<SessionService>()
-                .makeRemoteService(context, url, true, SessionService.class);
+            .makeRemoteService(context, url, SessionService.class, interceptors);
     }
     
     @Provides
