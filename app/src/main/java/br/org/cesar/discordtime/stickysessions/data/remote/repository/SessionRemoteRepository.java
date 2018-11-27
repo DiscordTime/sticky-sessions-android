@@ -46,26 +46,29 @@ public class SessionRemoteRepository implements SessionRepository {
 
     @Override
     public Single<List<Session>> listSessions() {
-        return mService.getSessions().map(new Function<List<SessionRemote>, List<Session>>() {
-            @Override
-            public List<Session> apply(List<SessionRemote> sessionRemotes) throws Exception {
+        return mService.getSessions().map(sessionRemotes -> {
                 List<Session> sessions = new ArrayList<>();
+                for (SessionRemote sessionRemote : sessionRemotes) {
+                    Session session = mMapper.mapToDomain(sessionRemote);
+                    if(session != null) {
+                        sessions.add(session);
+                    }
+                }
                 Collections.sort(sessionRemotes, new SessionRemoteComparator());
 
-                for (SessionRemote sessionRemote : sessionRemotes) {
-                    sessions.add(mMapper.mapToDomain(sessionRemote));
-                }
-
                 return sessions;
-            }
         });
     }
 
     private class SessionRemoteComparator implements Comparator<SessionRemote> {
         @Override
         public int compare(SessionRemote sessionRemote, SessionRemote sessionRemoteOther) {
-            long secondsRemote = sessionRemote.getDate().getSeconds();
-            long secondsRemoteOther = sessionRemoteOther.getDate().getSeconds();
+            long secondsRemote = 0;
+            long secondsRemoteOther = 0;
+            if(sessionRemote != null && sessionRemote.getDate() != null)
+                secondsRemote = sessionRemote.getDate().getSeconds();
+            if(sessionRemoteOther != null && sessionRemoteOther.getDate() != null)
+                secondsRemoteOther = sessionRemoteOther.getDate().getSeconds();
 
             return (int) (secondsRemoteOther - secondsRemote);
         }

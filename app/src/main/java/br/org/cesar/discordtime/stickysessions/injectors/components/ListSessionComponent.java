@@ -1,9 +1,13 @@
 package br.org.cesar.discordtime.stickysessions.injectors.components;
 
 import br.org.cesar.discordtime.stickysessions.injectors.modules.ContextModule;
+import br.org.cesar.discordtime.stickysessions.injectors.modules.HttpInterceptorListModule;
+import br.org.cesar.discordtime.stickysessions.injectors.modules.HttpLoggingInterceptorModule;
+import br.org.cesar.discordtime.stickysessions.injectors.modules.HttpNetworkInterceptorModule;
 import br.org.cesar.discordtime.stickysessions.injectors.modules.ListSessionsModule;
 import br.org.cesar.discordtime.stickysessions.injectors.modules.LoggerModule;
 import br.org.cesar.discordtime.stickysessions.injectors.modules.NavigationModule;
+import br.org.cesar.discordtime.stickysessions.injectors.modules.NetworkModule;
 import br.org.cesar.discordtime.stickysessions.injectors.modules.ServerModule;
 import br.org.cesar.discordtime.stickysessions.injectors.modules.SessionModule;
 import br.org.cesar.discordtime.stickysessions.injectors.modules.ThreadModule;
@@ -19,6 +23,10 @@ import dagger.Component;
     NavigationModule.class,
     ThreadModule.class,
     ContextModule.class,
+    NetworkModule.class,
+    HttpLoggingInterceptorModule.class,
+    HttpNetworkInterceptorModule.class,
+    HttpInterceptorListModule.class,
 })
 public interface ListSessionComponent {
     void inject(ListSessionsActivity activity);

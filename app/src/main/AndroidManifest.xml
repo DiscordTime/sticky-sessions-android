@@ -3,6 +3,7 @@
     package="br.org.cesar.discordtime.stickysessions">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <application
         android:allowBackup="false"

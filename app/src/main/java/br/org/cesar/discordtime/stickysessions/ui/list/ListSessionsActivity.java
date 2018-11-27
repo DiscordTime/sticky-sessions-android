@@ -1,9 +1,11 @@
 package br.org.cesar.discordtime.stickysessions.ui.list;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -38,13 +40,14 @@ public class ListSessionsActivity extends AppCompatActivity implements ListSessi
     private RecyclerView.LayoutManager mLayoutManager;
     private ProgressBar mProgressBar;
     private TextView mToolbarTitle;
+    private Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ((StickySessionApplication)getApplication()).inject(this);
         setContentView(R.layout.list_session);
-
+        mContext = this;
         //Loading
         mProgressBar = findViewById(R.id.progressbar);
         configureToolbar();
@@ -115,7 +118,7 @@ public class ListSessionsActivity extends AppCompatActivity implements ListSessi
 
     @Override
     public void showError(String message) {
-
+        Toast.makeText(mContext, message, Toast.LENGTH_LONG).show();
     }
 
     @Override

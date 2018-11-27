@@ -1,10 +1,11 @@
-package br.org.cesar.discordtime.stickysessions.domain.interactor
+package br.org.cesar.discordtime.stickysessions.data.service
 
 import br.org.cesar.discordtime.stickysessions.data.remote.model.NoteRemote
 import br.org.cesar.discordtime.stickysessions.data.remote.service.NoteService
 import br.org.cesar.discordtime.stickysessions.data.remote.service.RemoteServiceFactory
 import com.google.gson.Gson
 import com.nhaarman.mockito_kotlin.mock
+import okhttp3.Interceptor
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.After
@@ -16,7 +17,6 @@ class NoteServiceTest {
 
     private lateinit var noteService: NoteService
     private lateinit var mWebServerMock: MockWebServer
-
     private lateinit var mNoteMock:NoteRemote
     private lateinit var mSourceJsonContent:String
     private lateinit var mSourceInvalidJsonContent:String
@@ -24,12 +24,13 @@ class NoteServiceTest {
     @Before
     fun setUp() {
         mWebServerMock = MockWebServer()
+        val list = ArrayList<Interceptor>()
         noteService = RemoteServiceFactory<NoteService>()
                 .makeRemoteService(
                         mock(),
                         mWebServerMock.url("/").toString(),
-                        true,
-                        NoteService::class.java
+                        NoteService::class.java,
+                        list
                 )
 
         mSourceJsonContent =
@@ -48,7 +49,6 @@ class NoteServiceTest {
     @Test
     fun `after addNote on Server, the new data should be returned`() {
         mWebServerMock.enqueue(createValidSessionResponse())
-
         val testObserver = noteService.addNote(mNoteMock).test()
         testObserver.awaitTerminalEvent()
         testObserver.assertNoErrors()
@@ -64,7 +64,6 @@ class NoteServiceTest {
     @Test
     fun `an invalid note could not be added on server`() {
         mWebServerMock.enqueue(createInvalidSessionResponse())
-
         val testObserver = noteService.addNote(mNoteMock).test()
         testObserver.awaitTerminalEvent()
         testObserver.assertNoErrors()

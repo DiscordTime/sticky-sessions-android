@@ -5,7 +5,11 @@ import br.org.cesar.discordtime.stickysessions.data.remote.model.SessionRemote
 import br.org.cesar.discordtime.stickysessions.data.remote.model.TimeStampRemote
 import br.org.cesar.discordtime.stickysessions.data.remote.service.RemoteServiceFactory
 import br.org.cesar.discordtime.stickysessions.data.remote.service.SessionService
+import br.org.cesar.discordtime.stickysessions.data.remote.wrapper.INetworkWrapper
+import br.org.cesar.discordtime.stickysessions.data.remote.wrapper.NetworkWrapper
 import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.whenever
+import okhttp3.Interceptor
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.After
@@ -30,12 +34,13 @@ class SessionServiceTest {
         sessionId = "d6600558-f101-45be-bf8a-4b5aed40cf9f"
         topics = listOf("Less","More","Start","Stop","Keep")
         contextMock = mock()
+        val lista = ArrayList<Interceptor>()
         sessionService = RemoteServiceFactory<SessionService>()
                 .makeRemoteService(
                         contextMock,
                         mockWebServer.url("").toString(),
-                        true,
-                        SessionService::class.java)
+                        SessionService::class.java,
+                        lista)
     }
 
     @After
@@ -46,7 +51,6 @@ class SessionServiceTest {
     @Test
     fun `create session returns data`() {
         mockWebServer.enqueue(createValidSessionResponse())
-
         val testObserver = sessionService.createSession(topics).test()
         testObserver.awaitTerminalEvent()
         testObserver.assertNoErrors()
@@ -56,7 +60,6 @@ class SessionServiceTest {
     @Test
     fun `get session returns data`() {
         mockWebServer.enqueue(createValidSessionResponse())
-
         val testObserver = sessionService.getSession(sessionId).test()
         testObserver.awaitTerminalEvent()
         testObserver.assertNoErrors()
@@ -66,7 +69,6 @@ class SessionServiceTest {
     @Test
     fun `get session call onError when unauthorized`() {
         mockWebServer.enqueue(MockResponse().setResponseCode(401))
-
         val testObserver = sessionService.getSession(sessionId).test()
         testObserver.awaitTerminalEvent()
         testObserver.assertError(HttpException::class.java)
@@ -81,4 +83,5 @@ class SessionServiceTest {
     private fun createValidSessionRemote(): SessionRemote {
         return SessionRemote(sessionId, topics, timeStampRemote)
     }
+
 }
