@@ -1,4 +1,9 @@
 version: 2
+
+references:
+  cache_key: &cache_key
+    key: jars-{{ checksum "build.gradle" }}-{{ checksum "app/build.gradle" }}-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
+
 jobs:
   build:
     working_directory: ~/sticky-sessions-android
@@ -6,36 +11,45 @@ jobs:
       - image: circleci/android:api-28-alpha
     environment:
       JVM_OPTS: -Xmx3200m
+
     steps:
       - checkout
+
       - restore_cache:
-          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
+          <<: *cache_key
+
       - run:
           name: Store Firebase Key
           command: echo $GOOGLE_SERVICES > ~/sticky-sessions-android/app/google-services.json
+
       - run:
-         name: Chmod permissions #if permission for Gradlew Dependencies fail, use this. 
+         name: Chmod permissions #if permission for Gradlew Dependencies fail, use this.
          command: sudo chmod +x ./gradlew
+
       - run:
           name: Download Dependencies
           command: ./gradlew androidDependencies
+
       - save_cache:
+          <<: *cache_key
           paths:
             - ~/.gradle
-          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
+
       - run:
-          name: Run Tests
+          name: Run Lint and Unit tests
           command: ./gradlew lintProdRelease testProdReleaseUnitTest
+
+      - store_test_results:
+          path: app/build/test-results
+
       - store_artifacts:
           path: app/build/reports
           destination: reports
-      - store_test_results:
-          path: app/build/test-results
+
       - run:
-          name: Initial build
+          name: Build
           command: ./gradlew clean assembleProdRelease --no-daemon --stacktrace
+
       - store_artifacts:
           path: app/build/outputs/apk/
           destination: apks/
-
-      # See https://circleci.com/docs/2.0/deployment-integrations/ for deploy examples 
