@@ -35,7 +35,7 @@ public class ListSessionsActivity extends AppCompatActivity implements ListSessi
     @Inject
     public IViewStarter mViewStarter;
     private Disposable mDisposable;
-    private RecyclerView mRecyclerView;
+    protected RecyclerView mRecyclerView;
     private SessionAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private ProgressBar mProgressBar;

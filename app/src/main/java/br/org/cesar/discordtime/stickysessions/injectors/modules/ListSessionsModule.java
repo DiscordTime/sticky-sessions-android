@@ -7,8 +7,8 @@ import br.org.cesar.discordtime.stickysessions.executor.IObservableUseCase;
 import br.org.cesar.discordtime.stickysessions.logger.Logger;
 import br.org.cesar.discordtime.stickysessions.navigation.router.IRouter;
 import br.org.cesar.discordtime.stickysessions.navigation.wrapper.IBundleFactory;
-import br.org.cesar.discordtime.stickysessions.presentation.list.ListSessionsPresenter;
 import br.org.cesar.discordtime.stickysessions.presentation.list.ListSessionsContract;
+import br.org.cesar.discordtime.stickysessions.presentation.list.ListSessionsPresenter;
 import dagger.Module;
 import dagger.Provides;
 

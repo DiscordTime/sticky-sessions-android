@@ -1,14 +1,11 @@
 package br.org.cesar.discordtime.stickysessions.injectors.modules;
 
-import android.content.Context;
-
 import java.util.List;
 
 import br.org.cesar.discordtime.stickysessions.data.remote.model.NoteRemote;
 import br.org.cesar.discordtime.stickysessions.data.remote.repository.NoteRemoteRepository;
 import br.org.cesar.discordtime.stickysessions.data.remote.service.NoteService;
 import br.org.cesar.discordtime.stickysessions.data.remote.service.RemoteServiceFactory;
-import br.org.cesar.discordtime.stickysessions.data.remote.wrapper.INetworkWrapper;
 import br.org.cesar.discordtime.stickysessions.data.repository.mapper.Mapper;
 import br.org.cesar.discordtime.stickysessions.data.repository.mapper.NoteMapper;
 import br.org.cesar.discordtime.stickysessions.domain.interactor.AddNote;
@@ -24,7 +21,7 @@ import br.org.cesar.discordtime.stickysessions.executor.PostExecutionThread;
 import br.org.cesar.discordtime.stickysessions.executor.ThreadExecutor;
 import dagger.Module;
 import dagger.Provides;
-import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
 
 @Module
 public class NoteModule {
@@ -63,7 +60,8 @@ public class NoteModule {
     }
 
     @Provides
-    public AddNote provideAddNote(NoteRepository noteRepository, SessionRepository sessionRepository) {
+    public AddNote provideAddNote(NoteRepository noteRepository,
+                                  SessionRepository sessionRepository) {
         return new AddNote(noteRepository, sessionRepository);
     }
 
@@ -85,10 +83,10 @@ public class NoteModule {
     }
 
     @Provides
-    public NoteService provideNoteService(Context context, String baseUrl,
-                                          List<Interceptor> interceptors) {
+    public NoteService provideNoteService(String baseUrl,
+                                          OkHttpClient okHttpClient) {
         return new RemoteServiceFactory<NoteService>()
-            .makeRemoteService(context, baseUrl, NoteService.class, interceptors);
+            .makeRemoteService(baseUrl, NoteService.class, okHttpClient);
     }
 
     @Provides

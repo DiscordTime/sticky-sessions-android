@@ -4,7 +4,6 @@ import android.app.Application;
 
 import com.crashlytics.android.Crashlytics;
 
-import br.org.cesar.discordtime.stickysessions.domain.interactor.ListSessions;
 import br.org.cesar.discordtime.stickysessions.injectors.components.DaggerListSessionComponent;
 import br.org.cesar.discordtime.stickysessions.injectors.components.DaggerLobbyComponent;
 import br.org.cesar.discordtime.stickysessions.injectors.components.DaggerSessionComponent;
@@ -19,7 +18,6 @@ public class StickySessionApplication extends Application {
     protected DaggerLobbyComponent.Builder mLobbyComponentBuilder;
     protected DaggerSessionComponent.Builder mSessionComponentBuilder;
     protected DaggerListSessionComponent.Builder mSessionListBuilder;
-
 
     @Override
     public void onCreate() {
@@ -37,12 +35,12 @@ public class StickySessionApplication extends Application {
             .contextModule(new ContextModule(getApplicationContext()));
     }
 
-    private void configureSessionInjectorBuilder() {
+    protected void configureSessionInjectorBuilder() {
         mSessionComponentBuilder = DaggerSessionComponent.builder()
             .contextModule(new ContextModule(getApplicationContext()));
     }
 
-    private void configureSessionListInjectorBuilder() {
+    protected void configureSessionListInjectorBuilder() {
         mSessionListBuilder = DaggerListSessionComponent.builder()
             .contextModule(new ContextModule(getApplicationContext()));
     }

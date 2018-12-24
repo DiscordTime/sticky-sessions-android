@@ -10,11 +10,11 @@ import java.util.concurrent.TimeUnit
  */
 open class JobExecutor: ThreadExecutor {
 
-    private val workQueue: LinkedBlockingQueue<Runnable> = LinkedBlockingQueue()
+    protected val workQueue: LinkedBlockingQueue<Runnable> = LinkedBlockingQueue()
 
-    private val threadPoolExecutor: ThreadPoolExecutor
+    protected var threadPoolExecutor: ThreadPoolExecutor
 
-    private val threadFactory: ThreadFactory
+    protected val threadFactory: ThreadFactory
 
     init {
         this.threadFactory = JobThreadFactory()

@@ -1,14 +1,11 @@
 package br.org.cesar.discordtime.stickysessions.injectors.modules;
 
-import android.content.Context;
-
 import java.util.List;
 
 import br.org.cesar.discordtime.stickysessions.data.remote.model.SessionRemote;
 import br.org.cesar.discordtime.stickysessions.data.remote.repository.SessionRemoteRepository;
 import br.org.cesar.discordtime.stickysessions.data.remote.service.RemoteServiceFactory;
 import br.org.cesar.discordtime.stickysessions.data.remote.service.SessionService;
-import br.org.cesar.discordtime.stickysessions.data.remote.wrapper.INetworkWrapper;
 import br.org.cesar.discordtime.stickysessions.data.repository.mapper.Mapper;
 import br.org.cesar.discordtime.stickysessions.data.repository.mapper.SessionMapper;
 import br.org.cesar.discordtime.stickysessions.domain.interactor.CreateSession;
@@ -24,7 +21,7 @@ import br.org.cesar.discordtime.stickysessions.executor.PostExecutionThread;
 import br.org.cesar.discordtime.stickysessions.executor.ThreadExecutor;
 import dagger.Module;
 import dagger.Provides;
-import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
 
 
 @Module
@@ -34,12 +31,12 @@ public class SessionModule {
     public Mapper<Session, SessionRemote> provideSessionMapper() {
         return new SessionMapper();
     }
-    
+
     @Provides
-    public SessionService provideSessionService(Context context, String url,
-                                                List<Interceptor> interceptors) {
+    public SessionService provideSessionService(String url,
+                                                OkHttpClient okHttpClient) {
         return new RemoteServiceFactory<SessionService>()
-            .makeRemoteService(context, url, SessionService.class, interceptors);
+            .makeRemoteService(url, SessionService.class, okHttpClient);
     }
     
     @Provides
