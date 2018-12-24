@@ -1,8 +1,10 @@
 package br.org.cesar.discordtime.stickysessions.data.service
 
+import android.content.Context
 import br.org.cesar.discordtime.stickysessions.data.remote.model.NoteRemote
 import br.org.cesar.discordtime.stickysessions.data.remote.service.NoteService
 import br.org.cesar.discordtime.stickysessions.data.remote.service.RemoteServiceFactory
+import br.org.cesar.discordtime.stickysessions.injectors.modules.HttpModule
 import com.google.gson.Gson
 import com.nhaarman.mockito_kotlin.mock
 import okhttp3.Interceptor
@@ -18,19 +20,20 @@ class NoteServiceTest {
     private lateinit var noteService: NoteService
     private lateinit var mWebServerMock: MockWebServer
     private lateinit var mNoteMock:NoteRemote
+    private lateinit var contextMock: Context
     private lateinit var mSourceJsonContent:String
     private lateinit var mSourceInvalidJsonContent:String
 
     @Before
     fun setUp() {
         mWebServerMock = MockWebServer()
-        val list = ArrayList<Interceptor>()
+        contextMock = mock()
+        val okHttpClient = HttpModule().makeOkHttpClient(contextMock, listOf<Interceptor>())
         noteService = RemoteServiceFactory<NoteService>()
                 .makeRemoteService(
-                        mock(),
                         mWebServerMock.url("/").toString(),
                         NoteService::class.java,
-                        list
+                        okHttpClient
                 )
 
         mSourceJsonContent =

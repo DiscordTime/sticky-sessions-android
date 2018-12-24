@@ -12,12 +12,12 @@ import dagger.Provides;
 public class ThreadModule {
 
     @Provides
-    public static PostExecutionThread providePostExecutionThread() {
+    public PostExecutionThread providePostExecutionThread() {
         return new MainThread();
     }
 
     @Provides
-    public static ThreadExecutor provideThreadExecutor() {
+    public ThreadExecutor provideThreadExecutor() {
         return new JobExecutor();
     }
 

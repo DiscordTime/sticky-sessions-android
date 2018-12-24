@@ -38,8 +38,8 @@ import br.org.cesar.discordtime.stickysessions.domain.model.Note;
 import br.org.cesar.discordtime.stickysessions.presentation.session.SessionContract;
 import br.org.cesar.discordtime.stickysessions.ui.ExtraNames;
 import br.org.cesar.discordtime.stickysessions.ui.adapters.NoteAdapter;
-import br.org.cesar.discordtime.stickysessions.ui.session.custom.NoteGridLayoutManager;
 import br.org.cesar.discordtime.stickysessions.ui.session.custom.ItemAnimator;
+import br.org.cesar.discordtime.stickysessions.ui.session.custom.NoteGridLayoutManager;
 
 public class SessionActivity extends AppCompatActivity implements SessionContract.View,
         View.OnClickListener, NoteAdapter.NoteAdapterCallback {
