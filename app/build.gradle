@@ -118,42 +118,42 @@ dependencies {
     implementation "com.squareup.okhttp3:logging-interceptor:${versions.okhttp}"
 
     // Dagger
-    annotationProcessor 'com.google.dagger:dagger-compiler:2.18'
-    implementation 'com.google.dagger:dagger:2.18'
+    annotationProcessor "com.google.dagger:dagger-compiler:${versions.dagger}"
+    implementation "com.google.dagger:dagger:${versions.dagger}"
 
     //Fabric
-    implementation('com.crashlytics.sdk.android:crashlytics:2.9.5@aar') {
+    implementation("com.crashlytics.sdk.android:crashlytics:${versions.crashlytics}@aar") {
         transitive = true
     }
 
     // Unit tests
-    testImplementation 'junit:junit:4.12'
-    testImplementation "org.robolectric:robolectric:3.8"
+    testImplementation "junit:junit:${versions.junit}"
+    testImplementation "org.robolectric:robolectric:${versions.robolectric}"
     testImplementation "com.nhaarman:mockito-kotlin:${versions.mockito_kotlin}"
     testImplementation "com.squareup.okhttp3:mockwebserver:${versions.okhttp}"
 
     // Instrumentation tests
     // Core library
-    androidTestImplementation 'androidx.test:core:1.0.0'
+    androidTestImplementation "androidx.test:core:${versions.test_core}"
 
     // AndroidJUnitRunner and JUnit Rules
-    androidTestImplementation 'androidx.test:runner:1.1.0'
-    androidTestImplementation 'androidx.test:rules:1.1.0'
+    androidTestImplementation "androidx.test:runner:${versions.test_runner}"
+    androidTestImplementation "androidx.test:rules:${versions.test_rules}"
 
     // Assertions
-    androidTestImplementation 'androidx.test.ext:junit:1.0.0'
-    androidTestImplementation 'androidx.test.ext:truth:1.0.0'
-    androidTestImplementation 'com.google.truth:truth:0.42'
+    androidTestImplementation "androidx.test.ext:junit:${versions.test_ext_junit}"
+    androidTestImplementation "androidx.test.ext:truth:${versions.test_ext_truth}"
+    androidTestImplementation "com.google.truth:truth:${versions.truth}"
 
     // Espresso dependencies
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.1.0'
-    androidTestImplementation 'androidx.test.espresso.idling:idling-concurrent:3.1.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-idling-resource:3.1.0'
+    androidTestImplementation "androidx.test.espresso:espresso-core:${versions.espresso}"
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:${versions.espresso}"
+    androidTestImplementation "androidx.test.espresso.idling:idling-concurrent:${versions.espresso}"
+    androidTestImplementation "androidx.test.espresso:espresso-idling-resource:${versions.espresso}"
 
     // Other dependencies
-    androidTestImplementation 'org.hamcrest:hamcrest-library:1.3'
-    androidTestImplementation 'com.google.dagger:dagger:2.18'
+    androidTestImplementation "org.hamcrest:hamcrest-library:${versions.hamcrest}"
+    androidTestImplementation "com.google.dagger:dagger:${versions.dagger}"
     androidTestImplementation "com.squareup.okhttp3:mockwebserver:${versions.okhttp}"
 }
 repositories {
