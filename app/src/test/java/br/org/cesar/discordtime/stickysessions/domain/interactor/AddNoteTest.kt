@@ -55,6 +55,34 @@ class AddNoteTest {
         testObserver.assertError(IllegalArgumentException::class.java)
     }
 
+    @Test
+    fun `should fail if note is null`() {
+        configureSessionRepositoryMock("1", Arrays.asList("more", "less"))
+        configureRepositoryMockAddNote()
+
+        val addNote = AddNote(mNoteRepositoryMock, mSessionRepositoryMock)
+        val note = Note(null, randomString(), "more", "1")
+        val singleNote:Single<Note> = addNote.execute(note)
+
+        val testObserver:TestObserver<Note> = singleNote.test()
+        testObserver.awaitTerminalEvent()
+        testObserver.assertError(IllegalArgumentException::class.java)
+    }
+
+    @Test
+    fun `should fail if note is empty`() {
+        configureSessionRepositoryMock("1", Arrays.asList("more", "less"))
+        configureRepositoryMockAddNote()
+
+        val addNote = AddNote(mNoteRepositoryMock, mSessionRepositoryMock)
+        val note = Note("     ", randomString(), "more", "1")
+        val singleNote:Single<Note> = addNote.execute(note)
+
+        val testObserver:TestObserver<Note> = singleNote.test()
+        testObserver.awaitTerminalEvent()
+        testObserver.assertError(IllegalArgumentException::class.java)
+    }
+
     private fun configureSessionRepositoryMock(idSession:String, topics:List<String>) {
         whenever(mSessionRepositoryMock.getSession(any()))
                 .thenReturn(Single.create { emitter ->
