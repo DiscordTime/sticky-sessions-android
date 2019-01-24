@@ -48,13 +48,15 @@ public class SessionRemoteRepository implements SessionRepository {
     public Single<List<Session>> listSessions() {
         return mService.getSessions().map(sessionRemotes -> {
                 List<Session> sessions = new ArrayList<>();
+
+                // TODO: Issue #143 - Move sorting to the presentation layer
+                Collections.sort(sessionRemotes, new SessionRemoteComparator());
                 for (SessionRemote sessionRemote : sessionRemotes) {
                     Session session = mMapper.mapToDomain(sessionRemote);
                     if(session != null) {
                         sessions.add(session);
                     }
                 }
-                Collections.sort(sessionRemotes, new SessionRemoteComparator());
 
                 return sessions;
         });
