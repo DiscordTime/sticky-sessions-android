@@ -10,6 +10,14 @@ references:
       - image: circleci/android:api-28-alpha
     environment:
       JAVA_TOOL_OPTIONS: "-Xms1024m -Xmx3200m"
+      GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.parallel=true -Dorg.gradle.workers.max=2"
+
+  config_gcloud: &config_gcloud
+    working_directory: *workspace
+    docker:
+      - image: google/cloud-sdk:latest
+    environment:
+      TERM: dumb
 
   cache_key: &cache_key
     key: jars-{{ checksum "build.gradle" }}-{{ checksum "app/build.gradle" }}-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
@@ -70,7 +78,7 @@ jobs:
 
       - run:
           name: Build
-          command: ./gradlew clean assembleProdRelease --no-daemon --stacktrace
+          command: ./gradlew clean assembleProd assembleProdDebugAndroidTest  --stacktrace
 
       - store_artifacts:
           path: app/build/outputs/apk/
@@ -78,8 +86,25 @@ jobs:
 
       - *persist_to_workspace
 
+  test_instrumented:
+    <<: *config_gcloud
+
+    steps:
+      - *attach_workspace
+
+      - run:
+          name: Setup Google Cloud auth
+          command: ftl-tests/setup.sh
+
+      - run:
+          name: Run tests on Firebase Test Lab
+          command: ftl-tests/run-tests.sh
+
 workflows:
   version: 2
   build_and_test:
     jobs:
       - build
+      - test_instrumented:
+          requires:
+            - build
