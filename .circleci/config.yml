@@ -108,3 +108,6 @@ workflows:
       - test_instrumented:
           requires:
             - build
+          filters:
+            branches:
+              only: dev
