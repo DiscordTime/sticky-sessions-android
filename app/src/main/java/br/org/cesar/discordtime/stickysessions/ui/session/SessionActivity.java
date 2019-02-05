@@ -5,7 +5,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -69,6 +71,7 @@ public class SessionActivity extends AppCompatActivity implements SessionContrac
         bindView();
         configureSession();
     }
+    public TextView textView;
 
     private void bindView() {
         parent = findViewById(R.id.container);
@@ -176,7 +179,11 @@ public class SessionActivity extends AppCompatActivity implements SessionContrac
         }
 
         final EditText editText = view.findViewById(R.id.note_description);
+        textView = view.findViewById(R.id.char_count);
+        editText.addTextChangedListener(descriptionWatcher);
+
         builder.setView(view);
+
 
         builder.setPositiveButton(getString(R.string.confirm), new DialogInterface.OnClickListener() {
             @Override
@@ -186,6 +193,7 @@ public class SessionActivity extends AppCompatActivity implements SessionContrac
                     String topic = topics.get(position);
 
                     String description = editText.getText().toString();
+
                     mPresenter.addNewNote(topic, description);
                 } else {
                     showShouldChoiceTopicMessage();
@@ -202,6 +210,20 @@ public class SessionActivity extends AppCompatActivity implements SessionContrac
 
         builder.show();
     }
+
+    private final TextWatcher descriptionWatcher = new TextWatcher() {
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) { }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            textView.setText(String.valueOf(s.length()));
+        }
+    };
 
     private void showShouldChoiceTopicMessage() {
         Toast.makeText(this, R.string.select_topic_dialog_message, Toast.LENGTH_SHORT).show();
