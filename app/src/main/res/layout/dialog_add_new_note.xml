@@ -2,19 +2,41 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     style="@style/NoteContent">
 
     <TextView
         android:id="@+id/topic_element"
+        style="@style/NoteTopic"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/topic_title"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        style="@style/NoteTopic"/>
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/char_count"
+        style="@style/NoteTopic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/char_count_start"
+        app:layout_constraintBottom_toBottomOf="@+id/char_length"
+        app:layout_constraintEnd_toStartOf="@+id/char_length"
+        app:layout_constraintTop_toTopOf="@+id/char_length"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/char_length"
+        style="@style/NoteTopic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/topic_length"
+        app:layout_constraintBottom_toBottomOf="@+id/topic_element"
+        app:layout_constraintEnd_toEndOf="@+id/topic_element"
+        app:layout_constraintTop_toTopOf="@+id/topic_element" />
 
     <com.google.android.material.chip.ChipGroup
         android:id="@+id/session_elements"
@@ -32,7 +54,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
-        android:maxLength="200"
+        android:maxLength="100"
         android:scrollHorizontally="false"
         android:ems="10"
         android:hint="@string/note_description_dialog_hint"
