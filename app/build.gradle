@@ -48,7 +48,7 @@ android {
         prod {
             dimension "server"
             ext {
-                url = "https://sticky-sessions-api.herokuapp.com"
+                url = "http://35.237.70.49:3000"
             }
             resValue "string", "app_name", "Sticky Sessions"
         }
@@ -56,7 +56,7 @@ android {
             dimension "server"
             applicationId = "${packageId}.stag"
             ext {
-                url = "https://sticky-sessions-api-stg.herokuapp.com"
+                url = "http://35.237.70.49:5000"
             }
             resValue "string", "app_name", "Sticky Sessions (Staging)"
         }
