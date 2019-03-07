@@ -27,4 +27,5 @@
     <string name="toolbar_title_list_session">Active Sessions</string>
     <string name="topic_length">/100</string>
     <string name="char_count_start">0</string>
+    <string name="retry">Retry</string>
 </resources>

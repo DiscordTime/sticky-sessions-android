@@ -1,5 +1,6 @@
 package br.org.cesar.discordtime.stickysessions.presentation.list;
 
+import java.io.IOException;
 import java.util.List;
 
 import br.org.cesar.discordtime.stickysessions.R;
@@ -64,12 +65,12 @@ public class ListSessionsPresenter implements ListSessionsContract.Presenter {
     }
 
     private void initObservers() {
-        mLogger.d(TAG, "observers started ");
+        mLogger.d(TAG, "observers started");
         mSessionsListObserver = new DisposableSingleObserver<List<Session>>() {
             @Override
             public void onSuccess(List<Session> sessions) {
                 if (mView != null) {
-                    mLogger.d(TAG, "onSuccess load data ");
+                    mLogger.d(TAG, "onSuccess load data");
                     mView.stopLoadingData();
                     mView.showSessions(sessions);
                 }
@@ -78,10 +79,16 @@ public class ListSessionsPresenter implements ListSessionsContract.Presenter {
             @Override
             public void onError(Throwable e) {
                 if (mView != null) {
-                    // TODO: Handle type of errors here
-                    mLogger.d(TAG, "onError load data "+e.getMessage());
+
+                    String error = e.getMessage();
+                    mLogger.d(TAG, "onError load data " + e.getMessage());
                     mView.stopLoadingData();
-                    mView.showError(e.getMessage());
+
+                    if (e instanceof IOException) {
+                        error = "Failed to connect to server. Please try again";
+                        mView.showRetryOption();
+                    }
+                    mView.showError(error);
                 }
             }
         };
