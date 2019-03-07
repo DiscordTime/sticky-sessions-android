@@ -17,8 +17,6 @@ import okhttp3.logging.HttpLoggingInterceptor;
 @Module
 public class HttpModule {
 
-    private static final long TIMEOUT = 120;
-
     private static final int CACHE_SIZE = 10 * 1024 * 1024;
 
     @Provides
@@ -42,9 +40,7 @@ public class HttpModule {
         }
 
         return builder
-                .connectTimeout(TIMEOUT, TimeUnit.SECONDS)
                 .cache(new Cache(context.getCacheDir(), CACHE_SIZE))
-                .readTimeout(TIMEOUT, TimeUnit.SECONDS)
                 .build();
     }
 
