@@ -3,6 +3,7 @@ package br.org.cesar.discordtime.stickysessions.ui.list;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,7 +27,6 @@ import br.org.cesar.discordtime.stickysessions.navigation.wrapper.IViewStarter;
 import br.org.cesar.discordtime.stickysessions.presentation.list.ListSessionsContract;
 import br.org.cesar.discordtime.stickysessions.ui.ViewNames;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
 
 public class ListSessionsActivity extends AppCompatActivity implements ListSessionsContract.View {
 
@@ -40,6 +40,7 @@ public class ListSessionsActivity extends AppCompatActivity implements ListSessi
     private RecyclerView.LayoutManager mLayoutManager;
     private ProgressBar mProgressBar;
     private TextView mToolbarTitle;
+    private Button mRetryButton;
     private Context mContext;
 
     @Override
@@ -50,6 +51,7 @@ public class ListSessionsActivity extends AppCompatActivity implements ListSessi
         mContext = this;
         //Loading
         mProgressBar = findViewById(R.id.progressbar);
+        mRetryButton = findViewById(R.id.retry_button);
         configureToolbar();
         configureRecycleView();
     }
@@ -74,12 +76,7 @@ public class ListSessionsActivity extends AppCompatActivity implements ListSessi
         mRecyclerView.addItemDecoration(dividerItemDecoration);
         mAdapter = new SessionAdapter();
         mRecyclerView.setAdapter(mAdapter);
-        mDisposable = mAdapter.clickEvent.subscribe(new Consumer<Session>() {
-            @Override
-            public void accept(Session session) throws Exception {
-                mPresenter.enterOnSession(session);
-            }
-        });
+        mDisposable = mAdapter.clickEvent.subscribe(session -> mPresenter.enterOnSession(session));
     }
 
     @Override
@@ -100,15 +97,16 @@ public class ListSessionsActivity extends AppCompatActivity implements ListSessi
         super.onDestroy();
         mPresenter.detachView();
     }
-
+    @Override
     public void startLoadingData() {
         mRecyclerView.setVisibility(View.INVISIBLE);
         mProgressBar.setVisibility(View.VISIBLE);
+        mRetryButton.setVisibility(View.INVISIBLE);
     }
     @Override
     public void stopLoadingData() {
         mRecyclerView.setVisibility(View.VISIBLE);
-        mProgressBar.setVisibility(View.GONE);
+        mProgressBar.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -120,6 +118,10 @@ public class ListSessionsActivity extends AppCompatActivity implements ListSessi
     public void showError(String message) {
         Toast.makeText(mContext, message, Toast.LENGTH_LONG).show();
     }
+    @Override
+    public void showRetryOption() {
+        mRetryButton.setVisibility(View.VISIBLE);
+    }
 
     @Override
     public String getName() {
@@ -129,5 +131,9 @@ public class ListSessionsActivity extends AppCompatActivity implements ListSessi
     @Override
     public void goNext(Route route, IBundle bundle) throws InvalidViewNameException {
         mViewStarter.goNext(this, route.to, route.shouldClearStack, bundle);
+    }
+
+    public void onRetryClick(View view) {
+        mPresenter.onLoad();
     }
 }

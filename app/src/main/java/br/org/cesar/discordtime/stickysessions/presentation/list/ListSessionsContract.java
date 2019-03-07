@@ -22,6 +22,7 @@ public interface ListSessionsContract {
         void stopLoadingData();
         void showSessions(List<Session> sessions);
         void showError(String message);
+        void showRetryOption();
         String getName();
         void goNext(Route route, IBundle bundle) throws InvalidViewNameException;
     }
