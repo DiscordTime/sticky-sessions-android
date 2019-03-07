@@ -2,7 +2,6 @@ package br.org.cesar.discordtime.stickysessions.presentation.list
 
 import br.org.cesar.discordtime.stickysessions.domain.model.Session
 import br.org.cesar.discordtime.stickysessions.executor.IObservableUseCase
-import br.org.cesar.discordtime.stickysessions.factory.DataFactory
 import br.org.cesar.discordtime.stickysessions.logger.Logger
 import br.org.cesar.discordtime.stickysessions.navigation.router.IRouter
 import br.org.cesar.discordtime.stickysessions.navigation.router.Route
@@ -15,6 +14,7 @@ import io.reactivex.observers.DisposableSingleObserver
 import junit.framework.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
+import java.io.IOException
 
 class ListSessionsPresenterTest {
     private lateinit var listSessionsPresenter : ListSessionsPresenter
@@ -103,6 +103,13 @@ class ListSessionsPresenterTest {
     }
 
     @Test
+    fun `should show retry option when listSession returns onError with IOException`() {
+        listSessionsPresenter.attachView(mockView)
+        configureListSessionError(IOException())
+        verify(mockView).showRetryOption()
+    }
+
+    @Test
     fun `should call goNext when enterSession receive a valid session`() {
         configureBundle()
         listSessionsPresenter.attachView(mockView)
@@ -125,9 +132,13 @@ class ListSessionsPresenterTest {
     }
 
     private fun configureListSessionError() {
+        configureListSessionError(Exception(""))
+    }
+
+    private fun configureListSessionError(e: Exception) {
         listSessionsPresenter.onLoad()
         verify(mockLisSessions).execute(captor.capture(), isNull())
-        captor.firstValue.onError(Exception(""))
+        captor.firstValue.onError(e)
     }
 
     private fun configureBundle() {
