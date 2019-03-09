@@ -21,4 +21,8 @@ public interface SessionService {
     @GET("/sessions/")
     Single<List<SessionRemoteFirebase>> getSessions();
 
+    @POST("/sessions/{id}")
+    Single<SessionRemoteFirebase> rescheduleSession(
+            @Path("id") String sessionId, @Body SessionRemote sessionRemote);
+
 }

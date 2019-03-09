@@ -1,13 +1,19 @@
 package br.org.cesar.discordtime.stickysessions.ui.list;
 
+import android.annotation.SuppressLint;
+import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Calendar;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -15,6 +21,7 @@ import javax.inject.Inject;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import br.org.cesar.discordtime.stickysessions.R;
@@ -26,15 +33,14 @@ import br.org.cesar.discordtime.stickysessions.navigation.wrapper.IBundle;
 import br.org.cesar.discordtime.stickysessions.navigation.wrapper.IViewStarter;
 import br.org.cesar.discordtime.stickysessions.presentation.list.ListSessionsContract;
 import br.org.cesar.discordtime.stickysessions.ui.ViewNames;
-import io.reactivex.disposables.Disposable;
 
-public class ListSessionsActivity extends AppCompatActivity implements ListSessionsContract.View {
+public class ListSessionsActivity extends AppCompatActivity
+        implements ListSessionsContract.View, DatePickerDialog.OnDateSetListener {
 
     @Inject
     public ListSessionsContract.Presenter mPresenter;
     @Inject
     public IViewStarter mViewStarter;
-    private Disposable mDisposable;
     protected RecyclerView mRecyclerView;
     private SessionAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -42,6 +48,7 @@ public class ListSessionsActivity extends AppCompatActivity implements ListSessi
     private TextView mToolbarTitle;
     private Button mRetryButton;
     private Context mContext;
+    private DatePickerDialog mDatePickerDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +61,7 @@ public class ListSessionsActivity extends AppCompatActivity implements ListSessi
         mRetryButton = findViewById(R.id.retry_button);
         configureToolbar();
         configureRecycleView();
+        configureDatePicker();
     }
 
     private void configureToolbar() {
@@ -67,6 +75,7 @@ public class ListSessionsActivity extends AppCompatActivity implements ListSessi
         mToolbarTitle.setText(R.string.toolbar_title_list_session);
     }
 
+    @SuppressLint("CheckResult")
     private void configureRecycleView() {
         mLayoutManager = new LinearLayoutManager(this);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this,
@@ -74,9 +83,31 @@ public class ListSessionsActivity extends AppCompatActivity implements ListSessi
         mRecyclerView = findViewById(R.id.session_list);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.addItemDecoration(dividerItemDecoration);
-        mAdapter = new SessionAdapter();
+        mAdapter = new SessionAdapter(this);
         mRecyclerView.setAdapter(mAdapter);
-        mDisposable = mAdapter.clickEvent.subscribe(session -> mPresenter.enterOnSession(session));
+        mAdapter.clickEvent.subscribe(session -> mPresenter.enterOnSession(session));
+        SwipeLeftCallback swipeLeftCallback =
+                new SwipeLeftCallback(mAdapter);
+        ItemTouchHelper itemTouchHelper = new
+                ItemTouchHelper(swipeLeftCallback);
+        itemTouchHelper.attachToRecyclerView(mRecyclerView);
+        swipeLeftCallback.getSwipeEvent().subscribe(
+                session -> mPresenter.onSwipeLeft(session));
+    }
+
+    private void configureDatePicker() {
+        // Configure DatePickerDialog before to speed-up rendering
+        Calendar c =  Calendar.getInstance();
+        mDatePickerDialog =
+                new DatePickerDialog(mContext, this,
+                        c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
+
+        mDatePickerDialog.setButton(
+                DialogInterface.BUTTON_NEGATIVE, getString(R.string.cancel), (dialog, which) -> {
+                    if (which == DialogInterface.BUTTON_NEGATIVE) {
+                        refreshList();
+                    }
+                });
     }
 
     @Override
@@ -135,5 +166,29 @@ public class ListSessionsActivity extends AppCompatActivity implements ListSessi
 
     public void onRetryClick(View view) {
         mPresenter.onLoad();
+    }
+
+    @Override
+    public void showDatePicker(int year, int month, int day) {
+        mDatePickerDialog.show();
+        // update date shown based on item selected
+        mDatePickerDialog.updateDate(year, month, day);
+        DatePicker datePicker = mDatePickerDialog.getDatePicker();
+        datePicker.updateDate(year, month, day);
+    }
+
+    @Override
+    public void refreshSession(Session session) {
+        mAdapter.refreshSession(session);
+    }
+
+    @Override
+    public void refreshList() {
+        mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+        mPresenter.onDateSelected(year, month, day);
     }
 }

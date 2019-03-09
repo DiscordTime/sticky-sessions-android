@@ -11,6 +11,7 @@ import br.org.cesar.discordtime.stickysessions.data.repository.mapper.SessionMap
 import br.org.cesar.discordtime.stickysessions.domain.interactor.CreateSession;
 import br.org.cesar.discordtime.stickysessions.domain.interactor.EnterSession;
 import br.org.cesar.discordtime.stickysessions.domain.interactor.ListSessions;
+import br.org.cesar.discordtime.stickysessions.domain.interactor.RescheduleSession;
 import br.org.cesar.discordtime.stickysessions.domain.interactor.UseCase;
 import br.org.cesar.discordtime.stickysessions.domain.model.Session;
 import br.org.cesar.discordtime.stickysessions.domain.model.SessionType;
@@ -64,14 +65,10 @@ public class SessionModule {
     }
 
     @Provides
-    public UseCase<SessionType, Session> provideCreateSession(SessionRepository sessionRepository) {
-        return new CreateSession(sessionRepository);
-    }
-
-    @Provides
     public IObservableUseCase<String, Session> provideEnterSessionUseCase(
-        EnterSession enterSession, ThreadExecutor threadExecutor,
-        PostExecutionThread postExecutionThread) {
+            UseCase<String, Session> enterSession,
+            ThreadExecutor threadExecutor,
+            PostExecutionThread postExecutionThread) {
 
         return new ObservableUseCase<>(
             enterSession,
@@ -81,9 +78,9 @@ public class SessionModule {
 
     @Provides
     public IObservableUseCase<Void, List<Session>> provideListUseCase(
-        ListSessions listSessions,
-        ThreadExecutor threadExecutor,
-        PostExecutionThread postExecutionThread
+            UseCase<Void, List<Session>> listSessions,
+            ThreadExecutor threadExecutor,
+            PostExecutionThread postExecutionThread
     ) {
         return new ObservableUseCase<>(
             listSessions,
@@ -93,12 +90,35 @@ public class SessionModule {
     }
 
     @Provides
-    public EnterSession provideEnterSession(SessionRepository repository) {
+    public IObservableUseCase<Session, Session> provideRescheduleSessionUseCase(
+            UseCase<Session, Session> rescheduleSession,
+            ThreadExecutor threadExecutor,
+            PostExecutionThread postExecutionThread
+    ) {
+        return new ObservableUseCase<>(
+                rescheduleSession,
+                threadExecutor,
+                postExecutionThread
+        );
+    }
+
+    @Provides
+    public UseCase<SessionType, Session> provideCreateSession(SessionRepository sessionRepository) {
+        return new CreateSession(sessionRepository);
+    }
+
+    @Provides
+    public UseCase<String, Session> provideEnterSession(SessionRepository repository) {
         return new EnterSession(repository);
     }
 
     @Provides
-    public ListSessions provideListSessions(SessionRepository repository) {
+    public UseCase<Void, List<Session>> provideListSessions(SessionRepository repository) {
         return new ListSessions(repository);
+    }
+
+    @Provides
+    public UseCase<Session, Session> provideRescheduleSession(SessionRepository sessionRepository) {
+        return new RescheduleSession(sessionRepository);
     }
 }

@@ -15,6 +15,8 @@ public interface ListSessionsContract {
         void onLoad();
         void onPause();
         void enterOnSession(Session session);
+        void onSwipeLeft(Session session);
+        void onDateSelected(int year, int month, int day);
     }
 
     interface View {
@@ -23,6 +25,9 @@ public interface ListSessionsContract {
         void showSessions(List<Session> sessions);
         void showError(String message);
         void showRetryOption();
+        void showDatePicker(int year, int month, int day);
+        void refreshSession(Session session);
+        void refreshList();
         String getName();
         void goNext(Route route, IBundle bundle) throws InvalidViewNameException;
     }

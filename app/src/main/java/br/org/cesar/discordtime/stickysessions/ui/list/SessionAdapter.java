@@ -17,19 +17,39 @@ import io.reactivex.subjects.PublishSubject;
 
 public class SessionAdapter extends RecyclerView.Adapter<SessionAdapter.SessionHolder> {
 
+    private Context mContext;
     private List<Session> mSessions;
     private PublishSubject<Session> clickSubject;
     public Observable<Session> clickEvent;
 
-    public SessionAdapter() {
+    public SessionAdapter(Context context) {
+        mContext = context;
         mSessions = new ArrayList<>();
         clickSubject = PublishSubject.create();
         clickEvent = clickSubject;
     }
 
+    public Context getContext() {
+        return mContext;
+    }
+
     public void setSessions(List<Session> sessions) {
         mSessions = sessions;
         notifyDataSetChanged();
+    }
+
+    public List<Session> getSessions() {
+        return mSessions;
+    }
+
+    public void refreshSession(Session session) {
+        for (int i = 0; i < getItemCount(); i++) {
+            if (getSessions().get(i).id.equals(session.id)) {
+                mSessions.set(i,session);
+                notifyItemChanged(i);
+                break;
+            }
+        }
     }
 
     @Override

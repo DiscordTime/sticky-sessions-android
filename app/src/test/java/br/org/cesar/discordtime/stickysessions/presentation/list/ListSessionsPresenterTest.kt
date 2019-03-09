@@ -1,5 +1,6 @@
 package br.org.cesar.discordtime.stickysessions.presentation.list
 
+import br.org.cesar.discordtime.stickysessions.domain.interactor.RescheduleSession
 import br.org.cesar.discordtime.stickysessions.domain.model.Session
 import br.org.cesar.discordtime.stickysessions.executor.IObservableUseCase
 import br.org.cesar.discordtime.stickysessions.logger.Logger
@@ -19,6 +20,7 @@ import java.io.IOException
 class ListSessionsPresenterTest {
     private lateinit var listSessionsPresenter : ListSessionsPresenter
     private lateinit var mockLisSessions: IObservableUseCase<Void, List<Session>>
+    private lateinit var mockRescheduleSession: IObservableUseCase<Session, Session>
     private lateinit var mockLogger: Logger
     private lateinit var mockIBundleFactory: IBundleFactory
     private lateinit var mockIRouter: IRouter
@@ -35,13 +37,14 @@ class ListSessionsPresenterTest {
     @Before
     fun setUp() {
         mockLisSessions = mock()
+        mockRescheduleSession = mock()
         mockIRouter = mock()
         mockLogger = mock()
         mockIBundleFactory = mock()
         mockView = mock()
         mIbundle = mock()
-        listSessionsPresenter = ListSessionsPresenter(mockLisSessions, mockIRouter,
-                mockLogger, mockIBundleFactory)
+        listSessionsPresenter = ListSessionsPresenter(mockLisSessions, mockRescheduleSession,
+                mockIRouter, mockLogger, mockIBundleFactory)
 
         captor = argumentCaptor<DisposableSingleObserver<List<Session>>>()
 
