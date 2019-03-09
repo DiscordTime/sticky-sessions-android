@@ -8,6 +8,8 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
+import java.time.Year
+import java.util.*
 
 class SessionMapperTest {
 
@@ -37,5 +39,12 @@ class SessionMapperTest {
     private fun assertSessionEquality(session: Session, sessionRemote: SessionRemote) {
         assertEquals(session.id, sessionRemote.id)
         assertTrue(session.topics.toTypedArray() contentEquals sessionRemote.topics.toTypedArray())
+
+        var calendar = Calendar.getInstance()
+        calendar.timeInMillis = sessionRemote.timestamp
+
+        assertEquals(session.year, calendar.get(Calendar.YEAR))
+        assertEquals(session.month, calendar.get(Calendar.MONTH))
+        assertEquals(session.day, calendar.get(Calendar.DAY_OF_MONTH))
     }
 }

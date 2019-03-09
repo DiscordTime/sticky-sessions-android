@@ -2,6 +2,7 @@ package br.org.cesar.discordtime.stickysessions.data.service
 
 import android.content.Context
 import br.org.cesar.discordtime.stickysessions.data.remote.model.SessionRemote
+import br.org.cesar.discordtime.stickysessions.data.remote.model.SessionRemoteFirebase
 import br.org.cesar.discordtime.stickysessions.data.remote.model.TimeStampRemote
 import br.org.cesar.discordtime.stickysessions.data.remote.service.RemoteServiceFactory
 import br.org.cesar.discordtime.stickysessions.data.remote.service.SessionService
@@ -94,11 +95,11 @@ class SessionServiceTest {
         )
     }
 
-    private fun createValidSessionsRemoteList(): List<SessionRemote> {
+    private fun createValidSessionsRemoteList(): List<SessionRemoteFirebase> {
         return listOf(
-                SessionRemote("2BufnJnKe6K7YO0PEKPS", starfishTopics,
+                SessionRemoteFirebase("2BufnJnKe6K7YO0PEKPS", starfishTopics,
                         TimeStampRemote(1542796501)),
-                SessionRemote("zUjA7sqXAbhXJkXDCrRZ", gainPleasureTopics,
+                SessionRemoteFirebase("zUjA7sqXAbhXJkXDCrRZ", gainPleasureTopics,
                         TimeStampRemote(1545335142))
         )
     }
@@ -109,8 +110,8 @@ class SessionServiceTest {
         )
     }
 
-    private fun createValidSessionRemote(): SessionRemote {
-        return SessionRemote(sessionId, starfishTopics, timeStampRemote)
+    private fun createValidSessionRemote(): SessionRemoteFirebase {
+        return SessionRemoteFirebase(sessionId, starfishTopics, timeStampRemote)
     }
 
 }

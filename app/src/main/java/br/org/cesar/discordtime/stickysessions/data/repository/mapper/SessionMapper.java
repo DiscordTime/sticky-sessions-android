@@ -1,6 +1,7 @@
 package br.org.cesar.discordtime.stickysessions.data.repository.mapper;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -13,7 +14,14 @@ public class SessionMapper implements Mapper<Session, SessionRemote> {
         if (domainType == null|| domainType.topics == null) {
             return null;
         }
-        return new SessionRemote(domainType.id,domainType.topics);
+
+        long timestamp = 0;
+        if (domainType.createdAt != null && !domainType.createdAt.isEmpty()) {
+            Calendar c = Calendar.getInstance(Locale.US);
+            c.set(domainType.getYear(), domainType.getMonth(), domainType.getDay());
+            timestamp = c.getTimeInMillis();
+        }
+        return new SessionRemote(domainType.id,domainType.topics, timestamp);
     }
 
     @Override
@@ -25,10 +33,8 @@ public class SessionMapper implements Mapper<Session, SessionRemote> {
         session.id = dataType.getId();
         session.topics = dataType.getTopics();
 
-        if (dataType.getDate() != null) {
-            long seconds = dataType.getDate().getSeconds() * 1000L;
-            Date date = new Date(seconds);
-
+        if (dataType.getTimestamp() != 0) {
+            Date date = new Date(dataType.getTimestamp());
             session.createdAt = new SimpleDateFormat("dd.MM.yyyy", Locale.US).format(date);
         }
 

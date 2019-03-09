@@ -15,7 +15,8 @@ class SessionRemoteFactory {
         }
 
         fun makeSessionRemote(topicsCount: Int): SessionRemote {
-            return SessionRemote(DataFactory.randomString(), makeTopicsList(topicsCount))
+            return SessionRemote(DataFactory.randomString(),
+                    makeTopicsList(topicsCount), 1552155381000)
         }
 
     }
