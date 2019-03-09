@@ -12,14 +12,15 @@ class SessionFactory {
             repeat(count) {
                 topics.add(randomString())
             }
-            return topics;
+            return topics
         }
 
         fun makeSession(topicsCount: Int): Session {
             val session = Session()
             session.id = randomString()
             session.topics = makeTopicsList(topicsCount)
-            return session;
+            session.createdAt = "09.03.2019"
+            return session
         }
 
     }
