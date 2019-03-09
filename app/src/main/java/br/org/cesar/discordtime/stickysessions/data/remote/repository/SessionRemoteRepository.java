@@ -63,6 +63,13 @@ public class SessionRemoteRepository implements SessionRepository {
         });
     }
 
+    @Override
+    public Single<Session> rescheduleSession(Session session) {
+        return mService.rescheduleSession(session.id, mMapper.mapFromDomain(session))
+                .map(SessionRemote::new)
+                .map(sessionRemote -> mMapper.mapToDomain(sessionRemote));
+    }
+
     private class SessionRemoteComparator implements Comparator<SessionRemote> {
         @Override
         public int compare(SessionRemote current, SessionRemote other) {

@@ -3,7 +3,6 @@ package br.org.cesar.discordtime.stickysessions.presentation.list;
 import java.io.IOException;
 import java.util.List;
 
-import br.org.cesar.discordtime.stickysessions.R;
 import br.org.cesar.discordtime.stickysessions.domain.model.Session;
 import br.org.cesar.discordtime.stickysessions.executor.IObservableUseCase;
 import br.org.cesar.discordtime.stickysessions.logger.Logger;
@@ -19,15 +18,20 @@ import io.reactivex.observers.DisposableSingleObserver;
 public class ListSessionsPresenter implements ListSessionsContract.Presenter {
     private static final String TAG = "ListSessionsPresenter";
     private final IObservableUseCase<Void, List<Session>> mListSessions;
+    private final IObservableUseCase<Session, Session> mRescheduleSession;
     private final IRouter mRouter;
     private final IBundleFactory mBundleFactory;
     private final Logger mLogger;
-    private DisposableSingleObserver mSessionsListObserver;
+    private DisposableSingleObserver mListSessionsObserver;
+    private DisposableSingleObserver mRescheduleSessionObserver;
     private ListSessionsContract.View mView;
+    private Session mSessionToBeRescheduled;
 
     public ListSessionsPresenter(IObservableUseCase<Void, List<Session>> listSessions,
+                                 IObservableUseCase<Session, Session> rescheduleSession,
                                  IRouter router, Logger logger, IBundleFactory bundleFactory) {
         mListSessions = listSessions;
+        mRescheduleSession = rescheduleSession;
         mRouter = router;
         mLogger = logger;
         mBundleFactory = bundleFactory;
@@ -50,7 +54,7 @@ public class ListSessionsPresenter implements ListSessionsContract.Presenter {
         mLogger.d(TAG, "onLoad list sessions ");
         initObservers();
         mView.startLoadingData();
-        mListSessions.execute(mSessionsListObserver, null);
+        mListSessions.execute(mListSessionsObserver, null);
     }
 
     @Override
@@ -61,12 +65,12 @@ public class ListSessionsPresenter implements ListSessionsContract.Presenter {
 
     private void disposeObservers() {
         mView = null;
-        mSessionsListObserver.dispose();
+        mListSessionsObserver.dispose();
     }
 
     private void initObservers() {
         mLogger.d(TAG, "observers started");
-        mSessionsListObserver = new DisposableSingleObserver<List<Session>>() {
+        mListSessionsObserver = new DisposableSingleObserver<List<Session>>() {
             @Override
             public void onSuccess(List<Session> sessions) {
                 if (mView != null) {
@@ -81,7 +85,7 @@ public class ListSessionsPresenter implements ListSessionsContract.Presenter {
                 if (mView != null) {
 
                     String error = e.getMessage();
-                    mLogger.d(TAG, "onError load data " + e.getMessage());
+                    mLogger.d(TAG, "onError load data " + error);
                     mView.stopLoadingData();
 
                     if (e instanceof IOException) {
@@ -89,6 +93,27 @@ public class ListSessionsPresenter implements ListSessionsContract.Presenter {
                         mView.showRetryOption();
                     }
                     mView.showError(error);
+                }
+            }
+        };
+        mRescheduleSessionObserver = new DisposableSingleObserver<Session>() {
+            @Override
+            public void onSuccess(Session session) {
+                if (mView != null) {
+                    mLogger.d(TAG, "onSuccess rescheduling session");
+                    mView.stopLoadingData();
+                    mView.refreshSession(session);
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                if (mView != null) {
+                    String error = e.getMessage();
+                    mLogger.d(TAG, "onError rescheduling session " + error);
+                    mView.stopLoadingData();
+                    mView.showError(error);
+                    mView.refreshList();
                 }
             }
         };
@@ -107,16 +132,32 @@ public class ListSessionsPresenter implements ListSessionsContract.Presenter {
         }
     }
 
+    @Override
+    public void onSwipeLeft(Session session) {
+        mSessionToBeRescheduled = session;
+        mView.showDatePicker(session.getYear(), session.getMonth(), session.getDay());
+    }
+
+    @Override
+    public void onDateSelected(int year, int month, int day) {
+        if (mSessionToBeRescheduled != null) {
+            Session session = new Session();
+            session.copy(mSessionToBeRescheduled);
+            session.setCreatedAt(year, month, day);
+            mView.startLoadingData();
+            mRescheduleSession.execute(mRescheduleSessionObserver, session);
+        }
+
+        mSessionToBeRescheduled = null;
+    }
+
     private void goNext(Session session, IBundle bundle) {
         bundle.putString(ExtraNames.SESSION_ID, session.id);
 
         try {
             Route route = mRouter.getNext(mView.getName(), IRouter.USER_SELECTED_SESSION);
             mView.goNext(route, bundle);
-        } catch (InvalidRouteException e) {
-            mLogger.e(TAG, e.getMessage());
-            e.printStackTrace();
-        } catch (InvalidViewNameException e) {
+        } catch (InvalidRouteException | InvalidViewNameException e) {
             mLogger.e(TAG, e.getMessage());
             e.printStackTrace();
         }
