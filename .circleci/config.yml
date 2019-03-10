@@ -78,7 +78,7 @@ jobs:
 
       - run:
           name: Build
-          command: ./gradlew clean assembleProd assembleProdDebugAndroidTest  --stacktrace
+          command: ./gradlew clean assembleProd assembleStag assembleProdDebugAndroidTest  --stacktrace
 
       - store_artifacts:
           path: app/build/outputs/apk/
@@ -100,9 +100,23 @@ jobs:
           name: Run tests on Firebase Test Lab
           command: ftl-tests/run-tests.sh
 
+  deploy_to_crashlytics:
+    <<: *config_android
+
+    steps:
+      - *attach_workspace
+
+      - run:
+          name: Install fastlane
+          command: bundle install
+
+      - run:
+          name: Deploy the app to crashlytics
+          command: bundle exec fastlane beta
+
 workflows:
   version: 2
-  build_and_test:
+  build_test_and_deploy:
     jobs:
       - build
       - test_instrumented:
@@ -111,3 +125,6 @@ workflows:
           filters:
             branches:
               only: dev
+      - deploy_to_crashlytics:
+          requires:
+            - build
