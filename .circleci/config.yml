@@ -111,7 +111,23 @@ jobs:
           command: bundle install
 
       - run:
-          name: Deploy the app to crashlytics
+          name: Set crashlytics stag apk path
+          command: |
+            echo 'export CRASHLYTICS_APK_PATH=$APK_PATH_STAG' >> $BASH_ENV
+            echo 'export CRASHLYTICS_GROUPS=$TESTERS_STAG' >> $BASH_ENV
+
+      - run:
+          name: Deploy stag app to crashlytics
+          command: bundle exec fastlane beta
+
+      - run:
+          name: Set crashlytics prod apk path
+          command: |
+            echo 'export CRASHLYTICS_APK_PATH=$APK_PATH_PROD' >> $BASH_ENV
+            echo 'export CRASHLYTICS_GROUPS=$TESTERS_PROD' >> $BASH_ENV
+
+      - run:
+          name: Deploy prod app to crashlytics
           command: bundle exec fastlane beta
 
 workflows:
@@ -127,4 +143,8 @@ workflows:
               only: dev
       - deploy_to_crashlytics:
           requires:
-            - build
+            - test_instrumented
+          filters:
+            branches:
+              only:
+                - dev
