@@ -14,6 +14,18 @@
         <ignore path="src/main/res/layout/activity_main.xml" />
     </issue>
 
+    <!-- Lint asks to convert images to Webp format, but converting
+    the ones in this list didn't produce any clear benefits, in fact
+    in some cases files become larger. Command reference:
+    cwebp -q 75 -alpha_q 10 file_name-->
+    <issue id="ConvertToWebp">
+        <ignore path="src/main/res/drawable-hdpi/baseline_calendar_today_white_24.png"/>
+        <ignore path="src/main/res/drawable-mdpi/baseline_calendar_today_white_24.png"/>
+        <ignore path="src/main/res/drawable-xhdpi/baseline_calendar_today_white_24.png"/>
+        <ignore path="src/main/res/drawable-xxhdpi/baseline_calendar_today_white_24.png"/>
+        <ignore path="src/main/res/drawable-xxxhdpi/baseline_calendar_today_white_24.png"/>
+    </issue>
+
     <!-- We might need to unsuppress this warning later
     if we face 64K method limit or any performance issues,
     but right now Android Studio actually tells to keep
