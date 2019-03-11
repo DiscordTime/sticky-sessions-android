@@ -49,6 +49,10 @@ jobs:
           <<: *cache_key
 
       - run:
+          name: Accept licenses
+          command: yes | sdkmanager --licenses || true
+
+      - run:
           name: Store Firebase Key
           command: echo $GOOGLE_SERVICES > ~/sticky-sessions-android/app/google-services.json
 
