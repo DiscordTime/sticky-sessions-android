@@ -58,7 +58,7 @@ public class ListSessionsPresenter implements ListSessionsContract.Presenter {
     }
 
     @Override
-    public void onPause() {
+    public void onStop() {
         mLogger.d(TAG, "onPause List Session view.");
         disposeObservers();
     }
@@ -122,7 +122,7 @@ public class ListSessionsPresenter implements ListSessionsContract.Presenter {
     @Override
     public void enterOnSession(Session session) {
         if (session != null) {
-            mLogger.d(TAG, "enterOnSession : "+session.id);
+            mLogger.d(TAG, "enterOnSession : " + session.id);
             IBundle bundle = mBundleFactory.create();
             goNext(session, bundle);
         } else {
@@ -152,14 +152,16 @@ public class ListSessionsPresenter implements ListSessionsContract.Presenter {
     }
 
     private void goNext(Session session, IBundle bundle) {
-        bundle.putString(ExtraNames.SESSION_ID, session.id);
+        if (mView != null) {
+            bundle.putString(ExtraNames.SESSION_ID, session.id);
 
-        try {
-            Route route = mRouter.getNext(mView.getName(), IRouter.USER_SELECTED_SESSION);
-            mView.goNext(route, bundle);
-        } catch (InvalidRouteException | InvalidViewNameException e) {
-            mLogger.e(TAG, e.getMessage());
-            e.printStackTrace();
+            try {
+                Route route = mRouter.getNext(mView.getName(), IRouter.USER_SELECTED_SESSION);
+                mView.goNext(route, bundle);
+            } catch (InvalidRouteException | InvalidViewNameException e) {
+                mLogger.e(TAG, e.getMessage());
+                e.printStackTrace();
+            }
         }
     }
 }
