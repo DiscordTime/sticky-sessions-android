@@ -111,16 +111,16 @@ public class ListSessionsActivity extends AppCompatActivity
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
+    protected void onStart() {
+        super.onStart();
         mPresenter.attachView(this);
         mPresenter.onLoad();
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
-        mPresenter.onPause();
+    protected void onStop() {
+        super.onStop();
+        mPresenter.onStop();
     }
 
     @Override

@@ -13,7 +13,7 @@ public interface ListSessionsContract {
         void attachView(ListSessionsContract.View view);
         void detachView();
         void onLoad();
-        void onPause();
+        void onStop();
         void enterOnSession(Session session);
         void onSwipeLeft(Session session);
         void onDateSelected(int year, int month, int day);

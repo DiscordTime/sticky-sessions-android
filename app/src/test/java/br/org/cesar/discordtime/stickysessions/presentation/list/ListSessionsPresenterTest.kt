@@ -66,7 +66,7 @@ class ListSessionsPresenterTest {
 
         listSessionsPresenter.onLoad()
         verify(mockLisSessions).execute(captor.capture(), isNull())
-        listSessionsPresenter.onPause()
+        listSessionsPresenter.onStop()
         assertTrue(captor.firstValue.isDisposed)
     }
 
