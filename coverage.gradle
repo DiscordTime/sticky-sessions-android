@@ -1,4 +1,5 @@
 apply plugin: "jacoco"
+apply plugin: 'com.github.kt3k.coveralls'
 
 jacoco {
     toolVersion = versions.jacoco
@@ -23,13 +24,12 @@ variants().all { variant ->
             "jacoco${variantCapName}Report",
             type: JacocoReport,
             dependsOn: [
-                "test${variantCapName}UnitTest",
-                "create${variantCapName}CoverageReport"
-        ]) {
+                    "test${variantCapName}UnitTest"
+            ]) {
         group = "Reporting"
         description = "Generate Jacoco coverage reports for $variantCapName"
         reports {
-            xml.enabled = false
+            xml.enabled = true // coveralls plugin depends on xml format report
             html.enabled = true
         }
         def fileFilter = [ '**/R.class',
@@ -73,4 +73,8 @@ def variants() {
     } else {
         return project.android.applicationVariants
     }
+}
+
+coveralls {
+    jacocoReportPath = "$buildDir/reports/jacoco/jacocoProdDebugReport/jacocoProdDebugReport.xml"
 }
