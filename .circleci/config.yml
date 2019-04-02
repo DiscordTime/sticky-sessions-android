@@ -81,6 +81,22 @@ jobs:
           destination: reports
 
       - run:
+          name: Generate Code Coverage report
+          command: ./gradlew jacocoProdDebugReport
+
+      - run:
+          name: Upload Code Coverage report to Coveralls
+          command: ./gradlew coveralls
+
+      - store_artifacts:
+          path: app/build/reports/jacoco/jacocoProdDebugReport
+          destination: coverage-report
+
+      - store_artifacts:
+          path: app/build/reports/tests/testProdDebugUnitTest
+          destination: unit-test-report
+
+      - run:
           name: Build
           command: ./gradlew clean assembleProd assembleStag assembleProdDebugAndroidTest  --stacktrace
 

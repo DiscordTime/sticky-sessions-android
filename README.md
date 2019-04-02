@@ -1,6 +1,7 @@
 # StickySessions
 
 [![CircleCI](https://circleci.com/gh/DiscordTime/sticky-sessions-android.svg?style=svg)](https://circleci.com/gh/DiscordTime/sticky-sessions-android)
+[![Coverage Status](https://coveralls.io/repos/github/DiscordTime/sticky-sessions-android/badge.svg)](https://coveralls.io/github/DiscordTime/sticky-sessions-android)
 
 StickySessions is an application that helps medium to large teams to share and store their thoughts through digital-like retrospective sessions. This is the repository of the Android app.
 
