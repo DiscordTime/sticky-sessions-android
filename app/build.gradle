@@ -1,8 +1,8 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply from: 'versioning.gradle'
 apply plugin: 'io.fabric'
-apply from: '../jacoco.gradle'
+apply from: 'versioning.gradle'
+apply from: '../coverage.gradle'
 
 android {
 
