@@ -10,6 +10,14 @@ public interface IRouteRepository {
 
     HashMap<String, Route> routesMap = new HashMap<String,Route>(){{
         put(
+            ViewNames.LOGIN_ACTIVITY+IRouter.USER_LOGGED,
+            new Route(
+                    ViewNames.LOGIN_ACTIVITY,
+                    IRouter.USER_LOGGED,
+                    ViewNames.LOBBY_ACTIVITY,
+                    true)
+        );
+        put(
             ViewNames.LOBBY_ACTIVITY+IRouter.CREATED_SESSION,
             new Route(
                     ViewNames.LOBBY_ACTIVITY,

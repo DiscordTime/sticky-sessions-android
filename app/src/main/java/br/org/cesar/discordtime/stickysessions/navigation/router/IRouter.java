@@ -4,6 +4,7 @@ import br.org.cesar.discordtime.stickysessions.navigation.exception.InvalidRoute
 
 public interface IRouter {
 
+    String USER_LOGGED = "user_logged";
     String CREATED_SESSION = "created_session";
     String ENTERED_SESSION = "entered_session";
     String LIST_SESSIONS = "list_sessions";

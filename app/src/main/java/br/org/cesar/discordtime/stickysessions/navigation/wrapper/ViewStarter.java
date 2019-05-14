@@ -12,12 +12,14 @@ import br.org.cesar.discordtime.stickysessions.navigation.exception.InvalidViewN
 import br.org.cesar.discordtime.stickysessions.ui.ViewNames;
 import br.org.cesar.discordtime.stickysessions.ui.list.ListSessionsActivity;
 import br.org.cesar.discordtime.stickysessions.ui.lobby.LobbyActivity;
+import br.org.cesar.discordtime.stickysessions.ui.login.LoginActivity;
 import br.org.cesar.discordtime.stickysessions.ui.session.SessionActivity;
 
 public class ViewStarter implements IViewStarter {
 
     private final HashMap<String, Class<? extends Activity>> activities =
         new HashMap<String, Class<? extends Activity>> (){{
+            put(ViewNames.LOGIN_ACTIVITY, LoginActivity.class);
             put(ViewNames.LOBBY_ACTIVITY, LobbyActivity.class);
             put(ViewNames.SESSION_ACTIVITY, SessionActivity.class);
             put(ViewNames.LIST_ACTIVITY, ListSessionsActivity.class);

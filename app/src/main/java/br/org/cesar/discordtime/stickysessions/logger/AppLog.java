@@ -28,6 +28,11 @@ public class AppLog implements Logger {
     }
 
     @Override
+    public void w(String tag, String message, Throwable e) {
+        Log.w(TAG, "[" + tag + "]: " + message, e);
+    }
+
+    @Override
     public void e(String tag, String message) {
         Log.e(TAG, "[" + tag + "]: " + message);
     }
