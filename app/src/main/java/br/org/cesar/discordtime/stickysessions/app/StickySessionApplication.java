@@ -6,15 +6,18 @@ import com.crashlytics.android.Crashlytics;
 
 import br.org.cesar.discordtime.stickysessions.injectors.components.DaggerListSessionComponent;
 import br.org.cesar.discordtime.stickysessions.injectors.components.DaggerLobbyComponent;
+import br.org.cesar.discordtime.stickysessions.injectors.components.DaggerLoginComponent;
 import br.org.cesar.discordtime.stickysessions.injectors.components.DaggerSessionComponent;
 import br.org.cesar.discordtime.stickysessions.injectors.modules.ContextModule;
 import br.org.cesar.discordtime.stickysessions.ui.list.ListSessionsActivity;
 import br.org.cesar.discordtime.stickysessions.ui.lobby.LobbyActivity;
+import br.org.cesar.discordtime.stickysessions.ui.login.LoginActivity;
 import br.org.cesar.discordtime.stickysessions.ui.session.SessionActivity;
 import io.fabric.sdk.android.Fabric;
 
 public class StickySessionApplication extends Application {
 
+    protected DaggerLoginComponent.Builder mLoginComponentBuilder;
     protected DaggerLobbyComponent.Builder mLobbyComponentBuilder;
     protected DaggerSessionComponent.Builder mSessionComponentBuilder;
     protected DaggerListSessionComponent.Builder mSessionListBuilder;
@@ -22,6 +25,7 @@ public class StickySessionApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        configureLoginInjectorBuilder();
         configureMainInjectorBuilder();
         configureSessionInjectorBuilder();
         configureSessionListInjectorBuilder();
@@ -29,6 +33,9 @@ public class StickySessionApplication extends Application {
         Fabric.with(this, new Crashlytics());
     }
 
+    protected void configureLoginInjectorBuilder() {
+        mLoginComponentBuilder = DaggerLoginComponent.builder();
+    }
 
     protected void configureMainInjectorBuilder() {
         mLobbyComponentBuilder = DaggerLobbyComponent.builder()
@@ -43,6 +50,10 @@ public class StickySessionApplication extends Application {
     protected void configureSessionListInjectorBuilder() {
         mSessionListBuilder = DaggerListSessionComponent.builder()
             .contextModule(new ContextModule(getApplicationContext()));
+    }
+
+    public void inject(LoginActivity activity) {
+        mLoginComponentBuilder.build().inject(activity);
     }
 
     public void inject(LobbyActivity activity) {

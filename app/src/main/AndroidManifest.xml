@@ -3,55 +3,61 @@
     package="br.org.cesar.discordtime.stickysessions">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
-        android:allowBackup="false"
         android:name=".app.StickySessionApplication"
+        android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-
-        <activity android:name=".ui.lobby.LobbyActivity"
-            android:theme="@style/LaunchTheme"
-            android:screenOrientation="portrait">
+        <activity android:name=".ui.login.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
-            <intent-filter android:label="@string/app_name">
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT"/>
-            </intent-filter>
         </activity>
-
-        <activity android:name=".ui.session.SessionActivity"
-            android:theme="@style/LaunchTheme"
-            android:launchMode="singleTop">
+        <activity
+            android:name=".ui.lobby.LobbyActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/LaunchTheme">
             <intent-filter android:label="@string/app_name">
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE"/>
-                <data android:host="stickysessions.com"
-                    android:pathPrefix="/enter"
-                    android:scheme="http"/>
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ui.session.SessionActivity"
+            android:launchMode="singleTop"
+            android:theme="@style/LaunchTheme">
+            <intent-filter android:label="@string/app_name">
+                <action android:name="android.intent.action.VIEW" />
 
-        <activity android:name=".ui.list.ListSessionsActivity"
-            android:parentActivityName=".ui.lobby.LobbyActivity"/>
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="stickysessions.com"
+                    android:pathPrefix="/enter"
+                    android:scheme="http" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.list.ListSessionsActivity"
+            android:parentActivityName=".ui.lobby.LobbyActivity" />
 
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
-
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="a424bb71aabbb9dc394510a7603e871f6b7e6cb4" />
+
     </application>
 
 </manifest>

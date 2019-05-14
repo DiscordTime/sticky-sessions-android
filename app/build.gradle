@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'io.fabric'
+apply plugin: 'com.google.gms.google-services'
 apply from: 'versioning.gradle'
 apply from: '../coverage.gradle'
 
@@ -130,6 +131,11 @@ dependencies {
         transitive = true
     }
 
+    // Firebase
+    implementation "com.google.firebase:firebase-core:${versions.firebase_core}"
+    implementation "com.google.firebase:firebase-auth:${versions.firebase_auth}"
+    implementation "com.google.android.gms:play-services-auth:${versions.play_services_auth}"
+
     // Unit tests
     testImplementation "junit:junit:${versions.junit}"
     testImplementation "org.robolectric:robolectric:${versions.robolectric}"
@@ -164,3 +170,5 @@ repositories {
     mavenCentral()
     maven { url 'https://maven.fabric.io/public' }
 }
+
+apply plugin: 'kotlin-android-extensions'
