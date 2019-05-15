@@ -16,10 +16,8 @@ class SessionPresenterTest {
     private lateinit var mockEnterSession: IObservableUseCase<String, Session>
     private lateinit var mockAddNote: IObservableUseCase<Note, Note>
     private lateinit var mockListNotes: IObservableUseCase<NoteFilter, List<Note>>
-    private lateinit var mockSaveCurrentUser: IObservableUseCase<String, Boolean>
     private lateinit var mockGetSavedUser: IObservableUseCase<Void, String>
     private lateinit var mockLogger: Logger
-
 
     private lateinit var mockView: SessionContract.View
     private lateinit var sessionCaptor: KArgumentCaptor<DisposableSingleObserver<Session>>
@@ -39,12 +37,11 @@ class SessionPresenterTest {
         mockAddNote = mock()
         mockRemoveNote = mock()
         mockListNotes = mock()
-        mockSaveCurrentUser = mock()
         mockGetSavedUser = mock()
         mockLogger = mock()
         mockView = mock()
         sessionPresenter = SessionPresenter(mockEnterSession, mockAddNote, mockRemoveNote,
-                mockListNotes, mockSaveCurrentUser, mockGetSavedUser, mockLogger)
+                mockListNotes, mockGetSavedUser, mockLogger)
 
         sessionCaptor = argumentCaptor<DisposableSingleObserver<Session>>()
         noteCaptor = argumentCaptor<DisposableSingleObserver<Note>>()
@@ -64,50 +61,18 @@ class SessionPresenterTest {
         verify(mockEnterSession).dispose()
         verify(mockAddNote).dispose()
         verify(mockListNotes).dispose()
-        verify(mockSaveCurrentUser).dispose()
         verify(mockGetSavedUser).dispose()
     }
 
     @Test
-    fun `should ask for name if no user during onResume`(){
+    fun `should fails if has no user during onResume`(){
         sessionPresenter.attachView(mockView)
         sessionPresenter.onResume()
         verify(mockGetSavedUser).execute(stringCaptor.capture(), isNull())
 
         stringCaptor.firstValue.onError(Exception(""))
-        verify(mockView).showWidgetAddName()
-    }
-
-    @Test
-    fun `should show error and ask for name again if save user fails`() {
-        sessionPresenter.attachView(mockView)
-        sessionPresenter.currentUser(mCurrentUser)
-        verify(mockSaveCurrentUser).execute(booleanCaptor.capture(), eq(mCurrentUser))
-
-        booleanCaptor.firstValue.onError(Exception(""))
-        verify(mockView).showWidgetAddName()
-        verify(mockView).displayError(any())
-    }
-
-    @Test
-    fun `should try to enter session after save user`() {
-        sessionPresenter.attachView(mockView)
-        sessionPresenter.currentSession(mSession.id)
-        sessionPresenter.currentUser(mCurrentUser)
-        verify(mockSaveCurrentUser).execute(booleanCaptor.capture(), eq(mCurrentUser))
-
-        booleanCaptor.firstValue.onSuccess(true)
-
-        verify(mockEnterSession).execute(sessionCaptor.capture(), eq(mSession.id))
-        sessionCaptor.firstValue.onSuccess(mSession)
-
-    }
-
-    @Test
-    fun `should start loading all notes when enter trying to set current user`(){
-        sessionPresenter.attachView(mockView)
-        sessionPresenter.currentUser(mCurrentUser)
-        verify(mockView).startLoadingAllNotes()
+        verify(mockView).stopLoadingAllNotes()
+        // TODO: Check if goes back to login?
     }
 
     @Test
