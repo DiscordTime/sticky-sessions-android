@@ -22,11 +22,10 @@ public class SessionPresenterModule {
         IObservableUseCase<Note, Note> addNote,
         IObservableUseCase<Note, Boolean> removeNote,
         IObservableUseCase<NoteFilter, List<Note>> listNotes,
-        IObservableUseCase<String, Boolean> saveCurrentUser,
         IObservableUseCase<Void, String> getSavedUser,
         Logger logger){
 
-        return new SessionPresenter(enterSession, addNote, removeNote, listNotes, saveCurrentUser,
+        return new SessionPresenter(enterSession, addNote, removeNote, listNotes,
             getSavedUser, logger);
     }
 

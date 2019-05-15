@@ -14,7 +14,6 @@ public interface SessionContract {
         void addNewNote(String sessionId, String description);
         void onNoteWidgetClicked(Note note);
         void onResume();
-        void currentUser(String userName);
         void currentSession(String sessionId);
         void removeNote(Note note);
     }
@@ -28,7 +27,6 @@ public interface SessionContract {
         void stopLoadingNote();
         void startLoadingAllNotes();
         void stopLoadingAllNotes();
-        void showWidgetAddName();
         void displayAddNoteDialog(List<String> topics);
         void displaySession();
         void displayError(String message);

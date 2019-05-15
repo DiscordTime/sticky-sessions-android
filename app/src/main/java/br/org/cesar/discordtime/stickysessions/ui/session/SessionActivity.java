@@ -267,51 +267,9 @@ public class SessionActivity extends AppCompatActivity implements SessionContrac
     }
 
     @Override
-    public void showWidgetAddName() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AddUserContent);
-        LayoutInflater inflater = LayoutInflater.from(mContext);
-        final android.view.View view =
-            inflater.inflate(R.layout.user_input_dialog, parent, false);
-
-        final Button btConfirm = view.findViewById(R.id.bt_positive);
-        EditText editText = view.findViewById(R.id.user_name_dialog);
-        editText.requestFocus();
-
-        builder.setTitle(R.string.enter_your_name);
-        builder.setCancelable(false);
-        builder.setView(view);
-
-        AlertDialog alertDialog = builder.create();
-
-        btConfirm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String userName = editText.getText().toString();
-                currentUser(userName);
-                alertDialog.dismiss();
-            }
-        });
-
-        final Button btCancel = view.findViewById(R.id.bt_negative);
-        btCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
-
-
-        alertDialog.show();
-    }
-
-    @Override
     public void cleanNotes() {
         mNoteAdapter = new NoteAdapter(this);
         mRecyclerView.setAdapter(mNoteAdapter);
-    }
-
-    private void currentUser(String userName) {
-        mPresenter.currentUser(userName);
     }
 
     @Override

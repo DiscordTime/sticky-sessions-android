@@ -16,7 +16,6 @@ public class SessionPresenter implements SessionContract.Presenter {
     private IObservableUseCase<Note, Note> mAddNote;
     private IObservableUseCase<Note, Boolean> mRemoveNote;
     private IObservableUseCase<NoteFilter, List<Note>> mListNotes;
-    private IObservableUseCase<String, Boolean> mSaveCurrentUser;
     private IObservableUseCase<Void, String> mGetSavedUser;
     private Logger mLog;
     private SessionContract.View mView;
@@ -28,14 +27,12 @@ public class SessionPresenter implements SessionContract.Presenter {
                             IObservableUseCase<Note, Note> addNote,
                             IObservableUseCase<Note, Boolean> removeNote,
                             IObservableUseCase<NoteFilter, List<Note>> listNotes,
-                            IObservableUseCase<String, Boolean> saveCurrentUser,
                             IObservableUseCase<Void, String> getSavedUser,
                             Logger logger) {
         mEnterSession = enterSession;
         mAddNote = addNote;
         mRemoveNote = removeNote;
         mListNotes = listNotes;
-        mSaveCurrentUser = saveCurrentUser;
         mGetSavedUser = getSavedUser;
         mLog = logger;
     }
@@ -58,31 +55,9 @@ public class SessionPresenter implements SessionContract.Presenter {
             @Override
             public void onError(Throwable e) {
                 mView.stopLoadingAllNotes();
-                mView.showWidgetAddName();
+                // TODO: Go back to login?
             }
         }, null);
-    }
-
-    @Override
-    public void currentUser(String userName) {
-        mLog.d(TAG, "currentUser : "+userName);
-        mView.startLoadingAllNotes();
-        mSaveCurrentUser.execute(new DisposableSingleObserver<Boolean>() {
-            @Override
-            public void onSuccess(Boolean success) {
-                if (success) {
-                    mCurrentUser = userName;
-                    onEnterSession();
-                }
-            }
-    
-            @Override
-            public void onError(Throwable e) {
-                mView.stopLoadingAllNotes();
-                mView.showWidgetAddName();
-                mView.displayError(e.getMessage());
-            }
-        }, userName);
     }
 
     @Override
@@ -116,7 +91,6 @@ public class SessionPresenter implements SessionContract.Presenter {
         mAddNote.dispose();
         mRemoveNote.dispose();
         mListNotes.dispose();
-        mSaveCurrentUser.dispose();
         mGetSavedUser.dispose();
     }
 
