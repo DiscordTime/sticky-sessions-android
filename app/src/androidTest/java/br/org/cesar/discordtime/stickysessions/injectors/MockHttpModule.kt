@@ -7,12 +7,14 @@ import dagger.Provides
 import okhttp3.Interceptor
 import okhttp3.logging.HttpLoggingInterceptor
 import java.util.ArrayList
+import javax.inject.Named
 
 @Module
 class MockHttpModule: HttpModule() {
 
     @Provides
-    override fun providesInterceptorList(
+    @Named("NetworkInterceptors")
+    override fun providesNetworkInterceptors(
             loggingInterceptor: HttpLoggingInterceptor,
             networkInterceptor: HttpNetworkInterceptor
     ): List<Interceptor> {

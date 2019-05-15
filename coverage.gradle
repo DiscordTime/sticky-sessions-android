@@ -41,7 +41,8 @@ variants().all { variant ->
                            'android/**/*.*',
                            'androidx/**/*.*',
                            'com/**/*.*',
-                           'io/**/*.*'
+                           'io/**/*.*',
+                           '**/ui/**/*.*'
         ]
         def classTree = fileTree(
                 dir: variant.javaCompiler.destinationDir,

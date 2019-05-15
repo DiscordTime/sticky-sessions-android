@@ -40,7 +40,10 @@ class SessionServiceTest {
                 "Gain & Pain (4)"
         )
         contextMock = mock()
-        val okHttpClient = HttpModule().makeOkHttpClient(contextMock, listOf<Interceptor>())
+        val okHttpClient = HttpModule()
+                .makeOkHttpClient(contextMock,
+                        listOf<Interceptor>(),
+                        listOf<Interceptor>())
         sessionService = RemoteServiceFactory<SessionService>()
                 .makeRemoteService(
                         mockWebServer.url("").toString(),

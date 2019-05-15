@@ -28,7 +28,10 @@ class NoteServiceTest {
     fun setUp() {
         mWebServerMock = MockWebServer()
         contextMock = mock()
-        val okHttpClient = HttpModule().makeOkHttpClient(contextMock, listOf<Interceptor>())
+        val okHttpClient = HttpModule()
+                .makeOkHttpClient(contextMock,
+                        listOf<Interceptor>(),
+                        listOf<Interceptor>())
         noteService = RemoteServiceFactory<NoteService>()
                 .makeRemoteService(
                         mWebServerMock.url("/").toString(),
