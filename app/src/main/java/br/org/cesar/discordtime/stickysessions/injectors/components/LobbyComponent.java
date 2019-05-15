@@ -1,5 +1,6 @@
 package br.org.cesar.discordtime.stickysessions.injectors.components;
 
+import br.org.cesar.discordtime.stickysessions.injectors.modules.AuthModule;
 import br.org.cesar.discordtime.stickysessions.injectors.modules.ContextModule;
 import br.org.cesar.discordtime.stickysessions.injectors.modules.HttpLoggingInterceptorModule;
 import br.org.cesar.discordtime.stickysessions.injectors.modules.HttpModule;
@@ -27,6 +28,7 @@ import dagger.Component;
                 HttpLoggingInterceptorModule.class,
                 HttpNetworkInterceptorModule.class,
                 HttpModule.class,
+                AuthModule.class
         }
 )
 public interface LobbyComponent {

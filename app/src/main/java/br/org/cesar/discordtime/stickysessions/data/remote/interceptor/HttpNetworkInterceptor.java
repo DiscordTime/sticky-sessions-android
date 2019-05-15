@@ -1,17 +1,11 @@
 package br.org.cesar.discordtime.stickysessions.data.remote.interceptor;
 
-import android.util.Log;
-
 import java.io.IOException;
-import java.nio.channels.NonReadableChannelException;
 
 import br.org.cesar.discordtime.stickysessions.data.remote.wrapper.INetworkWrapper;
-import br.org.cesar.discordtime.stickysessions.logger.AppLog;
-import br.org.cesar.discordtime.stickysessions.logger.Logger;
 import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
-import okhttp3.logging.HttpLoggingInterceptor;
 
 public class HttpNetworkInterceptor implements Interceptor {
 
