@@ -1,12 +1,7 @@
 package br.org.cesar.discordtime.stickysessions.injectors.modules;
 
-import android.content.Context;
-
-import javax.inject.Named;
-
 import br.org.cesar.discordtime.stickysessions.data.local.repository.UserLocalRepository;
 import br.org.cesar.discordtime.stickysessions.domain.interactor.GetLocalUser;
-import br.org.cesar.discordtime.stickysessions.domain.interactor.SaveCurrentUser;
 import br.org.cesar.discordtime.stickysessions.domain.repository.UserRepository;
 import br.org.cesar.discordtime.stickysessions.executor.IObservableUseCase;
 import br.org.cesar.discordtime.stickysessions.executor.ObservableUseCase;
@@ -19,14 +14,6 @@ import dagger.Provides;
 public class UserModule {
 
     @Provides
-    public IObservableUseCase<String, Boolean> providesObservableSaveCurrentUser(
-        SaveCurrentUser saveCurrentUser,
-        ThreadExecutor threadExecutor,
-        PostExecutionThread postExecutionThread) {
-        return new ObservableUseCase<>(saveCurrentUser, threadExecutor, postExecutionThread);
-    }
-
-    @Provides
     public IObservableUseCase<Void, String> providesObservableGetSavedUser(
         GetLocalUser getLocalUser, ThreadExecutor threadExecutor,
         PostExecutionThread postExecutionThread) {
@@ -35,24 +22,13 @@ public class UserModule {
     }
 
     @Provides
-    public SaveCurrentUser providesSaveCurrentUser(UserRepository repository) {
-        return new SaveCurrentUser(repository);
-    }
-
-    @Provides
     public GetLocalUser providesGetLocalUser(UserRepository repository) {
         return new GetLocalUser(repository);
     }
 
     @Provides
-    public UserRepository providesUserRepository(Context context, @Named("prefs") String prefsName) {
-        return new UserLocalRepository(context, prefsName);
-    }
-
-    @Provides
-    @Named("prefs")
-    public String providesPreferenceName() {
-        return "user_preference";
+    public UserRepository providesUserRepository() {
+        return new UserLocalRepository();
     }
 
 }

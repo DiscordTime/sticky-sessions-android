@@ -17,10 +17,8 @@
     <string name="list">Enter Session</string>
     <string name="list_description">Enter in a Session previously created!</string>
     <string name="session_title_activity">My Notes</string>
-    <string name="enter_your_name">Enter your name</string>
     <string name="topic_title">Topic</string>
     <string name="select_topic_dialog_message">Should select a topic</string>
-    <string name="user_name">User Name</string>
     <string name="content_description_add_note_action_button">add note action button</string>
     <string name="content_description_session_type">image with a session representation</string>
     <string name="remove">Remove</string>
