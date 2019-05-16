@@ -16,14 +16,20 @@ An usual session would follow steps below:
 4. Team discuss notes taken on web app
 5. A mediator export notes on web app and send them to team.
 
-## Server communication
+## Development
 
-- Project has 3 flavors (`Prod`, `Stag` and `Local`) which change backend URL used by app.
+### Server communication
+
+Project has 3 flavors (`Prod`, `Stag` and `Local`) which change backend URL used by app.
 - `Prod` is intended for production and should be used only on real meetings
 - `Stag` is intended for usual development on Android client's side
 - `Local` flavor is intended for local backend development where developer
   connects the device via USB and uses `adb reverse tcp:3000 tcp:3000` command to redirect
   requests to local machine.
+
+### Setup
+
+The app uses Google Sign-in with Firebase authentication as its login method therefore in order to compile it you need to setup an Firebase account, associate app on console, download `google-services.json` file and add it to the project.
 
 [server]: https://github.com/DiscordTime/sticky-sessions-server/tree/dev
 [web]:https://github.com/DiscordTime/sticky-sessions-web/tree/dev
