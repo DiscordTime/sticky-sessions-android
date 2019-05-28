@@ -33,3 +33,21 @@ The app uses Google Sign-in with Firebase authentication as its login method the
 
 [server]: https://github.com/DiscordTime/sticky-sessions-server/tree/dev
 [web]:https://github.com/DiscordTime/sticky-sessions-web/tree/dev
+
+### App's Version
+
+The app's version is controlled by a simple algorithm implemented on
+[versioning.gradle](app/versioning.gradle) file and uses
+`major.minor.build` format according to values defined in
+[versio.properties](app/version.properties) file.
+
+The `build` portion is automatically incremented by the number of
+commits merged. To increase `major` or `minor` parts of version,
+please follow steps below:
+- Run the following command to get the current number of commits:
+```
+git rev-list HEAD --count
+```
+- Update `VERSION_BUILD_BASE` with that number
+- Then increment desired part of app's version
+  - If increment is on `VERSION_MAJOR` portion, please clear `VERSION_MINOR`.
