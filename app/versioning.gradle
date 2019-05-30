@@ -17,7 +17,7 @@ ext.getVersionMap = { ->
         }
         def inStream = new ByteArrayInputStream(out.toByteArray())
         def buildNo = Integer.parseInt(inStream.getText().replace("\n", "")) - buildBase
-        def name = String.format("%d.%d.%d", major, minor, buildNo)
+        def name = String.format("%02d.%02d.%02d", major, minor, buildNo)
         def code = Integer.parseInt(String.format("%02d%02d%02d", major, minor, buildNo))
 
         def versionMap = [:]

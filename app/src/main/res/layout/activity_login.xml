@@ -3,27 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/login_layout"
-    android:background="@color/colorPrimary"
+    android:background="@color/deep_purple"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.login.LoginActivity">
 
-    <com.google.android.gms.common.SignInButton
-        android:id="@+id/sign_in_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <ProgressBar
         android:indeterminateOnly="true"
-        android:id="@+id/sign_in_loading"
+        android:id="@+id/loading_sign_in"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="invisible"
@@ -31,5 +18,84 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/image_logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:contentDescription="@string/content_description_app_logo_login"
+        app:layout_constraintBottom_toTopOf="@+id/btn_sign_in"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.4921"
+        app:srcCompat="@drawable/ic_logo_with_name" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_sign_in"
+        style="@style/MaterialButtonIconStyle"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        android:fontFamily="sans-serif-medium"
+        android:letterSpacing="0.01"
+        android:lineSpacingExtra="3sp"
+        android:gravity="center"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white"
+        android:textSize="14sp"
+        android:textStyle="normal"
+        app:backgroundTint="@color/coral"
+        app:icon="@drawable/ic_google"
+        app:iconGravity="textStart"
+        app:iconPadding="5.1dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.7235"
+        android:text="@string/log_in_with_gmail" />
+
+    <TextView
+        android:id="@+id/text_login_token"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:fontFamily="sans-serif-medium"
+        android:gravity="center_horizontal"
+        android:lineSpacingExtra="3sp"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        android:textStyle="normal"
+        app:layout_constraintEnd_toEndOf="@+id/btn_sign_in"
+        app:layout_constraintStart_toStartOf="@+id/btn_sign_in"
+        app:layout_constraintTop_toBottomOf="@+id/btn_sign_in"
+        android:text="@string/log_in_with_the_token"
+        android:textIsSelectable="false"/>
+
+
+    <TextView
+        android:id="@+id/text_version"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:fontFamily="sans-serif"
+        android:gravity="center_horizontal"
+        android:lineSpacingExtra="2sp"
+        android:textColor="@color/white_opacity_70"
+        android:textSize="13sp"
+        android:textStyle="normal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="v 01.00.00"
+        android:textIsSelectable="false"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

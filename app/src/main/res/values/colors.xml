@@ -7,4 +7,9 @@
     <color name="colorSecondaryLight">#ffffff</color>
     <color name="colorAccent">#FFD859</color>
     <color name="colorAccentDark">#ffc000</color>
+    <!-- new colors -->
+    <color name="deep_purple">#42023e</color>
+    <color name="aubergine">#2d042a</color>
+    <color name="coral">#ff534b</color>
+    <color name="white_opacity_70">#b3ffffff</color>
 </resources>

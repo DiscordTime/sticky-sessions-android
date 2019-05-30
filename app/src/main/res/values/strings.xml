@@ -26,4 +26,8 @@
     <string name="topic_length">/100</string>
     <string name="char_count_start">0</string>
     <string name="retry">Retry</string>
+    <string name="content_description_app_logo_login">App\'s logo with Sticky Sessions text below</string>
+    <string name="log_in_with_gmail">Log In with Gmail</string>
+    <string name="log_in_with_the_token">Log In with the token</string>
+    <string name="version_text_format">v %s</string>
 </resources>
