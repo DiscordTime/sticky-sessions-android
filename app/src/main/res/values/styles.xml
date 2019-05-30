@@ -9,8 +9,20 @@
         <item name="android:windowBackground">@android:color/white</item>
     </style>
 
-    <style name="LaunchTheme" parent="AppTheme">
+    <style name="IntroTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimary">@color/deep_purple</item>
+        <item name="colorPrimaryDark">@color/aubergine</item>
+        <item name="colorAccent">@color/coral</item>
+        <item name="android:windowBackground">@color/deep_purple</item>
+    </style>
+
+    <style name="LaunchTheme" parent="IntroTheme">
         <item name="android:windowBackground">@drawable/launch_screen</item>
+    </style>
+
+    <style name="MaterialButtonIconStyle" parent="Widget.MaterialComponents.Button.Icon">
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
     </style>
 
     <style name="NoteContent">

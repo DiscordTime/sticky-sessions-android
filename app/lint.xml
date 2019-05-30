@@ -31,6 +31,7 @@
         <ignore path="src/main/res/drawable-xhdpi/baseline_calendar_today_white_24.png"/>
         <ignore path="src/main/res/drawable-xxhdpi/baseline_calendar_today_white_24.png"/>
         <ignore path="src/main/res/drawable-xxxhdpi/baseline_calendar_today_white_24.png"/>
+        <ignore path="src/main/res/drawable-*/ic_logo_with_name.png" />
     </issue>
 
     <!-- We might need to unsuppress this warning later

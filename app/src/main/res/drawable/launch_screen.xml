@@ -2,16 +2,14 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android"
     android:opacity="opaque">
 
-    <item android:drawable="@color/colorPrimary"/>
+    <item android:drawable="@color/deep_purple"/>
     <!-- TODO
         a icon with 144dp size
         source: https://developer.android.com/topic/performance/vitals/launch-time#java -->
-
-    <!--
     <item>
         <bitmap
-          android:src="@drawable/product_logo_144dp"
+          android:src="@drawable/logo_symbol"
           android:gravity="center"/>
     </item>
-    -->
+
 </layer-list>

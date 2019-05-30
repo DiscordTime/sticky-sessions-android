@@ -5,7 +5,10 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.ImageView
 import android.widget.ProgressBar
+import android.widget.TextView
+import br.org.cesar.discordtime.stickysessions.BuildConfig
 import br.org.cesar.discordtime.stickysessions.R
 import br.org.cesar.discordtime.stickysessions.app.StickySessionApplication
 import br.org.cesar.discordtime.stickysessions.logger.Logger
@@ -22,7 +25,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import kotlinx.android.synthetic.main.activity_login.login_layout
-import com.google.android.gms.common.SignInButton
+import com.google.android.material.button.MaterialButton
 import javax.inject.Inject
 
 
@@ -41,7 +44,11 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var googleSignInClient: GoogleSignInClient
     private lateinit var loading: ProgressBar
-    private lateinit var signInButton: SignInButton
+    private lateinit var logoImage: ImageView
+    private lateinit var signInButton: MaterialButton
+    private lateinit var loginTokenText: TextView
+    private lateinit var versionText: TextView
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,13 +58,15 @@ class LoginActivity : AppCompatActivity() {
 
         mContext = this
 
-        // loading
-        loading = findViewById(R.id.sign_in_loading)
-
-        // Sign-in button
-        signInButton = findViewById(R.id.sign_in_button)
-        signInButton.setSize(SignInButton.SIZE_WIDE)
+        // Get views
+        loading = findViewById(R.id.loading_sign_in)
+        logoImage = findViewById(R.id.image_logo)
+        signInButton = findViewById(R.id.btn_sign_in)
         signInButton.setOnClickListener { this.signIn() }
+        loginTokenText = findViewById(R.id.text_login_token)
+        versionText = findViewById(R.id.text_version)
+        versionText.text = String.format(getString(R.string.version_text_format),
+                BuildConfig.VERSION_NAME)
 
         // Google and Firebase objects
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -127,18 +136,23 @@ class LoginActivity : AppCompatActivity() {
                         Snackbar.make(login_layout, "Authentication Failed.", Snackbar.LENGTH_SHORT).show()
                         hideProgressDialog()
                     }
-                    hideProgressDialog()
                 }
     }
 
     private fun showProgressDialog() {
         loading.visibility = View.VISIBLE
+        logoImage.visibility = View.INVISIBLE
         signInButton.visibility = View.INVISIBLE
+        loginTokenText.visibility = View.INVISIBLE
+        versionText.visibility = View.INVISIBLE
     }
 
     private fun hideProgressDialog() {
         loading.visibility = View.INVISIBLE
+        logoImage.visibility = View.VISIBLE
         signInButton.visibility = View.VISIBLE
+        loginTokenText.visibility = View.VISIBLE
+        versionText.visibility = View.VISIBLE
     }
 
     companion object {
