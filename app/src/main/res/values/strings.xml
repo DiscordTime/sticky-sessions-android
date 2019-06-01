@@ -6,12 +6,12 @@
     <string name="note_description_dialog_hint">What you want to add?</string>
     <string name="cancel">Cancel</string>
     <string name="starfish">Starfish</string>
-    <string name="starfish_description">Great data gathering activity to foster the thinking around practices and the value the team get from it.</string>
+    <string name="starfish_description">To foster the thinking around practices and the value the team get from it.</string>
     <string name="create">Create</string>
     <string name="start">Start</string>
     <string name="join">Join</string>
     <string name="gain"><![CDATA[Gain & Pleasure]]></string>
-    <string name="gain_description">Great for talking about all work related things and how does if affects each participant.</string>
+    <string name="gain_description">Talk about all work related things and how does if affects each participant.</string>
     <string name="custom">Custom</string>
     <string name="custom_description">Coming Soon! Create your own session and define which topics team will discuss about!</string>
     <string name="list">Enter Session</string>
@@ -30,4 +30,8 @@
     <string name="log_in_with_gmail">Log In with Gmail</string>
     <string name="log_in_with_the_token">Log In with the token</string>
     <string name="version_text_format">v %s</string>
+    <string name="more">more</string>
+    <string name="responses">responses</string>
+    <!-- TODO: get the real number of responses and delete this resource -->
+    <string name="fixed_number_of_responses">6 responses</string>
 </resources>

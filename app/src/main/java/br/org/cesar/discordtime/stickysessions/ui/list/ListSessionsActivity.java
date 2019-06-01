@@ -68,8 +68,11 @@ public class ListSessionsActivity extends AppCompatActivity
         Toolbar toolbar = findViewById(R.id.include);
         setSupportActionBar(toolbar);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
 
         mToolbarTitle = findViewById(R.id.toolbar_title);
         mToolbarTitle.setText(R.string.toolbar_title_list_session);
