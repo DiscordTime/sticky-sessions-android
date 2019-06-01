@@ -1,15 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#00ADDF</color>
-    <color name="colorPrimaryDark">#007ead</color>
     <color name="colorSecondary">#d6d4de</color>
     <color name="colorSecondaryDark">#a5a3ac</color>
     <color name="colorSecondaryLight">#ffffff</color>
     <color name="colorAccent">#FFD859</color>
     <color name="colorAccentDark">#ffc000</color>
     <!-- new colors -->
+    <color name="white">#ffffff</color>
+    <color name="white_two">#f3f3f3</color>
     <color name="deep_purple">#42023e</color>
     <color name="aubergine">#2d042a</color>
     <color name="coral">#ff534b</color>
     <color name="white_opacity_70">#b3ffffff</color>
+    <color name="warm_grey">#8b8b8b</color>
+    <!-- selectable colors -->
+    <color name="purple">#933da9</color>
+    <color name="yellow">#f5c84e</color>
 </resources>

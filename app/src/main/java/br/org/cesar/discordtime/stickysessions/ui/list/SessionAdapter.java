@@ -56,7 +56,7 @@ public class SessionAdapter extends RecyclerView.Adapter<SessionAdapter.SessionH
     public SessionHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         View view = LayoutInflater.from(context)
-                .inflate(R.layout.list_session_element, parent, false);
+                .inflate(R.layout.card_session_element, parent, false);
 
         return new SessionHolder(view);
     }
@@ -66,10 +66,23 @@ public class SessionAdapter extends RecyclerView.Adapter<SessionAdapter.SessionH
         Session session = mSessions.get(position);
 
         // TODO: Please, change this horrible algorithm
-        String sessionText = (session.topics.size() == 5) ? "Starfish" : "Gain & Pleasure";
-        holder.mSessionView.setText(sessionText);
+        String sessionText;
+        String description;
+        int leftBarColor;
+        if (session.topics.size() == 5) {
+            sessionText = "Starfish";
+            description = mContext.getResources().getString(R.string.starfish_description);
+            leftBarColor = mContext.getResources().getColor(R.color.purple);
+        } else {
+            sessionText = "Gain & Pleasure";
+            description = mContext.getResources().getString(R.string.gain_description);
+            leftBarColor = mContext.getResources().getColor(R.color.yellow);
+        }
 
-        holder.mCreateDateView.setText(session.createdAt);
+        holder.mSessionText.setText(sessionText);
+        holder.mDescriptionText.setText(
+                String.format("%s (%s)", description, session.createdAt));
+        holder.mLeftBar.setBackgroundColor(leftBarColor);
     }
 
     @Override
@@ -79,15 +92,17 @@ public class SessionAdapter extends RecyclerView.Adapter<SessionAdapter.SessionH
 
     class SessionHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        TextView mSessionView;
-        TextView mCreateDateView;
-        TextView mAuthorView;
+        TextView mSessionText;
+        TextView mDescriptionText;
+        TextView mResponsesText;
+        View mLeftBar;
 
         public SessionHolder(View itemView) {
             super(itemView);
-            mSessionView = itemView.findViewById(R.id.session_name);
-            mCreateDateView = itemView.findViewById(R.id.session_create_time);
-            mAuthorView = itemView.findViewById(R.id.session_author_name);
+            mSessionText = itemView.findViewById(R.id.text_session);
+            mDescriptionText = itemView.findViewById(R.id.text_description);
+            mResponsesText = itemView.findViewById(R.id.text_responses);
+            mLeftBar = itemView.findViewById(R.id.left_bar);
             itemView.setOnClickListener(this);
         }
 

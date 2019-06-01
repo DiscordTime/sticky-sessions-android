@@ -4,9 +4,10 @@
     <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:windowBackground">@android:color/white</item>
+        <item name="colorPrimaryDark">@color/white</item>
+        <item name="colorAccent">@color/coral</item>
+        <item name="android:windowBackground">@color/white_two</item>
+        <item name="android:windowLightStatusBar">true</item>
     </style>
 
     <style name="IntroTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
@@ -23,6 +24,30 @@
     <style name="MaterialButtonIconStyle" parent="Widget.MaterialComponents.Button.Icon">
         <item name="android:insetTop">0dp</item>
         <item name="android:insetBottom">0dp</item>
+    </style>
+
+    <style name="TextStyle">
+        <item name="android:textSize">20sp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:lineSpacingExtra">4sp</item>
+        <item name="android:textColor">#ff534b</item>
+    </style>
+
+    <style name="TextStyle9">
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:lineSpacingExtra">4sp</item>
+        <item name="android:textColor">#de000000</item>
+    </style>
+
+    <style name="TextStyle10">
+        <item name="android:textSize">14sp</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:lineSpacingExtra">6sp</item>
+        <item name="android:textColor">#ff534b</item>
     </style>
 
     <style name="NoteContent">
