@@ -19,6 +19,9 @@ android {
         versionCode versionMap.code
         versionName versionMap.name
         testInstrumentationRunner "br.org.cesar.discordtime.stickysessions.MockTestRunner"
+        manifestPlaceholders = [
+            orientation: "portrait"
+        ]
     }
 
     buildTypes {
