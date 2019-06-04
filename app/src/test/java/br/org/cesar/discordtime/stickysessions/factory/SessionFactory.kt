@@ -23,5 +23,11 @@ class SessionFactory {
             return session
         }
 
+        fun makeSession(topicsCount: Int, createdAt: String): Session {
+            val session = makeSession(topicsCount)
+            session.createdAt = createdAt
+            return session
+        }
+
     }
 }
