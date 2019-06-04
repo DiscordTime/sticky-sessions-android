@@ -34,4 +34,5 @@
     <string name="responses">responses</string>
     <!-- TODO: get the real number of responses and delete this resource -->
     <string name="fixed_number_of_responses">6 responses</string>
+    <string name="text_new_note">New Note</string>
 </resources>

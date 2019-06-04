@@ -33,5 +33,6 @@ public interface SessionContract {
         void displayNotes(List<Note> notes);
         void displayErrorInvalidNotes();
         void displayNoteContent(Note note);
+        void displayTopics(List<TopicDetail> topicDetailList);
     }
 }

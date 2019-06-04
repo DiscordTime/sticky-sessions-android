@@ -1,5 +1,7 @@
 package br.org.cesar.discordtime.stickysessions.presentation.session;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import br.org.cesar.discordtime.stickysessions.domain.model.Note;
@@ -86,55 +88,6 @@ public class SessionPresenter implements SessionContract.Presenter {
         disposeObservers();
     }
 
-    private void disposeObservers() {
-        mEnterSession.dispose();
-        mAddNote.dispose();
-        mRemoveNote.dispose();
-        mListNotes.dispose();
-        mGetSavedUser.dispose();
-    }
-
-
-    private void onEnterSession() {
-        mLog.d(TAG, "onEnterSession : "+mSessionId);
-        mEnterSession.execute(new DisposableSingleObserver<Session>() {
-            @Override
-            public void onSuccess(Session session) {
-                mActiveSession = session;
-                listNotesForCurrentSession();
-                mView.displaySession();
-            }
-    
-            @Override
-            public void onError(Throwable e) {
-                // todo : handle errors gracefully
-                mView.stopLoadingAllNotes();
-                mView.displayError(e.getMessage());
-            }
-        }, mSessionId);
-    }
-
-    private void listNotesForCurrentSession() {
-        if (mActiveSession != null && mActiveSession.id != null) {
-            mListNotes.execute(new DisposableSingleObserver<List<Note>>() {
-                @Override
-                public void onSuccess(List<Note> notes) {
-                    mView.stopLoadingAllNotes();
-                    mView.displayNotes(notes);
-                }
-    
-                @Override
-                public void onError(Throwable e) {
-                    mView.stopLoadingAllNotes();
-                    mView.displayErrorInvalidNotes();
-                }
-            }, new NoteFilter(mActiveSession.id, mCurrentUser));
-        } else {
-            mView.stopLoadingAllNotes();
-            mView.displayErrorInvalidNotes();
-        }
-    }
-
     @Override
     public void onShareSession() {
         if(mActiveSession != null) {
@@ -178,5 +131,95 @@ public class SessionPresenter implements SessionContract.Presenter {
         if (note != null) {
             mView.displayNoteContent(note);
         }
+    }
+
+    private void disposeObservers() {
+        mEnterSession.dispose();
+        mAddNote.dispose();
+        mRemoveNote.dispose();
+        mListNotes.dispose();
+        mGetSavedUser.dispose();
+    }
+
+    private void onEnterSession() {
+        mLog.d(TAG, "onEnterSession : "+mSessionId);
+        mEnterSession.execute(new DisposableSingleObserver<Session>() {
+            @Override
+            public void onSuccess(Session session) {
+                mActiveSession = session;
+                listNotesForCurrentSession();
+                mView.displaySession();
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                // todo : handle errors gracefully
+                mView.stopLoadingAllNotes();
+                mView.displayError(e.getMessage());
+            }
+        }, mSessionId);
+    }
+
+    private void listNotesForCurrentSession() {
+        if (mActiveSession != null && mActiveSession.id != null) {
+            mListNotes.execute(new DisposableSingleObserver<List<Note>>() {
+                @Override
+                public void onSuccess(List<Note> notes) {
+                    onSessionLoaded(notes);
+//                    mView.stopLoadingAllNotes();
+//                    mView.displayNotes(notes);
+                }
+
+                @Override
+                public void onError(Throwable e) {
+                    mView.stopLoadingAllNotes();
+                    mView.displayErrorInvalidNotes();
+                }
+            }, new NoteFilter(mActiveSession.id, mCurrentUser));
+        } else {
+            mView.stopLoadingAllNotes();
+            mView.displayErrorInvalidNotes();
+        }
+    }
+
+    private void onSessionLoaded(List<Note> notes) {
+        // TODO: run this task in background and so post it into ui thread.
+        displayTopicsOnView(convertTopicList(
+                mActiveSession.topics, createHashMapOfTopics(mActiveSession.topics, notes)));
+    }
+
+    private HashMap<String, List<Note>> createHashMapOfTopics(
+            List<String> topics, List<Note> notes) {
+        HashMap<String, List<Note>> topicMap = new HashMap<>();
+
+        for (String topic : topics) {
+            topicMap.put(topic, createNewEmptyNoteList());
+        }
+
+        for (Note note : notes) {
+            try {
+                topicMap.get(note.topic).add(note);
+            } catch (NullPointerException ignored) { }
+        }
+
+        return topicMap;
+    }
+
+    private List<TopicDetail> convertTopicList(
+            List<String> topics, HashMap<String, List<Note>> topicMap) {
+        List<TopicDetail> topicDetailList = new ArrayList<>();
+        for (String topic : topics) {
+            topicDetailList.add(new TopicDetail(topic, topicMap.get(topic)));
+        }
+        return topicDetailList;
+    }
+
+    private void displayTopicsOnView(List<TopicDetail> topicDetailList) {
+        mView.stopLoadingAllNotes();
+        mView.displayTopics(topicDetailList);
+    }
+
+    private List<Note> createNewEmptyNoteList() {
+        return new ArrayList<>();
     }
 }

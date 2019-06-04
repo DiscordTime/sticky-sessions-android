@@ -16,8 +16,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -32,16 +30,15 @@ import javax.inject.Inject;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import br.org.cesar.discordtime.stickysessions.R;
 import br.org.cesar.discordtime.stickysessions.app.StickySessionApplication;
 import br.org.cesar.discordtime.stickysessions.domain.model.Note;
 import br.org.cesar.discordtime.stickysessions.presentation.session.SessionContract;
+import br.org.cesar.discordtime.stickysessions.presentation.session.TopicDetail;
 import br.org.cesar.discordtime.stickysessions.ui.ExtraNames;
 import br.org.cesar.discordtime.stickysessions.ui.adapters.NoteAdapter;
-import br.org.cesar.discordtime.stickysessions.ui.session.custom.ItemAnimator;
-import br.org.cesar.discordtime.stickysessions.ui.session.custom.NoteGridLayoutManager;
 
 public class SessionActivity extends AppCompatActivity implements SessionContract.View,
         View.OnClickListener, NoteAdapter.NoteAdapterCallback {
@@ -49,15 +46,18 @@ public class SessionActivity extends AppCompatActivity implements SessionContrac
     private final static String TAG = "SessionActivity";
     private Context mContext;
     private ViewGroup parent;
-    private RecyclerView mRecyclerView;
+    private RecyclerView mTopicListView;
     private ProgressBar mProgressBar;
 
     @Inject
     SessionContract.Presenter mPresenter;
 
+    private TopicsAdapter mTopicsAdapter;
     private NoteAdapter mNoteAdapter;
     private View mAddNewNoteView;
     private Animation mAnimationShow;
+
+    private TextView textView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,33 +69,46 @@ public class SessionActivity extends AppCompatActivity implements SessionContrac
         mContext = this;
 
         bindView();
+        configureTopicRecycleView();
         configureSession();
     }
-    public TextView textView;
 
     private void bindView() {
-        parent = findViewById(R.id.container);
-        Toolbar toolbar = findViewById(R.id.include);
-        setSupportActionBar(toolbar);
+        mTopicListView = findViewById(R.id.list_topics);
+
+
+
+//        parent = findViewById(R.id.container);
+//        Toolbar toolbar = findViewById(R.id.include);
+//        setSupportActionBar(toolbar)
         mPresenter.attachView(this);
-
-        mAddNewNoteView = findViewById(R.id.add_note_view);
-        mAddNewNoteView.setOnClickListener(this);
-        mAddNewNoteView.setVisibility(View.INVISIBLE);
-
-        mRecyclerView = findViewById(R.id.user_notes_recyclerview);
-        mRecyclerView.setLayoutManager(
-            new NoteGridLayoutManager(this,
-                getResources().getInteger(R.integer.session_grid_elements_columns)));
-        mRecyclerView.setItemAnimator(new ItemAnimator(this));
-
-        mNoteAdapter = new NoteAdapter(this);
-        mNoteAdapter.setCallback(this);
-
-        mRecyclerView.setAdapter(mNoteAdapter);
-        mAnimationShow = AnimationUtils.loadAnimation(this, R.anim.show_animation);
-
+//
+//        mAddNewNoteView = findViewById(R.id.add_note_view);
+//        mAddNewNoteView.setOnClickListener(this);
+//        mAddNewNoteView.setVisibility(View.INVISIBLE);
+//
+//        mTopicListView = findViewById(R.id.user_notes_recyclerview);
+//        mTopicListView.setLayoutManager(
+//            new NoteGridLayoutManager(this,
+//                getResources().getInteger(R.integer.session_grid_elements_columns)));
+//        mTopicListView.setItemAnimator(new ItemAnimator(this));
+//
+//        mNoteAdapter = new NoteAdapter(this);
+//        mNoteAdapter.setCallback(this);
+//
+//        mTopicListView.setAdapter(mNoteAdapter);
+//        mAnimationShow = AnimationUtils.loadAnimation(this, R.anim.show_animation);
+//
         mProgressBar = findViewById(R.id.progress_bar);
+    }
+
+    private void configureTopicRecycleView() {
+        mTopicsAdapter = new TopicsAdapter();
+        mTopicListView.setAdapter(mTopicsAdapter);
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setOrientation(RecyclerView.HORIZONTAL);
+        mTopicListView.setLayoutManager(layoutManager);
     }
 
     private void configureSession() {
@@ -143,9 +156,9 @@ public class SessionActivity extends AppCompatActivity implements SessionContrac
     @Override
     public void onClick(android.view.View view) {
         switch (view.getId()) {
-            case R.id.add_note_view:
-                mPresenter.onAddNoteClicked();
-                break;
+//            case R.id.add_note_view:
+//                mPresenter.onAddNoteClicked();
+//                break;
 
             default:
                 break;
@@ -261,21 +274,30 @@ public class SessionActivity extends AppCompatActivity implements SessionContrac
     }
 
     @Override
+    public void displayTopics(List<TopicDetail> topicDetailList) {
+        if (mTopicsAdapter != null) {
+            mTopicsAdapter.replaceAllData(topicDetailList);
+        }
+    }
+
+    @Override
     public void addNoteToNoteList(Note note) {
         mNoteAdapter.addNote(note);
-        mRecyclerView.scrollToPosition(mNoteAdapter.getItemCount() - 1);
+        if (mTopicListView != null) mTopicListView.scrollToPosition(mNoteAdapter.getItemCount() - 1);
     }
 
     @Override
     public void cleanNotes() {
         mNoteAdapter = new NoteAdapter(this);
-        mRecyclerView.setAdapter(mNoteAdapter);
+        if (mTopicListView != null) mTopicListView.setAdapter(mNoteAdapter);
     }
 
     @Override
     public void displaySession() {
-        mAddNewNoteView.startAnimation(mAnimationShow);
-        mAddNewNoteView.setVisibility(View.VISIBLE);
+        if (mAddNewNoteView != null) {
+            mAddNewNoteView.startAnimation(mAnimationShow);
+            mAddNewNoteView.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -285,14 +307,14 @@ public class SessionActivity extends AppCompatActivity implements SessionContrac
 
     @Override
     public void startLoadingAllNotes() {
-        mRecyclerView.setVisibility(View.INVISIBLE);
-        mProgressBar.setVisibility(View.VISIBLE);
+        if (mTopicListView != null) mTopicListView.setVisibility(View.INVISIBLE);
+        if (mProgressBar != null) mProgressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void stopLoadingAllNotes() {
-        mRecyclerView.setVisibility(View.VISIBLE);
-        mProgressBar.setVisibility(View.GONE);
+        if (mTopicListView != null) mTopicListView.setVisibility(View.VISIBLE);
+        if (mProgressBar != null) mProgressBar.setVisibility(View.GONE);
     }
 
     @Override
