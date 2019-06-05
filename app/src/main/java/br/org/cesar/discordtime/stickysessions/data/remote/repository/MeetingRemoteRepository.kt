@@ -13,8 +13,8 @@ class MeetingRemoteRepository(
 
     private val mSessionRepository = sessionRepository
 
-    override fun listMeetings(): Single<List<Meeting>> {
-        return mSessionRepository.listSessions().map<List<Meeting>> { sessions ->
+    override fun listMeetings(): Single<MutableList<Meeting>> {
+        return mSessionRepository.listSessions().map<MutableList<Meeting>> { sessions ->
             val meetings = ArrayList<Meeting>()
 
             // group by date
