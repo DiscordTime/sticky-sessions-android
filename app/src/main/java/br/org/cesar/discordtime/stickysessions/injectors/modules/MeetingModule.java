@@ -1,5 +1,6 @@
 package br.org.cesar.discordtime.stickysessions.injectors.modules;
 
+import java.util.Comparator;
 import java.util.List;
 
 import br.org.cesar.discordtime.stickysessions.data.remote.repository.MeetingRemoteRepository;
@@ -24,8 +25,8 @@ public class MeetingModule {
     }
 
     @Provides
-    public IObservableUseCase<Void, List<Meeting>> provideListMeetingsUseCase(
-            UseCase<Void, List<Meeting>> listMeetings,
+    public IObservableUseCase<Comparator<Meeting>, List<Meeting>> provideListMeetingsUseCase(
+            UseCase<Comparator<Meeting>, List<Meeting>> listMeetings,
             ThreadExecutor threadExecutor,
             PostExecutionThread postExecutionThread
     ) {
@@ -37,7 +38,7 @@ public class MeetingModule {
     }
 
     @Provides
-    public UseCase<Void, List<Meeting>> provideListMeetings(MeetingRepository repository) {
+    public UseCase<Comparator<Meeting>, List<Meeting>> provideListMeetings(MeetingRepository repository) {
         return new ListMeetings(repository);
     }
 }

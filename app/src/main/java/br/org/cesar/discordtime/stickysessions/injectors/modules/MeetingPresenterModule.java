@@ -1,5 +1,6 @@
 package br.org.cesar.discordtime.stickysessions.injectors.modules;
 
+import java.util.Comparator;
 import java.util.List;
 
 import br.org.cesar.discordtime.stickysessions.domain.model.Meeting;
@@ -14,7 +15,7 @@ public class MeetingPresenterModule {
 
     @Provides
     public MeetingContract.Presenter providesMeetingPresenter(
-            IObservableUseCase<Void, List<Meeting>> listMeetings
+            IObservableUseCase<Comparator<Meeting>, List<Meeting>> listMeetings
     ) {
         return new MeetingPresenter(listMeetings);
     }

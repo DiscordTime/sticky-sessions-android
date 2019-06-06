@@ -5,8 +5,9 @@ import br.org.cesar.discordtime.stickysessions.executor.IObservableUseCase
 import io.reactivex.observers.DisposableSingleObserver
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.Comparator
 
-class MeetingPresenter(private val listMeetings: IObservableUseCase<Void, MutableList<Meeting>>)
+class MeetingPresenter(private val listMeetings: IObservableUseCase<Comparator<Meeting>, MutableList<Meeting>>)
     : MeetingContract.Presenter {
 
     var mView: MeetingContract.View? = null
@@ -21,22 +22,25 @@ class MeetingPresenter(private val listMeetings: IObservableUseCase<Void, Mutabl
     override fun onResume() {
         mView?.let { view ->
             view.startLoadingMeetings()
-            listMeetings.execute(MeetingsObserver(),null)
+            listMeetings.execute(
+                    MeetingsObserver(),
+                    MeetingsComparator())
+        }
+    }
+
+    private inner class MeetingsComparator: Comparator<Meeting> {
+        // descending order m2 > m1
+        override fun compare(m1: Meeting, m2: Meeting): Int {
+            return m2.date.compareTo(m1.date)
         }
     }
 
     private inner class MeetingsObserver: DisposableSingleObserver<MutableList<Meeting>>() {
         override fun onSuccess(meetings: MutableList<Meeting>) {
             mView?.showMeetings(
-                // TODO: Run sort and mapping on background
-                meetings.run {
-                    sortBy {
-                        it.date
-                    }
-                    map {
-                        mapFromDomain(it).apply {
-                            recent = isARecentMeeting(it)
-                        }
+                meetings.map {
+                    mapFromDomain(it).apply {
+                        recent = isARecentMeeting(it)
                     }
                 } as MutableList<MeetingItem>
             )
