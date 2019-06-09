@@ -1,7 +1,9 @@
 package br.org.cesar.discordtime.stickysessions.ui.meeting
 
+import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -9,8 +11,13 @@ import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import br.org.cesar.discordtime.stickysessions.R
 import br.org.cesar.discordtime.stickysessions.app.StickySessionApplication
+import br.org.cesar.discordtime.stickysessions.navigation.exception.InvalidViewNameException
+import br.org.cesar.discordtime.stickysessions.navigation.router.Route
+import br.org.cesar.discordtime.stickysessions.navigation.wrapper.IBundle
+import br.org.cesar.discordtime.stickysessions.navigation.wrapper.IViewStarter
 import br.org.cesar.discordtime.stickysessions.presentation.meeting.MeetingContract
 import br.org.cesar.discordtime.stickysessions.presentation.meeting.MeetingItem
+import br.org.cesar.discordtime.stickysessions.ui.ViewNames
 import kotlinx.android.synthetic.main.activity_meeting.recycler_view_meetings as mRecyclerView
 import javax.inject.Inject
 
@@ -18,6 +25,8 @@ class MeetingActivity : AppCompatActivity(), MeetingContract.View {
 
     @Inject
     lateinit var mPresenter: MeetingContract.Presenter
+    @Inject
+    lateinit var mViewStarter: IViewStarter
     lateinit var mProgressBar: ProgressBar
     lateinit var mAdapter: MeetingItemAdapter
 
@@ -39,11 +48,15 @@ class MeetingActivity : AppCompatActivity(), MeetingContract.View {
         toolbarTitle.setText(R.string.toolbar_title_meetings)
     }
 
+    @SuppressLint("CheckResult")
     private fun configureRecycleView() {
         mAdapter = MeetingItemAdapter(this)
         mRecyclerView.apply {
             layoutManager = LinearLayoutManager(this@MeetingActivity)
             adapter = mAdapter
+        }
+        mAdapter.clickEvent.subscribe {
+            meetingItem -> mPresenter.enterOnMeeting(meetingItem)
         }
     }
 
@@ -80,4 +93,12 @@ class MeetingActivity : AppCompatActivity(), MeetingContract.View {
         mAdapter.meetingItems = meetings
     }
 
+    override fun getName(): String {
+        return ViewNames.MEETING_ACTIVITY
+    }
+
+    @Throws(InvalidViewNameException::class)
+    override fun goNext(route: Route, bundle: IBundle) {
+        mViewStarter.goNext(this, route.to, route.shouldClearStack, bundle)
+    }
 }

@@ -9,6 +9,7 @@ public interface IRouter {
     String ENTERED_SESSION = "entered_session";
     String LIST_SESSIONS = "list_sessions";
     String USER_SELECTED_SESSION = "user_selected_session";
+    String USER_SELECTED_MEETING = "user_selected_meeting";
 
     Route getNext(String from, String event) throws InvalidRouteException;
 

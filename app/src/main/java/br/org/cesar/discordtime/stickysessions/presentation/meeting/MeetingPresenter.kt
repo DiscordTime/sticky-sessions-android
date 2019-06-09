@@ -2,13 +2,17 @@ package br.org.cesar.discordtime.stickysessions.presentation.meeting
 
 import br.org.cesar.discordtime.stickysessions.domain.model.Meeting
 import br.org.cesar.discordtime.stickysessions.executor.IObservableUseCase
+import br.org.cesar.discordtime.stickysessions.navigation.router.IRouter
+import br.org.cesar.discordtime.stickysessions.navigation.wrapper.IBundleFactory
+import br.org.cesar.discordtime.stickysessions.ui.ExtraNames
 import io.reactivex.observers.DisposableSingleObserver
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.Comparator
 
 class MeetingPresenter(
-        private val listMeetings: IObservableUseCase<Comparator<Meeting>, MutableList<Meeting>>)
+        private val listMeetings: IObservableUseCase<Comparator<Meeting>, MutableList<Meeting>>,
+        private val router: IRouter,
+        private val bundleFactory: IBundleFactory)
     : MeetingContract.Presenter {
 
     var mView: MeetingContract.View? = null
@@ -26,6 +30,15 @@ class MeetingPresenter(
             listMeetings.execute(
                     MeetingsObserver(),
                     MeetingsComparator())
+        }
+    }
+
+    override fun enterOnMeeting(meetingItem: MeetingItem) {
+        mView?.run {
+            val bundle = bundleFactory.create()
+            bundle.putString(ExtraNames.MEETING_ID, meetingItem.id)
+            val route = router.getNext(getName(), IRouter.USER_SELECTED_MEETING)
+            goNext(route, bundle)
         }
     }
 

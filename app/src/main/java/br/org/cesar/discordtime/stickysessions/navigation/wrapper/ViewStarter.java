@@ -9,10 +9,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import br.org.cesar.discordtime.stickysessions.navigation.exception.InvalidViewNameException;
+import br.org.cesar.discordtime.stickysessions.presentation.session.SessionContract;
 import br.org.cesar.discordtime.stickysessions.ui.ViewNames;
 import br.org.cesar.discordtime.stickysessions.ui.list.ListSessionsActivity;
 import br.org.cesar.discordtime.stickysessions.ui.lobby.LobbyActivity;
 import br.org.cesar.discordtime.stickysessions.ui.login.LoginActivity;
+import br.org.cesar.discordtime.stickysessions.ui.meeting.MeetingActivity;
 import br.org.cesar.discordtime.stickysessions.ui.session.SessionActivity;
 
 public class ViewStarter implements IViewStarter {
@@ -21,6 +23,7 @@ public class ViewStarter implements IViewStarter {
         new HashMap<String, Class<? extends Activity>> (){{
             put(ViewNames.LOGIN_ACTIVITY, LoginActivity.class);
             put(ViewNames.LOBBY_ACTIVITY, LobbyActivity.class);
+            put(ViewNames.MEETING_ACTIVITY, MeetingActivity.class);
             put(ViewNames.SESSION_ACTIVITY, SessionActivity.class);
             put(ViewNames.LIST_ACTIVITY, ListSessionsActivity.class);
         }};
