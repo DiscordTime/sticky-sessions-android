@@ -14,8 +14,16 @@ public interface IRouteRepository {
             new Route(
                     ViewNames.LOGIN_ACTIVITY,
                     IRouter.USER_LOGGED,
-                    ViewNames.LOBBY_ACTIVITY,
+                    ViewNames.MEETING_ACTIVITY,
                     true)
+        );
+        put(
+            ViewNames.MEETING_ACTIVITY+IRouter.USER_SELECTED_MEETING,
+            new Route(
+                    ViewNames.MEETING_ACTIVITY,
+                    IRouter.USER_SELECTED_MEETING,
+                    ViewNames.LIST_ACTIVITY,
+                    false)
         );
         put(
             ViewNames.LOBBY_ACTIVITY+IRouter.CREATED_SESSION,

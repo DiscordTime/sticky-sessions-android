@@ -7,8 +7,9 @@ import android.view.ViewGroup
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.recyclerview.widget.RecyclerView
 import br.org.cesar.discordtime.stickysessions.R
-import br.org.cesar.discordtime.stickysessions.domain.model.Session
 import br.org.cesar.discordtime.stickysessions.presentation.meeting.MeetingItem
+import io.reactivex.Observable
+import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.card_meeting_element.view.*
 
 class MeetingItemAdapter(
@@ -24,8 +25,13 @@ class MeetingItemAdapter(
         }
 
     private val styles = listOf(R.style.MeetingCardThemeRecent, R.style.MeetingCardThemeOld)
+    private var clickSubject: PublishSubject<MeetingItem> = PublishSubject.create()
+    lateinit var clickEvent: Observable<MeetingItem>
 
-    constructor(context: Context): this(context, ArrayList<MeetingItem>())
+
+    constructor(context: Context): this(context, ArrayList<MeetingItem>()) {
+        clickEvent = clickSubject
+    }
 
     override fun getItemCount(): Int {
         return mMeetingItems.size
@@ -73,7 +79,8 @@ class MeetingItemAdapter(
         }
     }
 
-    inner class MeetingViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+    inner class MeetingViewHolder(itemView: View):
+            RecyclerView.ViewHolder(itemView), View.OnClickListener {
 
         val section = itemView.text_section!!
         val progress = itemView.progress_bar_meeting!!
@@ -88,5 +95,9 @@ class MeetingItemAdapter(
             itemView.setOnClickListener(this)
         }
 
+        override fun onClick(view: View?) {
+            val realPosition = layoutPosition % mMeetingItems.size
+            clickSubject.onNext(mMeetingItems[realPosition])
+        }
     }
 }
