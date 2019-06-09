@@ -6,7 +6,7 @@ buildscript {
             'rx_kotlin' : '2.1.0',
             'rx_android' : '2.1.0',
             'rx_java' : '2.1.10',
-            "mockito_kotlin" : '1.5.0',
+            'mockito_kotlin' : '1.5.0',
             'retrofit' : '2.4.0',
             'okhttp' : '3.10.0',
             'androidx' : '1.0.0',
@@ -33,18 +33,17 @@ buildscript {
     ]
 
     repositories {
-        maven {
-            url 'https://maven.google.com'
-        }
-        maven { url 'https://maven.fabric.io/public' }
-        jcenter()
         google()
+        jcenter()
+        maven { url 'https://maven.fabric.io/public' }
+
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.2.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}"
         classpath "org.kt3k.gradle.plugin:coveralls-gradle-plugin:${versions.coveralls}"
         classpath "com.google.gms:google-services:${versions.google_services}"
+        classpath "org.jetbrains.kotlin:kotlin-android-extensions:${versions.kotlin}"
 
         // We recommend changing it to the latest version from our changelog:
         // https://docs.fabric.io/android/changelog.html#fabric-gradle-plugin
@@ -57,9 +56,7 @@ buildscript {
 
 allprojects {
     repositories {
-        maven {
-            url 'https://maven.google.com'
-        }
+        google()
         jcenter()
     }
 }

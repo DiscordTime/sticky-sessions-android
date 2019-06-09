@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_marginTop="16dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:theme="@style/MeetingCardThemeOld">
+
+    <TextView
+        android:id="@+id/text_section"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="8dp"
+        android:textSize="14sp"
+        android:fontFamily="sans-serif-medium"
+        android:textStyle="normal"
+        android:textColor="@color/warm_grey"
+        android:textIsSelectable="false"
+        android:lineSpacingExtra="10sp"
+        tools:text="Recents" />
+
+    <androidx.cardview.widget.CardView
+        style="@style/MeetingCardViewStyle">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ProgressBar
+                android:id="@+id/progress_bar_meeting"
+                style="@style/ProgressBarHorizontalStyle"
+                android:layout_width="0dp"
+                android:background="#d5d5d5"
+                android:indeterminate="false"
+                android:progressBackgroundTint="#d5d5d5"
+                android:progressTint="@color/coral"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:progress="30" />
+
+            <TextView
+                android:id="@+id/text_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="18dp"
+                android:fontFamily="sans-serif-medium"
+                android:lineSpacingExtra="0sp"
+                android:textColor="?attr/meetingCardTitleColor"
+                android:textSize="20sp"
+                android:textStyle="normal"
+                android:textIsSelectable="false"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Retrospective" />
+
+            <TextView
+                android:id="@+id/text_location"
+                style="@style/TextStyle2"
+                android:textColor="?attr/meetingCardTextColor"
+                android:textIsSelectable="false"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:layout_constraintStart_toStartOf="@+id/text_title"
+                app:layout_constraintTop_toBottomOf="@+id/text_title"
+                tools:text="Sala 01 (Cesar Apolo)" />
+
+            <ImageView
+                android:id="@+id/image_dot"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="9dp"
+                app:layout_constraintBottom_toBottomOf="@+id/text_location"
+                app:layout_constraintStart_toEndOf="@+id/text_location"
+                app:layout_constraintTop_toTopOf="@+id/text_location"
+                app:srcCompat="@drawable/circle"
+                android:contentDescription="@string/content_description_dot" />
+
+            <TextView
+                android:id="@+id/text_date"
+                style="@style/TextStyle2"
+                android:textColor="?attr/meetingCardTextColor"
+                android:textIsSelectable="false"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                app:layout_constraintBottom_toBottomOf="@+id/text_location"
+                app:layout_constraintStart_toEndOf="@+id/image_dot"
+                app:layout_constraintTop_toTopOf="@+id/text_location"
+                tools:text="21/03  12:30" />
+
+            <TextView
+                android:id="@+id/text_description"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="24dp"
+                android:fontFamily="sans-serif"
+                android:lineSpacingExtra="6sp"
+                android:textColor="?attr/meetingCardDescColor"
+                android:textSize="14sp"
+                android:textStyle="normal"
+                android:textIsSelectable="false"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/text_location"
+                app:layout_constraintTop_toBottomOf="@+id/text_location"
+                tools:text="Description Lorem ipsum dolor sit amet, cons ect etur adipiscai elit, sed do eiusmod tempor." />
+
+            <ImageView
+                android:id="@+id/image_resp"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginTop="12dp"
+                app:layout_constraintStart_toStartOf="@+id/text_description"
+                app:layout_constraintTop_toBottomOf="@+id/text_description"
+                app:srcCompat="?attr/meetingCardRespImage"
+                android:contentDescription="@string/content_description_icon_session" />
+
+            <ImageView
+                android:id="@+id/image_participants"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintStart_toStartOf="@+id/image_resp"
+                app:layout_constraintTop_toBottomOf="@+id/image_resp"
+                app:srcCompat="?attr/meetingCardPartImage"
+                android:contentDescription="@string/content_description_icon_participants" />
+
+            <TextView
+                android:id="@+id/text_sessions_count"
+                style="@style/TextStyle2"
+                android:textColor="?attr/meetingCardRespColor"
+                android:textIsSelectable="false"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                app:layout_constraintBottom_toBottomOf="@+id/image_resp"
+                app:layout_constraintStart_toEndOf="@+id/image_resp"
+                app:layout_constraintTop_toTopOf="@+id/image_resp"
+                tools:text="3 Sessions" />
+
+            <TextView
+                android:id="@+id/text_participants_count"
+                style="@style/TextStyle2"
+                android:textColor="?attr/meetingCardPartColor"
+                android:textIsSelectable="false"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                app:layout_constraintBottom_toBottomOf="@+id/image_participants"
+                app:layout_constraintStart_toEndOf="@+id/image_participants"
+                app:layout_constraintTop_toTopOf="@+id/image_participants"
+                tools:text="8 Participants" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</LinearLayout>

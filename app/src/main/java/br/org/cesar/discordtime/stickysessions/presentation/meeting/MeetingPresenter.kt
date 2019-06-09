@@ -7,7 +7,8 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.Comparator
 
-class MeetingPresenter(private val listMeetings: IObservableUseCase<Comparator<Meeting>, MutableList<Meeting>>)
+class MeetingPresenter(
+        private val listMeetings: IObservableUseCase<Comparator<Meeting>, MutableList<Meeting>>)
     : MeetingContract.Presenter {
 
     var mView: MeetingContract.View? = null
@@ -37,13 +38,16 @@ class MeetingPresenter(private val listMeetings: IObservableUseCase<Comparator<M
 
     private inner class MeetingsObserver: DisposableSingleObserver<MutableList<Meeting>>() {
         override fun onSuccess(meetings: MutableList<Meeting>) {
-            mView?.showMeetings(
-                meetings.map {
-                    mapFromDomain(it).apply {
-                        recent = isARecentMeeting(it)
-                    }
-                } as MutableList<MeetingItem>
-            )
+            mView?.run {
+                showMeetings(
+                        meetings.map {
+                            mapFromDomain(it).apply {
+                                recent = isARecentMeeting(it)
+                            }
+                        } as MutableList<MeetingItem>
+                )
+                stopLoadingMeetings()
+            }
         }
 
         override fun onError(e: Throwable) {

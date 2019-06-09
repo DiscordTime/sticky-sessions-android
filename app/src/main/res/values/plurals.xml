@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="text_meeting_sessions_count_format">
+        <item quantity="one">%d Session</item>
+        <item quantity="other">%d Sessions</item>
+    </plurals>
+    <plurals name="text_meeting_participants_count_format">
+        <item quantity="one">%d Participant</item>
+        <item quantity="other">%d Participants</item>
+    </plurals>
+</resources>
