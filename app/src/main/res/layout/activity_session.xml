@@ -7,7 +7,7 @@
     android:layout_height="match_parent">
 
     <include
-        android:id="@+id/include"
+        android:id="@+id/toolbar"
         layout="@layout/toolbar_session"
         android:layout_width="match_parent"
         android:layout_height="100dp"
@@ -27,11 +27,11 @@
         android:drawableTint="@android:color/white"
         android:src="@drawable/ic_baseline_add_24px"
         android:translationZ="10dp"
-        app:layout_constraintBottom_toBottomOf="@id/include"
+        app:layout_constraintBottom_toBottomOf="@id/toolbar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.82"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/include"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
         android:contentDescription="@string/content_description_add_note_action_button" />
 
     <ProgressBar
@@ -42,7 +42,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/include"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
         />
 
     <androidx.recyclerview.widget.RecyclerView
@@ -57,7 +57,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/include"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
         android:translationZ="5dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

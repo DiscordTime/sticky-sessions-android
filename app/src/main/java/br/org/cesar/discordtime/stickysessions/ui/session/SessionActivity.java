@@ -17,7 +17,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -75,7 +74,7 @@ public class SessionActivity extends AppCompatActivity implements SessionContrac
 
     private void bindView() {
         parent = findViewById(R.id.container);
-        Toolbar toolbar = findViewById(R.id.include);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         mPresenter.attachView(this);
 
