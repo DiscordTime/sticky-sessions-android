@@ -36,6 +36,9 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".ui.meeting.MeetingActivity"
+            android:screenOrientation="${orientation}" />
+        <activity
             android:name=".ui.session.SessionActivity"
             android:screenOrientation="${orientation}"
             android:launchMode="singleTop"

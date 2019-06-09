@@ -23,6 +23,7 @@
     <string name="content_description_session_type">image with a session representation</string>
     <string name="remove">Remove</string>
     <string name="toolbar_title_list_session">Active Sessions</string>
+    <string name="toolbar_title_meetings">Meetings</string>
     <string name="topic_length">/100</string>
     <string name="char_count_start">0</string>
     <string name="retry">Retry</string>
@@ -34,4 +35,10 @@
     <string name="responses">responses</string>
     <!-- TODO: get the real number of responses and delete this resource -->
     <string name="fixed_number_of_responses">6 responses</string>
+    <string name="content_description_dot">dot</string>
+    <string name="content_description_icon_session">icon representing sessions</string>
+    <string name="content_description_icon_participants">icon representing participants</string>
+    <string name="text_meeting_date_format">%s %s</string>
+    <string name="text_meeting_recents_section">Recents</string>
+    <string name="text_meeting_older_section">Older</string>
 </resources>

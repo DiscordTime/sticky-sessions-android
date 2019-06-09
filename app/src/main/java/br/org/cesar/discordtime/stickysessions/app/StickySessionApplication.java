@@ -7,11 +7,13 @@ import com.crashlytics.android.Crashlytics;
 import br.org.cesar.discordtime.stickysessions.injectors.components.DaggerListSessionComponent;
 import br.org.cesar.discordtime.stickysessions.injectors.components.DaggerLobbyComponent;
 import br.org.cesar.discordtime.stickysessions.injectors.components.DaggerLoginComponent;
+import br.org.cesar.discordtime.stickysessions.injectors.components.DaggerMeetingComponent;
 import br.org.cesar.discordtime.stickysessions.injectors.components.DaggerSessionComponent;
 import br.org.cesar.discordtime.stickysessions.injectors.modules.ContextModule;
 import br.org.cesar.discordtime.stickysessions.ui.list.ListSessionsActivity;
 import br.org.cesar.discordtime.stickysessions.ui.lobby.LobbyActivity;
 import br.org.cesar.discordtime.stickysessions.ui.login.LoginActivity;
+import br.org.cesar.discordtime.stickysessions.ui.meeting.MeetingActivity;
 import br.org.cesar.discordtime.stickysessions.ui.session.SessionActivity;
 import io.fabric.sdk.android.Fabric;
 
@@ -21,6 +23,7 @@ public class StickySessionApplication extends Application {
     protected DaggerLobbyComponent.Builder mLobbyComponentBuilder;
     protected DaggerSessionComponent.Builder mSessionComponentBuilder;
     protected DaggerListSessionComponent.Builder mSessionListBuilder;
+    protected DaggerMeetingComponent.Builder mMeetingComponentBuilder;
 
     @Override
     public void onCreate() {
@@ -29,6 +32,7 @@ public class StickySessionApplication extends Application {
         configureMainInjectorBuilder();
         configureSessionInjectorBuilder();
         configureSessionListInjectorBuilder();
+        configureMeetingInjectorBuilder();
 
         Fabric.with(this, new Crashlytics());
     }
@@ -39,17 +43,22 @@ public class StickySessionApplication extends Application {
 
     protected void configureMainInjectorBuilder() {
         mLobbyComponentBuilder = DaggerLobbyComponent.builder()
-            .contextModule(new ContextModule(getApplicationContext()));
+                .contextModule(new ContextModule(getApplicationContext()));
     }
 
     protected void configureSessionInjectorBuilder() {
         mSessionComponentBuilder = DaggerSessionComponent.builder()
-            .contextModule(new ContextModule(getApplicationContext()));
+                .contextModule(new ContextModule(getApplicationContext()));
     }
 
     protected void configureSessionListInjectorBuilder() {
         mSessionListBuilder = DaggerListSessionComponent.builder()
-            .contextModule(new ContextModule(getApplicationContext()));
+                .contextModule(new ContextModule(getApplicationContext()));
+    }
+
+    protected void configureMeetingInjectorBuilder() {
+        mMeetingComponentBuilder = DaggerMeetingComponent.builder()
+                .contextModule(new ContextModule(getApplicationContext()));
     }
 
     public void inject(LoginActivity activity) {
@@ -66,6 +75,10 @@ public class StickySessionApplication extends Application {
 
     public void inject(ListSessionsActivity activity) {
         mSessionListBuilder.build().inject(activity);
+    }
+
+    public void inject(MeetingActivity activity) {
+        mMeetingComponentBuilder.build().inject(activity);
     }
 
 }

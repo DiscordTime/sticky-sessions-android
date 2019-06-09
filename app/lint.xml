@@ -16,9 +16,9 @@
     </issue>
 
     <!-- Lint is complaining about unused ids resolved by
-    kotlinx on activity -->
+    kotlinx on activities -->
     <issue id="UnusedIds">
-        <ignore path="src/main/res/layout/activity_login.xml" />
+        <ignore path="src/main/res/layout/*.xml" />
     </issue>
 
     <!-- Lint asks to convert images to Webp format, but converting

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="meetingCardBgColor" format="reference|color" />
+    <attr name="meetingCardTitleColor" format="reference|color" />
+    <attr name="meetingCardTextColor" format="reference|color" />
+    <attr name="meetingCardDescColor" format="reference|color"/>
+    <attr name="meetingCardRespImage" format="reference|color" />
+    <attr name="meetingCardRespColor" format="reference|color" />
+    <attr name="meetingCardPartImage" format="reference|color" />
+    <attr name="meetingCardPartColor" format="reference|color" />
+</resources>

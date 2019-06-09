@@ -34,6 +34,14 @@
         <item name="android:textColor">#ff534b</item>
     </style>
 
+    <style name="TextStyle2">
+        <item name="android:textSize">14sp</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:lineSpacingExtra">6sp</item>
+        <item name="android:textColor">#ffffff</item>
+    </style>
+
     <style name="TextStyle9">
         <item name="android:textSize">16sp</item>
         <item name="android:fontFamily">sans-serif-medium</item>
@@ -48,6 +56,39 @@
         <item name="android:textStyle">normal</item>
         <item name="android:lineSpacingExtra">6sp</item>
         <item name="android:textColor">#ff534b</item>
+    </style>
+
+    <style name="MeetingCardViewStyle" parent="CardView">
+        <item name="cardCornerRadius">0dp</item>
+        <item name="cardBackgroundColor">?attr/meetingCardBgColor</item>
+        <item name="android:layout_height">211dp</item>
+        <item name="android:layout_width">match_parent</item>
+    </style>
+
+    <style name="MeetingCardThemeRecent">
+        <item name="meetingCardBgColor">@color/deep_purple</item>
+        <item name="meetingCardTitleColor">#deffffff</item>
+        <item name="meetingCardTextColor">@color/white</item>
+        <item name="meetingCardDescColor">#b3ffffff</item>
+        <item name="meetingCardRespImage">@drawable/ic_resp_white</item>-
+        <item name="meetingCardRespColor">@color/white</item>
+        <item name="meetingCardPartImage">@drawable/ic_p_white</item>
+        <item name="meetingCardPartColor">@color/white</item>
+    </style>
+
+    <style name="MeetingCardThemeOld">
+        <item name="meetingCardBgColor">@color/white</item>
+        <item name="meetingCardTitleColor">#272727</item>
+        <item name="meetingCardTextColor">#272727</item>
+        <item name="meetingCardDescColor">@color/warm_grey</item>
+        <item name="meetingCardRespImage">@drawable/ic_resp_orange</item>
+        <item name="meetingCardRespColor">@color/coral</item>
+        <item name="meetingCardPartImage">@drawable/ic_p_orange</item>
+        <item name="meetingCardPartColor">@color/coral</item>
+    </style>
+
+    <style name="ProgressBarHorizontalStyle" parent="Widget.AppCompat.ProgressBar.Horizontal">
+        <item name="android:layout_height">5dp</item>
     </style>
 
     <style name="NoteContent">
