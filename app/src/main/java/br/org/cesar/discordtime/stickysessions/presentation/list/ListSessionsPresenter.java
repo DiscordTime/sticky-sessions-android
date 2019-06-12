@@ -53,7 +53,7 @@ public class ListSessionsPresenter implements ListSessionsContract.Presenter {
     public void onLoad(String meetingId) {
         mLogger.d(TAG, "onLoad list sessions ");
 
-        if (meetingId != null) {
+        if (meetingId != null && !meetingId.isEmpty()) {
             initObservers();
             mView.startLoadingData();
             mListSessions.execute(mListSessionsObserver, meetingId);

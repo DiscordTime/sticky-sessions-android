@@ -1,6 +1,5 @@
 package br.org.cesar.discordtime.stickysessions.presentation.list
 
-import br.org.cesar.discordtime.stickysessions.domain.interactor.RescheduleSession
 import br.org.cesar.discordtime.stickysessions.domain.model.Session
 import br.org.cesar.discordtime.stickysessions.executor.IObservableUseCase
 import br.org.cesar.discordtime.stickysessions.logger.Logger
@@ -19,7 +18,7 @@ import java.io.IOException
 
 class ListSessionsPresenterTest {
     private lateinit var listSessionsPresenter : ListSessionsPresenter
-    private lateinit var mockLisSessions: IObservableUseCase<Void, List<Session>>
+    private lateinit var mockLisSessions: IObservableUseCase<String, List<Session>>
     private lateinit var mockRescheduleSession: IObservableUseCase<Session, Session>
     private lateinit var mockLogger: Logger
     private lateinit var mockIBundleFactory: IBundleFactory
@@ -54,18 +53,32 @@ class ListSessionsPresenterTest {
     }
 
     @Test
+    fun `should show error when meeting id is null`() {
+        listSessionsPresenter.attachView(mockView)
+        listSessionsPresenter.onLoad(null)
+        verify(mockView).showError(any())
+    }
+
+    @Test
+    fun `should show error when meeting id is empty`() {
+        listSessionsPresenter.attachView(mockView)
+        listSessionsPresenter.onLoad("")
+        verify(mockView).showError(any())
+    }
+
+    @Test
     fun `should init observers when present start onLoad`() {
         listSessionsPresenter.attachView(mockView)
-        listSessionsPresenter.onLoad()
-        verify(mockLisSessions).execute(any(), isNull())
+        listSessionsPresenter.onLoad(MEETING_ID)
+        verify(mockLisSessions).execute(any(), any())
     }
 
     @Test
     fun `should dispose all observers after onPause`() {
         listSessionsPresenter.attachView(mockView)
 
-        listSessionsPresenter.onLoad()
-        verify(mockLisSessions).execute(captor.capture(), isNull())
+        listSessionsPresenter.onLoad(MEETING_ID)
+        verify(mockLisSessions).execute(captor.capture(), any())
         listSessionsPresenter.onStop()
         assertTrue(captor.firstValue.isDisposed)
     }
@@ -73,7 +86,7 @@ class ListSessionsPresenterTest {
     @Test
     fun `should start loading data when present start load`() {
         listSessionsPresenter.attachView(mockView)
-        listSessionsPresenter.onLoad()
+        listSessionsPresenter.onLoad(MEETING_ID)
         verify(mockView).startLoadingData()
     }
 
@@ -129,8 +142,8 @@ class ListSessionsPresenterTest {
     }
 
     private fun configureListSessionSuccess() {
-        listSessionsPresenter.onLoad()
-        verify(mockLisSessions).execute(captor.capture(), isNull())
+        listSessionsPresenter.onLoad(MEETING_ID)
+        verify(mockLisSessions).execute(captor.capture(), any())
         captor.firstValue.onSuccess(mListSession)
     }
 
@@ -139,8 +152,8 @@ class ListSessionsPresenterTest {
     }
 
     private fun configureListSessionError(e: Exception) {
-        listSessionsPresenter.onLoad()
-        verify(mockLisSessions).execute(captor.capture(), isNull())
+        listSessionsPresenter.onLoad(MEETING_ID)
+        verify(mockLisSessions).execute(captor.capture(), any())
         captor.firstValue.onError(e)
     }
 
@@ -148,6 +161,10 @@ class ListSessionsPresenterTest {
         whenever(mockIBundleFactory.create()).thenReturn(BundleWrapper())
         whenever(mockView.name).thenReturn("ViewName")
         whenever(mockIRouter.getNext(any(),any())).thenReturn(validRoute)
+    }
+
+    companion object {
+        private const val MEETING_ID = "meetingId"
     }
 
 

@@ -2,6 +2,7 @@ package br.org.cesar.discordtime.stickysessions.factory
 
 import br.org.cesar.discordtime.stickysessions.domain.model.Meeting
 import br.org.cesar.discordtime.stickysessions.factory.DataFactory.Factory.randomString
+import br.org.cesar.discordtime.stickysessions.presentation.meeting.MeetingItem
 import java.util.*
 
 class MeetingFactory {
@@ -26,5 +27,6 @@ class MeetingFactory {
             cal.add(Calendar.DAY_OF_YEAR, daysFromBase)
             return makeMeeting(sessionsCount,participantsCount,cal.time)
         }
+
     }
 }

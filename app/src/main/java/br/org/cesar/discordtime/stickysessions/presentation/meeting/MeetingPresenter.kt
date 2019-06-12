@@ -15,7 +15,7 @@ class MeetingPresenter(
         private val bundleFactory: IBundleFactory)
     : MeetingContract.Presenter {
 
-    var mView: MeetingContract.View? = null
+    private var mView: MeetingContract.View? = null
 
     override fun attachView(view: MeetingContract.View) {
         mView = view
