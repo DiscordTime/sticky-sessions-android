@@ -12,7 +12,7 @@ public interface ListSessionsContract {
     interface Presenter {
         void attachView(ListSessionsContract.View view);
         void detachView();
-        void onLoad();
+        void onLoad(String meetingId);
         void onStop();
         void enterOnSession(Session session);
         void onSwipeLeft(Session session);

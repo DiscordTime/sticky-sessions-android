@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -31,6 +32,7 @@ import br.org.cesar.discordtime.stickysessions.navigation.router.Route;
 import br.org.cesar.discordtime.stickysessions.navigation.wrapper.IBundle;
 import br.org.cesar.discordtime.stickysessions.navigation.wrapper.IViewStarter;
 import br.org.cesar.discordtime.stickysessions.presentation.list.ListSessionsContract;
+import br.org.cesar.discordtime.stickysessions.ui.ExtraNames;
 import br.org.cesar.discordtime.stickysessions.ui.ViewNames;
 
 public class ListSessionsActivity extends AppCompatActivity
@@ -48,6 +50,7 @@ public class ListSessionsActivity extends AppCompatActivity
     private Button mRetryButton;
     private Context mContext;
     private DatePickerDialog mDatePickerDialog;
+    private String mMeetingId = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +64,11 @@ public class ListSessionsActivity extends AppCompatActivity
         configureToolbar();
         configureRecycleView();
         configureDatePicker();
+
+        Intent intent = getIntent();
+        if (intent != null) {
+            mMeetingId = intent.getStringExtra(ExtraNames.MEETING_ID);
+        }
     }
 
     private void configureToolbar() {
@@ -116,7 +124,7 @@ public class ListSessionsActivity extends AppCompatActivity
     protected void onStart() {
         super.onStart();
         mPresenter.attachView(this);
-        mPresenter.onLoad();
+        mPresenter.onLoad(mMeetingId);
     }
 
     @Override
@@ -167,7 +175,7 @@ public class ListSessionsActivity extends AppCompatActivity
     }
 
     public void onRetryClick(View view) {
-        mPresenter.onLoad();
+        mPresenter.onLoad(mMeetingId);
     }
 
     @Override
