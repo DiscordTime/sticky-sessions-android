@@ -6,7 +6,7 @@ import br.org.cesar.discordtime.stickysessions.domain.model.Session;
 import br.org.cesar.discordtime.stickysessions.domain.repository.SessionRepository;
 import io.reactivex.Single;
 
-public class ListSessions extends UseCase<Void, List<Session>> {
+public class ListSessions extends UseCase<String, List<Session>> {
 
     private final SessionRepository mRepository;
 
@@ -15,7 +15,7 @@ public class ListSessions extends UseCase<Void, List<Session>> {
     }
 
     @Override
-    public Single<List<Session>> execute(Void params) {
-        return mRepository.listSessions();
+    public Single<List<Session>> execute(String meetingId) {
+        return mRepository.listSessions(meetingId);
     }
 }

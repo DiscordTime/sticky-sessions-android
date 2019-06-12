@@ -9,5 +9,6 @@ public interface SessionRepository {
     Single<Session> create(List<String> topics);
     Single<Session> getSession(String sessionId);
     Single<List<Session>> listSessions();
+    Single<List<Session>> listSessions(String meetingId);
     Single<Session> rescheduleSession(Session session);
 }

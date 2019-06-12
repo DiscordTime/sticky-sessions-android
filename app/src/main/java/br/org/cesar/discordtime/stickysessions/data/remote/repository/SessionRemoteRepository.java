@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import br.org.cesar.discordtime.stickysessions.data.remote.model.SessionRemote;
 import br.org.cesar.discordtime.stickysessions.data.remote.model.SessionRemoteFirebase;
@@ -48,19 +50,32 @@ public class SessionRemoteRepository implements SessionRepository {
                     return sessionsRemote;
                 })
                 .map(sessionRemotes -> {
-                List<Session> sessions = new ArrayList<>();
+                    List<Session> sessions = new ArrayList<>();
 
-                // TODO: Issue #143 - Move sorting to the presentation layer
-                Collections.sort(sessionRemotes, new SessionRemoteComparator());
-                for (SessionRemote sessionRemote : sessionRemotes) {
-                    Session session = mMapper.mapToDomain(sessionRemote);
-                    if(session != null) {
-                        sessions.add(session);
+                    // TODO: Issue #143 - Move sorting to the presentation layer
+                    Collections.sort(sessionRemotes, new SessionRemoteComparator());
+                    for (SessionRemote sessionRemote : sessionRemotes) {
+                        Session session = mMapper.mapToDomain(sessionRemote);
+                        if(session != null) {
+                            sessions.add(session);
+                        }
                     }
-                }
 
-                return sessions;
-        });
+                    return sessions;
+                });
+    }
+
+    @Override
+    public Single<List<Session>> listSessions(String meetingId) {
+        return listSessions().map(sessions -> {
+                    List<Session> sessionsFiltered = new ArrayList<>();
+                    for (Session session: sessions) {
+                        if (isSessionFromThisMeeting(session, meetingId)) {
+                            sessionsFiltered.add(session);
+                        }
+                    }
+                    return sessionsFiltered;
+                });
     }
 
     @Override
@@ -68,6 +83,10 @@ public class SessionRemoteRepository implements SessionRepository {
         return mService.rescheduleSession(session.id, mMapper.mapFromDomain(session))
                 .map(SessionRemote::new)
                 .map(sessionRemote -> mMapper.mapToDomain(sessionRemote));
+    }
+
+    private boolean isSessionFromThisMeeting(Session session, String meetingId) {
+        return session.createdAt.equals(meetingId);
     }
 
     private class SessionRemoteComparator implements Comparator<SessionRemote> {

@@ -17,7 +17,7 @@ import io.reactivex.observers.DisposableSingleObserver;
 
 public class ListSessionsPresenter implements ListSessionsContract.Presenter {
     private static final String TAG = "ListSessionsPresenter";
-    private final IObservableUseCase<Void, List<Session>> mListSessions;
+    private final IObservableUseCase<String, List<Session>> mListSessions;
     private final IObservableUseCase<Session, Session> mRescheduleSession;
     private final IRouter mRouter;
     private final IBundleFactory mBundleFactory;
@@ -27,7 +27,7 @@ public class ListSessionsPresenter implements ListSessionsContract.Presenter {
     private ListSessionsContract.View mView;
     private Session mSessionToBeRescheduled;
 
-    public ListSessionsPresenter(IObservableUseCase<Void, List<Session>> listSessions,
+    public ListSessionsPresenter(IObservableUseCase<String, List<Session>> listSessions,
                                  IObservableUseCase<Session, Session> rescheduleSession,
                                  IRouter router, Logger logger, IBundleFactory bundleFactory) {
         mListSessions = listSessions;
@@ -50,11 +50,18 @@ public class ListSessionsPresenter implements ListSessionsContract.Presenter {
     }
 
     @Override
-    public void onLoad() {
+    public void onLoad(String meetingId) {
         mLogger.d(TAG, "onLoad list sessions ");
-        initObservers();
-        mView.startLoadingData();
-        mListSessions.execute(mListSessionsObserver, null);
+
+        if (meetingId != null) {
+            initObservers();
+            mView.startLoadingData();
+            mListSessions.execute(mListSessionsObserver, meetingId);
+        } else {
+            // TODO: Create a ResourceWrapper and get string from there
+            mView.showError("Invalid meeting, please go back to the meetings screen");
+        }
+
     }
 
     @Override

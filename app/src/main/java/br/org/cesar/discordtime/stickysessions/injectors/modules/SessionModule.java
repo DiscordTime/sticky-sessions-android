@@ -77,8 +77,8 @@ public class SessionModule {
     }
 
     @Provides
-    public IObservableUseCase<Void, List<Session>> provideListUseCase(
-            UseCase<Void, List<Session>> listSessions,
+    public IObservableUseCase<String, List<Session>> provideListUseCase(
+            UseCase<String, List<Session>> listSessions,
             ThreadExecutor threadExecutor,
             PostExecutionThread postExecutionThread
     ) {
@@ -113,7 +113,7 @@ public class SessionModule {
     }
 
     @Provides
-    public UseCase<Void, List<Session>> provideListSessions(SessionRepository repository) {
+    public UseCase<String, List<Session>> provideListSessions(SessionRepository repository) {
         return new ListSessions(repository);
     }
 

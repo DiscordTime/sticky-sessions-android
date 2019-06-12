@@ -17,7 +17,7 @@ public class ListSessionsModule {
 
     @Provides
     public ListSessionsContract.Presenter providePresenter(
-        IObservableUseCase<Void, List<Session>> listSessions,
+        IObservableUseCase<String, List<Session>> listSessions,
         IObservableUseCase<Session, Session> rescheduleSession,
         IRouter router, Logger logger, IBundleFactory bundleFactory) {
         return new ListSessionsPresenter(listSessions, rescheduleSession,
