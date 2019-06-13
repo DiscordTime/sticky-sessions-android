@@ -164,7 +164,8 @@ workflows:
             - build
           filters:
             branches:
-              only: dev
+              only:
+                - dev
       - deploy_to_crashlytics:
           requires:
             - test_instrumented

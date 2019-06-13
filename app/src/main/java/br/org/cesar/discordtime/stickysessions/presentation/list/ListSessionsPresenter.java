@@ -72,7 +72,7 @@ public class ListSessionsPresenter implements ListSessionsContract.Presenter {
 
     private void disposeObservers() {
         mView = null;
-        mListSessionsObserver.dispose();
+        if (mListSessionsObserver != null) mListSessionsObserver.dispose();
     }
 
     private void initObservers() {
