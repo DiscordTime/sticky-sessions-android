@@ -10,6 +10,7 @@ import androidx.test.rule.ActivityTestRule
 import androidx.test.runner.AndroidJUnit4
 import br.org.cesar.discordtime.stickysessions.MockServerDispatcher
 import br.org.cesar.discordtime.stickysessions.R
+import br.org.cesar.discordtime.stickysessions.ui.ExtraNames
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.After
 import org.junit.Before
@@ -42,7 +43,11 @@ class ListSessionsActivityEspressoTest {
     fun activityIsUpAndRunning() {
 
         webServer.setDispatcher(MockServerDispatcher().RequestDispatcher())
-        activityRule.launchActivity(Intent())
+
+        val intent = Intent()
+        intent.putExtra(ExtraNames.MEETING_ID, "20.12.2018")
+
+        activityRule.launchActivity(intent)
 
         onView(withId(R.id.session_list))
                 .check(matches(isDisplayed()))
