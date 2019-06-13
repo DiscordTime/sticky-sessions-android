@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'io.fabric'
 apply plugin: 'com.google.gms.google-services'
+apply plugin: 'kotlin-kapt'
 apply from: 'versioning.gradle'
 apply from: '../coverage.gradle'
 
@@ -126,7 +127,7 @@ dependencies {
     implementation "com.squareup.okhttp3:logging-interceptor:${versions.okhttp}"
 
     // Dagger
-    annotationProcessor "com.google.dagger:dagger-compiler:${versions.dagger}"
+    kapt "com.google.dagger:dagger-compiler:${versions.dagger}"
     implementation "com.google.dagger:dagger:${versions.dagger}"
 
     //Fabric
@@ -144,6 +145,10 @@ dependencies {
     testImplementation "org.robolectric:robolectric:${versions.robolectric}"
     testImplementation "com.nhaarman:mockito-kotlin:${versions.mockito_kotlin}"
     testImplementation "com.squareup.okhttp3:mockwebserver:${versions.okhttp}"
+
+    // Dagger for unit tests
+    testImplementation "com.google.dagger:dagger:${versions.dagger}"
+    kaptTest "com.google.dagger:dagger-compiler:${versions.dagger}"
 
     // Instrumentation tests
     // Core library
