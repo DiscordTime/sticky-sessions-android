@@ -1,12 +1,11 @@
 package br.org.cesar.discordtime.stickysessions.ui.meeting
 
 import android.annotation.SuppressLint
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import br.org.cesar.discordtime.stickysessions.R
@@ -18,8 +17,8 @@ import br.org.cesar.discordtime.stickysessions.navigation.wrapper.IViewStarter
 import br.org.cesar.discordtime.stickysessions.presentation.meeting.MeetingContract
 import br.org.cesar.discordtime.stickysessions.presentation.meeting.MeetingItem
 import br.org.cesar.discordtime.stickysessions.ui.ViewNames
-import kotlinx.android.synthetic.main.activity_meeting.recycler_view_meetings as mRecyclerView
 import javax.inject.Inject
+import kotlinx.android.synthetic.main.activity_meeting.recycler_view_meetings as mRecyclerView
 
 class MeetingActivity : AppCompatActivity(), MeetingContract.View {
 

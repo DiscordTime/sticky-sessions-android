@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import br.org.cesar.discordtime.stickysessions.navigation.exception.InvalidViewNameException;
-import br.org.cesar.discordtime.stickysessions.presentation.session.SessionContract;
 import br.org.cesar.discordtime.stickysessions.ui.ViewNames;
 import br.org.cesar.discordtime.stickysessions.ui.list.ListSessionsActivity;
 import br.org.cesar.discordtime.stickysessions.ui.lobby.LobbyActivity;
