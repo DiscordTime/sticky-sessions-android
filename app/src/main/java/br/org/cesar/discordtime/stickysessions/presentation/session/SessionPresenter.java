@@ -128,7 +128,7 @@ public class SessionPresenter implements SessionContract.Presenter {
                     mView.stopLoadingAllNotes();
                     mView.displayErrorInvalidNotes();
                 }
-            }, new NoteFilter(mActiveSession.id, mCurrentUser));
+            }, new NoteFilter(mActiveSession.id));
         } else {
             mView.stopLoadingAllNotes();
             mView.displayErrorInvalidNotes();
