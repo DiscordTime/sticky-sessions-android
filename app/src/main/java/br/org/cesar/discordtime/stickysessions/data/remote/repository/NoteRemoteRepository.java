@@ -32,7 +32,7 @@ public class NoteRemoteRepository implements NoteRepository {
 
     @Override
     public Single<List<Note>> listNotesForSession(NoteFilter noteFilter) {
-        return mNoteService.listNotesForSession(noteFilter.idSession, noteFilter.user).map(
+        return mNoteService.listNotesForSession(noteFilter.idSession).map(
             noteRemotes -> {
                 List<Note> mNotes = new ArrayList<>();
 

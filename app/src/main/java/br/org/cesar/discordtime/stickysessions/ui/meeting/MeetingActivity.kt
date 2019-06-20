@@ -2,6 +2,7 @@ package br.org.cesar.discordtime.stickysessions.ui.meeting
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -17,6 +18,7 @@ import br.org.cesar.discordtime.stickysessions.navigation.wrapper.IViewStarter
 import br.org.cesar.discordtime.stickysessions.presentation.meeting.MeetingContract
 import br.org.cesar.discordtime.stickysessions.presentation.meeting.MeetingItem
 import br.org.cesar.discordtime.stickysessions.ui.ViewNames
+import kotlinx.android.synthetic.main.activity_meeting.*
 import javax.inject.Inject
 import kotlinx.android.synthetic.main.activity_meeting.recycler_view_meetings as mRecyclerView
 
@@ -85,7 +87,7 @@ class MeetingActivity : AppCompatActivity(), MeetingContract.View {
     }
 
     override fun showError(message: String) {
-        TODO("not implemented")
+        Log.e(TAG, message)
     }
 
     override fun showMeetings(meetings: MutableList<MeetingItem>) {
@@ -99,5 +101,9 @@ class MeetingActivity : AppCompatActivity(), MeetingContract.View {
     @Throws(InvalidViewNameException::class)
     override fun goNext(route: Route, bundle: IBundle) {
         mViewStarter.goNext(this, route.to, route.shouldClearStack, bundle)
+    }
+
+    companion object {
+        const val TAG = "MeetingActivity"
     }
 }

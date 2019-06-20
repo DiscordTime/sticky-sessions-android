@@ -12,7 +12,7 @@ public class NoteRemote {
     @Expose
     public String description;
     @SerializedName("user")
-    @Expose
+    @Expose(serialize = false)
     public String user;
     @SerializedName("topic")
     @Expose
