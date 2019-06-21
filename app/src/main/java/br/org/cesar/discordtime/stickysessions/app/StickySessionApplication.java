@@ -13,7 +13,7 @@ import br.org.cesar.discordtime.stickysessions.injectors.modules.ContextModule;
 import br.org.cesar.discordtime.stickysessions.ui.list.ListSessionsActivity;
 import br.org.cesar.discordtime.stickysessions.ui.lobby.LobbyActivity;
 import br.org.cesar.discordtime.stickysessions.ui.login.LoginActivity;
-import br.org.cesar.discordtime.stickysessions.ui.meeting.MeetingActivity;
+import br.org.cesar.discordtime.stickysessions.ui.meeting.MeetingFragment;
 import br.org.cesar.discordtime.stickysessions.ui.session.SessionActivity;
 import io.fabric.sdk.android.Fabric;
 
@@ -77,8 +77,8 @@ public class StickySessionApplication extends Application {
         mSessionListBuilder.build().inject(activity);
     }
 
-    public void inject(MeetingActivity activity) {
-        mMeetingComponentBuilder.build().inject(activity);
+    public void inject(MeetingFragment fragment) {
+        mMeetingComponentBuilder.build().inject(fragment);
     }
 
 }

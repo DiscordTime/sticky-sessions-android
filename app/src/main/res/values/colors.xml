@@ -8,10 +8,11 @@
     <color name="colorAccentDark">#ffc000</color>
     <!-- new colors -->
     <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
     <color name="white_two">#f3f3f3</color>
     <color name="deep_purple">#42023e</color>
     <color name="aubergine">#2d042a</color>
-    <color name="coral">#ff534b</color>
+    <color name="coral">#FF534B</color>
     <color name="white_opacity_70">#b3ffffff</color>
     <color name="warm_grey">#8b8b8b</color>
     <!-- selectable colors -->
