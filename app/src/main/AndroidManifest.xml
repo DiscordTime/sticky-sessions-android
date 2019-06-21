@@ -35,9 +35,17 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+
         <activity
-            android:name=".ui.meeting.MeetingActivity"
-            android:screenOrientation="${orientation}" />
+            android:name=".ui.main.MainActivity"
+            android:screenOrientation="${orientation}" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
         <activity
             android:name=".ui.session.SessionActivity"
             android:screenOrientation="${orientation}"

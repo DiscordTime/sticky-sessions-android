@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+<<<<<<< HEAD
+        android:id="@+id/notification_menu"
+        android:icon="@drawable/ic_notification"
+=======
+        android:id="@+id/action_share"
+        android:icon="@drawable/ic_notification"
+        android:iconTint="@color/coral"
+>>>>>>> 9b34ef6... Create the main screen with new UX/UI using DrawerNavigation
+        app:showAsAction="always"
+        android:title="@string/bt_share_session">
+    </item>
+</menu>

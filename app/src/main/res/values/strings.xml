@@ -35,10 +35,28 @@
     <string name="responses">responses</string>
     <!-- TODO: get the real number of responses and delete this resource -->
     <string name="fixed_number_of_responses">6 responses</string>
+
     <string name="content_description_dot">dot</string>
     <string name="content_description_icon_session">icon representing sessions</string>
     <string name="content_description_icon_participants">icon representing participants</string>
     <string name="text_meeting_date_format">%s %s</string>
     <string name="text_meeting_recents_section">Recents</string>
     <string name="text_meeting_older_section">Older</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Maria Silva</string>
+    <string name="nav_header_subtitle">maria.silva@gmail.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="nav_menu_meetings">Meetings</string>
+    <string name="nav_menu_about">About</string>
+    <string name="nav_menu_settings">Settings</string>
+    <string name="app_version">v %1$s</string>
+    <string name="main_logout_description">Logout Icon</string>
+    <string name="main_logout">LOG OUT</string>
+
+    <string name="fragment_meetings_tag">meetings</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
