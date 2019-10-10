@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="#cbffe6"
+    android:elevation="2dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/text_note_topic"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        tools:text="Topic Name"
+        android:textColor="#000"
+        style="@style/NoteStyleTitlePreview"
+        app:layout_constraintEnd_toStartOf="@+id/image_menu"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/image_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/text_note_topic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/text_note_topic"
+        app:srcCompat="@drawable/ic_more" />
+
+    <TextView
+        android:id="@+id/text_note_description"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="30dp"
+        android:fontFamily="sans-serif"
+        android:textColor="#272727"
+        android:textSize="16sp"
+        android:textStyle="normal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/image_menu"
+        app:layout_constraintStart_toStartOf="@+id/text_note_topic"
+        app:layout_constraintTop_toBottomOf="@+id/text_note_topic"
+        tools:text="Description Lorem ipsum dolor sit amet, cons ect etur adipiscai elit, sed do eiusmod tempor. Lorem ipsum dolor sit amet, cons ect etur adipiscai elit, sed do eiusmod tempor." />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,12 +7,14 @@ import br.org.cesar.discordtime.stickysessions.injectors.components.DaggerLobbyC
 import br.org.cesar.discordtime.stickysessions.injectors.components.DaggerLoginComponent;
 import br.org.cesar.discordtime.stickysessions.injectors.components.DaggerMeetingComponent;
 import br.org.cesar.discordtime.stickysessions.injectors.components.DaggerSessionComponent;
+import br.org.cesar.discordtime.stickysessions.injectors.components.DaggerTopicNotesViewComponent;
 import br.org.cesar.discordtime.stickysessions.injectors.modules.ContextModule;
+import br.org.cesar.discordtime.stickysessions.ui.notes.holder.NotesViewHolder;
 import br.org.cesar.discordtime.stickysessions.ui.list.ListSessionsActivity;
 import br.org.cesar.discordtime.stickysessions.ui.lobby.LobbyActivity;
 import br.org.cesar.discordtime.stickysessions.ui.login.LoginActivity;
 import br.org.cesar.discordtime.stickysessions.ui.meeting.MeetingActivity;
-import br.org.cesar.discordtime.stickysessions.ui.session.SessionActivity;
+import br.org.cesar.discordtime.stickysessions.ui.notes.NotesActivity;
 
 public class StickySessionApplication extends Application {
 
@@ -21,6 +23,8 @@ public class StickySessionApplication extends Application {
     protected DaggerSessionComponent.Builder mSessionComponentBuilder;
     protected DaggerListSessionComponent.Builder mSessionListBuilder;
     protected DaggerMeetingComponent.Builder mMeetingComponentBuilder;
+    protected DaggerTopicNotesViewComponent.Builder mTopicNotesViewBuilder;
+
 
     @Override
     public void onCreate() {
@@ -30,6 +34,7 @@ public class StickySessionApplication extends Application {
         configureSessionInjectorBuilder();
         configureSessionListInjectorBuilder();
         configureMeetingInjectorBuilder();
+        configureTopicNotesViewBuilder();
     }
 
     protected void configureLoginInjectorBuilder() {
@@ -56,6 +61,11 @@ public class StickySessionApplication extends Application {
                 .contextModule(new ContextModule(getApplicationContext()));
     }
 
+    protected void configureTopicNotesViewBuilder() {
+        mTopicNotesViewBuilder = DaggerTopicNotesViewComponent.builder()
+                .contextModule(new ContextModule(getApplicationContext()));
+    }
+
     public void inject(LoginActivity activity) {
         mLoginComponentBuilder.build().inject(activity);
     }
@@ -64,7 +74,7 @@ public class StickySessionApplication extends Application {
         mLobbyComponentBuilder.build().inject(activity);
     }
 
-    public void inject(SessionActivity activity) {
+    public void inject(NotesActivity activity) {
         mSessionComponentBuilder.build().inject(activity);
     }
 
@@ -76,4 +86,7 @@ public class StickySessionApplication extends Application {
         mMeetingComponentBuilder.build().inject(activity);
     }
 
+    public void inject(final NotesViewHolder topicNotesView) {
+        mTopicNotesViewBuilder.build().inject(topicNotesView);
+    }
 }

@@ -1,5 +1,9 @@
 package br.org.cesar.discordtime.stickysessions.domain.interactor;
 
+import android.util.Log;
+
+import javax.inject.Singleton;
+
 import br.org.cesar.discordtime.stickysessions.domain.model.Note;
 import br.org.cesar.discordtime.stickysessions.domain.repository.NoteRepository;
 import br.org.cesar.discordtime.stickysessions.domain.repository.SessionRepository;
@@ -11,6 +15,7 @@ public class AddNote extends UseCase<Note, Note> {
     private final SessionRepository mSessionRepository;
 
     public AddNote(NoteRepository noteRepository, SessionRepository sessionRepository) {
+        Log.d("devlog", "create AddNote");
         mNoteRepository = noteRepository;
         mSessionRepository = sessionRepository;
     }

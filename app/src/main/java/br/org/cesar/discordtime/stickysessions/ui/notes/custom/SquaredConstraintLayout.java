@@ -1,4 +1,4 @@
-package br.org.cesar.discordtime.stickysessions.ui.session.custom;
+package br.org.cesar.discordtime.stickysessions.ui.notes.custom;
 
 import android.content.Context;
 import android.util.AttributeSet;

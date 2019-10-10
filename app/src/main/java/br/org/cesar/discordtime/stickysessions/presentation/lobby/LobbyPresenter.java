@@ -118,13 +118,13 @@ public class LobbyPresenter implements LobbyContract.Presenter {
     class ListSessionObserver extends DisposableSingleObserver<Void> {
         @Override
         public void onSuccess(Void aVoid) {
-            mLog.d(TAG, "list sessions success");
+            mLog.d(TAG, "loadNotesForSession sessions success");
             goNext(IRouter.LIST_SESSIONS);
         }
 
         @Override
         public void onError(Throwable e) {
-            mLog.d(TAG, "list session error" + e.getLocalizedMessage());
+            mLog.d(TAG, "loadNotesForSession session error" + e.getLocalizedMessage());
             // TODO: Pass meaningful text to view depending on error
             mView.displayError("");
         }

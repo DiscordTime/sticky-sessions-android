@@ -51,7 +51,7 @@ public class ListSessionsPresenter implements ListSessionsContract.Presenter {
 
     @Override
     public void onLoad(String meetingId) {
-        mLogger.d(TAG, "onLoad list sessions ");
+        mLogger.d(TAG, "onLoad loadNotesForSession sessions ");
 
         if (meetingId != null && !meetingId.isEmpty()) {
             initObservers();

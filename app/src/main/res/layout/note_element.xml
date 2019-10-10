@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<br.org.cesar.discordtime.stickysessions.ui.session.custom.SquaredConstraintLayout
+<br.org.cesar.discordtime.stickysessions.ui.notes.custom.SquaredConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -42,4 +42,4 @@
         tools:text="This is a great text to check if the textview will break the textview"
         android:textIsSelectable="false"/>
 
-</br.org.cesar.discordtime.stickysessions.ui.session.custom.SquaredConstraintLayout>
+</br.org.cesar.discordtime.stickysessions.ui.notes.custom.SquaredConstraintLayout>

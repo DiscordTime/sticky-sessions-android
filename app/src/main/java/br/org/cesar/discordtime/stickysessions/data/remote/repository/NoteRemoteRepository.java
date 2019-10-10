@@ -3,6 +3,7 @@ package br.org.cesar.discordtime.stickysessions.data.remote.repository;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.org.cesar.discordtime.stickysessions.BuildConfig;
 import br.org.cesar.discordtime.stickysessions.data.remote.model.NoteRemote;
 import br.org.cesar.discordtime.stickysessions.data.remote.service.NoteService;
 import br.org.cesar.discordtime.stickysessions.data.repository.mapper.Mapper;

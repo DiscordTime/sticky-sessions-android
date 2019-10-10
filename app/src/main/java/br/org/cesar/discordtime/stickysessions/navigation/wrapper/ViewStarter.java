@@ -14,7 +14,7 @@ import br.org.cesar.discordtime.stickysessions.ui.list.ListSessionsActivity;
 import br.org.cesar.discordtime.stickysessions.ui.lobby.LobbyActivity;
 import br.org.cesar.discordtime.stickysessions.ui.login.LoginActivity;
 import br.org.cesar.discordtime.stickysessions.ui.meeting.MeetingActivity;
-import br.org.cesar.discordtime.stickysessions.ui.session.SessionActivity;
+import br.org.cesar.discordtime.stickysessions.ui.notes.NotesActivity;
 
 public class ViewStarter implements IViewStarter {
 
@@ -23,7 +23,7 @@ public class ViewStarter implements IViewStarter {
             put(ViewNames.LOGIN_ACTIVITY, LoginActivity.class);
             put(ViewNames.LOBBY_ACTIVITY, LobbyActivity.class);
             put(ViewNames.MEETING_ACTIVITY, MeetingActivity.class);
-            put(ViewNames.SESSION_ACTIVITY, SessionActivity.class);
+            put(ViewNames.SESSION_ACTIVITY, NotesActivity.class);
             put(ViewNames.LIST_ACTIVITY, ListSessionsActivity.class);
         }};
 

@@ -54,13 +54,13 @@ android {
     flavorDimensions "server"
 
     productFlavors {
-        prod {
-            dimension "server"
-            ext {
-                url = "http://35.237.70.49:3000"
-            }
-            resValue "string", "app_name", "Sticky Sessions"
-        }
+//        prod {
+//            dimension "server"
+//            ext {
+//                url = "http://35.237.70.49:3000"
+//            }
+//            resValue "string", "app_name", "Sticky Sessions"
+//        }
         stag {
             dimension "server"
             applicationId = "${packageId}.stag"
@@ -69,19 +69,20 @@ android {
             }
             resValue "string", "app_name", "Sticky Sessions (Staging)"
         }
-        local {
-            dimension "server"
-            applicationId = "${packageId}.local"
-            ext {
-                url = "http://localhost:3000"
-            }
-            resValue "string", "app_name", "Sticky Sessions (Local)"
-        }
+//        local {
+//            dimension "server"
+//            applicationId = "${packageId}.local"
+//            ext {
+//                url = "http://localhost:3000"
+//            }
+//            resValue "string", "app_name", "Sticky Sessions (Local)"
+//        }
         applicationVariants.all { variant ->
             def flavors = variant.productFlavors
             // flavorDimensions "server" -> 0
             def server = flavors[0]
             variant.buildConfigField "String", "URL", "\"${server[url.name]}\""
+
         }
     }
 

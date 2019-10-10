@@ -5,13 +5,10 @@ import br.org.cesar.discordtime.stickysessions.AndroidTest
 import br.org.cesar.discordtime.stickysessions.navigation.exception.InvalidViewNameException
 import br.org.cesar.discordtime.stickysessions.navigation.wrapper.ViewStarter
 import br.org.cesar.discordtime.stickysessions.ui.ViewNames
-import br.org.cesar.discordtime.stickysessions.ui.lobby.LobbyActivity
-import br.org.cesar.discordtime.stickysessions.ui.session.SessionActivity
+import br.org.cesar.discordtime.stickysessions.ui.notes.NotesActivity
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNotEquals
 import org.junit.Before
 import org.junit.Test
-import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.Shadows.shadowOf
 
@@ -27,7 +24,7 @@ class ViewStarterTest : AndroidTest() {
     @Test
     fun `should start activity when viewName is valid`() {
         mViewStarter.goNext(super.context(), ViewNames.SESSION_ACTIVITY, true)
-        val expectedIntent = Intent(super.context(), SessionActivity::class.java)
+        val expectedIntent = Intent(super.context(), NotesActivity::class.java)
         val actual = shadowOf(RuntimeEnvironment.application).nextStartedActivity
         assertEquals(expectedIntent.component, actual.component)
         assertEquals( actual.flags,

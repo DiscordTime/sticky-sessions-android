@@ -5,7 +5,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
-public class Session {
+public class Session implements ISessionDetail {
     public String id;
     public List<String> topics = null;
     public String createdAt;
@@ -41,5 +41,26 @@ public class Session {
             return Integer.parseInt(createdAt.substring(0,2));
         }
         return 1;
+    }
+
+    @Override
+    public String getId() {
+        return id;
+    }
+
+    @Override
+    public String getName() {
+        // TODO: Get the session name
+        return (topics.size() == 5) ? "Starfish" : "Gain & Pleasure";
+    }
+
+    @Override
+    public List<String> getTopics() {
+        return topics;
+    }
+
+    @Override
+    public String getCreatedAt() {
+        return createdAt;
     }
 }

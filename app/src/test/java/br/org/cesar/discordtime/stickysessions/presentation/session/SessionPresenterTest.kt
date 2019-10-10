@@ -71,7 +71,7 @@ class SessionPresenterTest {
         verify(mockGetSavedUser).execute(stringCaptor.capture(), isNull())
 
         stringCaptor.firstValue.onError(Exception(""))
-        verify(mockView).stopLoadingAllNotes()
+        verify(mockView).stopLoading()
         // TODO: Check if goes back to login?
     }
 
@@ -79,7 +79,7 @@ class SessionPresenterTest {
     fun `should start loading all notes when call onResume `(){
         sessionPresenter.attachView(mockView)
         sessionPresenter.onResume()
-        verify(mockView).startLoadingAllNotes()
+        verify(mockView).startLoading()
     }
 
     @Test
@@ -106,7 +106,7 @@ class SessionPresenterTest {
         sessionPresenter.attachView(mockView)
         configureGetSavedUserSuccess()
         configureEnterSessionError()
-        verify(mockView).stopLoadingAllNotes()
+        verify(mockView).stopLoading()
         verify(mockView).displayError(any())
     }
 
@@ -120,7 +120,7 @@ class SessionPresenterTest {
                 Note("d", "u", "b", "1"))
         listNoteCaptor.firstValue.onSuccess(notes)
         verify(mockView).displayNotes(notes)
-        verify(mockView).stopLoadingAllNotes()
+        verify(mockView).stopLoading()
     }
 
     @Test
@@ -130,7 +130,7 @@ class SessionPresenterTest {
 
         listNoteCaptor.firstValue.onError(Exception())
         verify(mockView).displayErrorInvalidNotes()
-        verify(mockView).stopLoadingAllNotes()
+        verify(mockView).stopLoading()
     }
 
 
