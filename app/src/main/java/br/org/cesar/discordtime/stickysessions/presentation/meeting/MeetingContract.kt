@@ -11,6 +11,7 @@ interface MeetingContract {
         fun detachView()
         fun onResume()
         fun enterOnMeeting(meetingItem: MeetingItem)
+        fun onRetryNetworkClick()
     }
 
     interface View {
@@ -21,5 +22,9 @@ interface MeetingContract {
         fun getName(): String
         @Throws(InvalidViewNameException::class)
         fun goNext(route: Route, bundle: IBundle)
+        fun isMeetingsEmpty(): Boolean
+        fun showNetworkError()
+        fun hideNetworkError()
+        fun showNetworkErrorIcon()
     }
 }
