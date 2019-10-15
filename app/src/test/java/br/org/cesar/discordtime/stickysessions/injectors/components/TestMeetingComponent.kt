@@ -1,11 +1,6 @@
 package br.org.cesar.discordtime.stickysessions.injectors.components
 
-import br.org.cesar.discordtime.stickysessions.injectors.modules.MeetingPresenterModule
-import br.org.cesar.discordtime.stickysessions.injectors.modules.TestHttpModule
-import br.org.cesar.discordtime.stickysessions.injectors.modules.TestMeetingModule
-import br.org.cesar.discordtime.stickysessions.injectors.modules.TestNavigationModule
-import br.org.cesar.discordtime.stickysessions.injectors.modules.TestServerModule
-import br.org.cesar.discordtime.stickysessions.injectors.modules.TestSessionModule
+import br.org.cesar.discordtime.stickysessions.injectors.modules.*
 import br.org.cesar.discordtime.stickysessions.presentation.meeting.MeetingPresenterTest
 import dagger.Component
 
@@ -15,7 +10,8 @@ import dagger.Component
     TestSessionModule::class,
     TestServerModule::class,
     TestNavigationModule::class,
-    TestHttpModule::class
+    TestHttpModule::class,
+    TestNetworkModule::class
 ])
 interface TestMeetingComponent {
     fun inject(integrationTest: MeetingPresenterTest)

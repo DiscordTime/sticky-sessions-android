@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="card_session_height">147dp</dimen>
+    <dimen name="ic_no_network_size">50sp</dimen>
+    <dimen name="no_network_text_size">20sp</dimen>
+    <dimen name="no_network_margin">20sp</dimen>
 </resources>
