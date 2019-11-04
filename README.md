@@ -51,3 +51,5 @@ git rev-list HEAD --count
 - Update `VERSION_BUILD_BASE` with that number
 - Then increment desired part of app's version
   - If increment is on `VERSION_MAJOR` portion, please clear `VERSION_MINOR`.
+
+Test CircleCI
