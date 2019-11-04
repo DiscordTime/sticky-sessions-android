@@ -9,6 +9,8 @@ StickySessions is an application that helps medium to large teams to share and s
 
 This Android app is intended to be used along with [Backend][server] and [Web][web] applications. Please check their repositories for more information about how to run them.
 
+Teste
+
 An usual session would follow steps below:
 1. User creates a session on app
 2. He shares the session link with team
