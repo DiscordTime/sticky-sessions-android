@@ -24,7 +24,6 @@
     <string name="content_description_session_type">image with a session representation</string>
     <string name="remove">Remove</string>
     <string name="toolbar_title_list_session">Active Sessions</string>
-    <string name="toolbar_title_meetings">Meetings</string>
     <string name="topic_length">/100</string>
     <string name="char_count_start">0</string>
     <string name="retry">Retry</string>
@@ -48,7 +47,6 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Maria Silva</string>
     <string name="nav_header_subtitle">maria.silva@gmail.com</string>
-    <string name="nav_header_desc">Navigation header</string>
     <string name="nav_menu_meetings">Meetings</string>
     <string name="nav_menu_about">About</string>
     <string name="nav_menu_settings">Settings</string>
@@ -56,8 +54,5 @@
     <string name="main_logout_description">Logout Icon</string>
     <string name="main_logout">LOG OUT</string>
 
-    <string name="fragment_meetings_tag">meetings</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="img_person_description">Person Icon</string>
 </resources>

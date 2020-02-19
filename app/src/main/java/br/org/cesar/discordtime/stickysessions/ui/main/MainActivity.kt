@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         mToolbarTitle = findViewById(R.id.toolbar_title)
         mToolbarTitle.apply {
-            text = getString(R.string.nav_header_desc)
+            text = getString(R.string.nav_menu_meetings)
         }
 
         val toggle = ActionBarDrawerToggle(

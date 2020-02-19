@@ -1,10 +1,9 @@
 package br.org.cesar.discordtime.stickysessions
 
-import androidx.test.InstrumentationRegistry
-
+import androidx.test.platform.app.InstrumentationRegistry
 class JsonReader {
 
     fun readFromAssets(json: String): String =
-        InstrumentationRegistry.getContext().assets.open(json)
+        InstrumentationRegistry.getInstrumentation().targetContext.assets.open(json)
                 .bufferedReader().use { it.readText() }
 }
