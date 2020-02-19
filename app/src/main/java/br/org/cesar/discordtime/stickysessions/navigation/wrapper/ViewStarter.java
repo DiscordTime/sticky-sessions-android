@@ -24,7 +24,7 @@ public class ViewStarter implements IViewStarter {
             put(ViewNames.LOBBY_ACTIVITY, LobbyActivity.class);
             put(ViewNames.SESSION_ACTIVITY, SessionActivity.class);
             put(ViewNames.LIST_ACTIVITY, ListSessionsActivity.class);
-            put(ViewNames.MAIN_ACTIVITY, MainActivity.class);
+            put(ViewNames.MEETING_ACTIVITY, MainActivity.class);
         }};
 
     public void goNext(Context context, String activityName, boolean shouldClearStack)
