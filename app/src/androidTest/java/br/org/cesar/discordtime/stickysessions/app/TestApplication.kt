@@ -1,6 +1,6 @@
 package br.org.cesar.discordtime.stickysessions.app
 
-import androidx.test.InstrumentationRegistry
+import androidx.test.platform.app.InstrumentationRegistry
 import br.org.cesar.discordtime.stickysessions.injectors.MockHttpModule
 import br.org.cesar.discordtime.stickysessions.injectors.MockServerModule
 import br.org.cesar.discordtime.stickysessions.injectors.MockThreadModule
@@ -13,7 +13,8 @@ class TestApplication : StickySessionApplication() {
 
     override fun configureMainInjectorBuilder() {
         mLobbyComponentBuilder = DaggerLobbyComponent.builder()
-                .contextModule(ContextModule(InstrumentationRegistry.getContext()))
+                .contextModule(ContextModule(InstrumentationRegistry
+                        .getInstrumentation().targetContext))
                 .threadModule(MockThreadModule())
                 .serverModule(MockServerModule())
                 .httpModule(MockHttpModule())
@@ -21,7 +22,8 @@ class TestApplication : StickySessionApplication() {
 
     override fun configureSessionInjectorBuilder() {
         mSessionComponentBuilder = DaggerSessionComponent.builder()
-                .contextModule(ContextModule(InstrumentationRegistry.getContext()))
+                .contextModule(ContextModule(InstrumentationRegistry
+                        .getInstrumentation().targetContext))
                 .threadModule(MockThreadModule())
                 .serverModule(MockServerModule())
                 .httpModule(MockHttpModule())
@@ -29,7 +31,8 @@ class TestApplication : StickySessionApplication() {
 
     override fun configureSessionListInjectorBuilder() {
         mSessionListBuilder = DaggerListSessionComponent.builder()
-                .contextModule(ContextModule(InstrumentationRegistry.getContext()))
+                .contextModule(ContextModule(InstrumentationRegistry
+                        .getInstrumentation().targetContext))
                 .threadModule(MockThreadModule())
                 .serverModule(MockServerModule())
                 .httpModule(MockHttpModule())

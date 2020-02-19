@@ -47,7 +47,7 @@ public class LobbyActivity extends AppCompatActivity implements LobbyContract.Vi
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_lobby);
 
         ((StickySessionApplication) getApplication()).inject(this);
 

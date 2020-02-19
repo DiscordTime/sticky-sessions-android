@@ -13,7 +13,7 @@ import br.org.cesar.discordtime.stickysessions.injectors.modules.NetworkModule;
 import br.org.cesar.discordtime.stickysessions.injectors.modules.ServerModule;
 import br.org.cesar.discordtime.stickysessions.injectors.modules.SessionModule;
 import br.org.cesar.discordtime.stickysessions.injectors.modules.ThreadModule;
-import br.org.cesar.discordtime.stickysessions.ui.meeting.MeetingActivity;
+import br.org.cesar.discordtime.stickysessions.ui.meeting.MeetingFragment;
 import dagger.Component;
 
 @Component(modules = {
@@ -32,5 +32,5 @@ import dagger.Component;
         AuthModule.class
 })
 public interface MeetingComponent {
-    void inject(MeetingActivity activity);
+    void inject(MeetingFragment activity);
 }
