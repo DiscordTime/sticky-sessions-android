@@ -83,7 +83,7 @@ class MeetingFragment : Fragment(), MeetingContract.View {
         mRecyclerView.visibility = View.VISIBLE
     }
 
-    override fun showError(message: String) {
+    override fun showError(message: String?) {
         Log.e(TAG, message)
     }
 
