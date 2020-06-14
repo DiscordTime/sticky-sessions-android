@@ -92,7 +92,7 @@ public class ListSessionsPresenter implements ListSessionsContract.Presenter {
                 if (mView != null) {
 
                     String error = e.getMessage();
-                    mLogger.d(TAG, "onError load data " + error);
+                    mLogger.e(TAG, "onError load data ", e);
                     mView.stopLoadingData();
 
                     if (e instanceof IOException) {
@@ -166,8 +166,7 @@ public class ListSessionsPresenter implements ListSessionsContract.Presenter {
                 Route route = mRouter.getNext(mView.getName(), IRouter.USER_SELECTED_SESSION);
                 mView.goNext(route, bundle);
             } catch (InvalidRouteException | InvalidViewNameException e) {
-                mLogger.e(TAG, e.getMessage());
-                e.printStackTrace();
+                mLogger.e(TAG, e.getMessage(), e);
             }
         }
     }

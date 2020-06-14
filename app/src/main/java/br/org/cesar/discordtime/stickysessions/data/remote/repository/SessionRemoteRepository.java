@@ -86,7 +86,7 @@ public class SessionRemoteRepository implements SessionRepository {
     }
 
     private boolean isSessionFromThisMeeting(Session session, String meetingId) {
-        return session.createdAt.equals(meetingId);
+        return session != null && session.createdAt != null && session.createdAt.equals(meetingId);
     }
 
     private class SessionRemoteComparator implements Comparator<SessionRemote> {

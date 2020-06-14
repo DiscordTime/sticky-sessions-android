@@ -73,8 +73,7 @@ public class LobbyPresenter implements LobbyContract.Presenter {
 
             mView.goNext(route, bundle);
         } catch (InvalidRouteException | InvalidViewNameException e) {
-            mLog.e(TAG, e.getMessage());
-            e.printStackTrace();
+            mLog.e(TAG, e.getMessage(), e);
         }
     }
 
@@ -83,8 +82,7 @@ public class LobbyPresenter implements LobbyContract.Presenter {
             Route route = mRouter.getNext(mView.getName(), event);
             mView.goNext(route, null);
         } catch (InvalidRouteException | InvalidViewNameException e) {
-            mLog.e(TAG, e.getMessage());
-            e.printStackTrace();
+            mLog.e(TAG, e.getMessage(), e);
         }
     }
 
