@@ -28,6 +28,8 @@ buildscript {
             'google_services': '4.2.0',
             'firebase_core': '16.0.9',
             'firebase_auth': '17.0.0',
+            'firebase_crashlytics_gradle' : '2.1.1',
+            'firebase_crashlytics' : '17.0.1',
             'play_services_auth': '16.0.1'
     ]
 
@@ -42,6 +44,7 @@ buildscript {
         classpath "org.kt3k.gradle.plugin:coveralls-gradle-plugin:${versions.coveralls}"
         classpath "com.google.gms:google-services:${versions.google_services}"
         classpath "org.jetbrains.kotlin:kotlin-android-extensions:${versions.kotlin}"
+        classpath "com.google.firebase:firebase-crashlytics-gradle:${versions.firebase_crashlytics_gradle}"
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files

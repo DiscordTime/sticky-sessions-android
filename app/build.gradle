@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'com.google.firebase.crashlytics'
 apply from: 'versioning.gradle'
 apply from: '../coverage.gradle'
 
@@ -133,6 +134,7 @@ dependencies {
     implementation "com.google.firebase:firebase-core:${versions.firebase_core}"
     implementation "com.google.firebase:firebase-auth:${versions.firebase_auth}"
     implementation "com.google.android.gms:play-services-auth:${versions.play_services_auth}"
+    implementation "com.google.firebase:firebase-crashlytics:${versions.firebase_crashlytics}"
 
     // Unit tests
     testImplementation "junit:junit:${versions.junit}"
