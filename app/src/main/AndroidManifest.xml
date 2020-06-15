@@ -63,9 +63,6 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
-        <meta-data
-            android:name="io.fabric.ApiKey"
-            android:value="a424bb71aabbb9dc394510a7603e871f6b7e6cb4" />
 
     </application>
 
