@@ -1,6 +1,5 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'io.fabric'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'kotlin-kapt'
 apply from: 'versioning.gradle'
@@ -130,11 +129,6 @@ dependencies {
     kapt "com.google.dagger:dagger-compiler:${versions.dagger}"
     implementation "com.google.dagger:dagger:${versions.dagger}"
 
-    //Fabric
-    implementation("com.crashlytics.sdk.android:crashlytics:${versions.crashlytics}@aar") {
-        transitive = true
-    }
-
     // Firebase
     implementation "com.google.firebase:firebase-core:${versions.firebase_core}"
     implementation "com.google.firebase:firebase-auth:${versions.firebase_auth}"
@@ -176,7 +170,6 @@ dependencies {
 }
 repositories {
     mavenCentral()
-    maven { url 'https://maven.fabric.io/public' }
 }
 
 apply plugin: 'kotlin-android-extensions'
