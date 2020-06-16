@@ -33,6 +33,7 @@ references:
         - fastlane
         - changelog.txt
         - Gemfile
+        - scripts
 
   attach_workspace: &attach_workspace
     attach_workspace:
@@ -124,7 +125,7 @@ jobs:
           name: Run tests on Firebase Test Lab
           command: ftl-tests/run-tests.sh
 
-  deploy_to_crashlytics:
+  deploy_to_firebase:
     <<: *config_android
 
     steps:
@@ -135,24 +136,13 @@ jobs:
           command: bundle install
 
       - run:
-          name: Set crashlytics stag apk path
+          name: Install Firebase CLI
           command: |
-            echo 'export CRASHLYTICS_APK_PATH=$APK_PATH_STAG' >> $BASH_ENV
-            echo 'export CRASHLYTICS_GROUPS=$TESTERS_STAG' >> $BASH_ENV
+            curl -sL firebase.tools | bash
 
       - run:
-          name: Deploy stag app to crashlytics
-          command: bundle exec fastlane beta
-
-      - run:
-          name: Set crashlytics prod apk path
-          command: |
-            echo 'export CRASHLYTICS_APK_PATH=$APK_PATH_PROD' >> $BASH_ENV
-            echo 'export CRASHLYTICS_GROUPS=$TESTERS_PROD' >> $BASH_ENV
-
-      - run:
-          name: Deploy prod app to crashlytics
-          command: bundle exec fastlane beta
+          name: Deploy application to Firebase Distribution
+          command: scripts/deploy.sh
 
 workflows:
   version: 2
@@ -166,10 +156,12 @@ workflows:
             branches:
               only:
                 - dev
-      - deploy_to_crashlytics:
+                - master
+      - deploy_to_firebase:
           requires:
             - test_instrumented
           filters:
             branches:
               only:
                 - dev
+                - master

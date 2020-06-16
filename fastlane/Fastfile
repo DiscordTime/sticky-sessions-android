@@ -21,12 +21,15 @@ platform :android do
     gradle(task: "test")
   end
 
-  desc "Submit a new Beta Build to Crashlytics Beta"
-  lane :beta do
-    crashlytics
-    # We define info such as apk path, crashlytics api token and build secret in env variables
-    # For more information visit https://docs.fastlane.tools/actions/crashlytics/#parameters
-    # or run fastlane action crashlytics
+  desc "Deploy to firebase distribution"
+  lane :distribute do |options|
+    firebase_app_distribution(
+      app: "#{options[:app_id]}",
+      apk_path: "#{options[:apk_path]}",
+      groups: "#{options[:groups]}",
+      firebase_cli_path: "/usr/local/bin/firebase",
+      firebase_cli_token: "#{options[:firebase_token]}"
+    )
   end
 
   desc "Deploy a new version to the Google Play"
