@@ -3,7 +3,7 @@
 echo "Stating deploy."
 echo $CIRCLE_BRANCH
 
-if [ "$CIRCLE_BRANCH" = "dev" ]; then
+if [ "$CIRCLE_BRANCH" = "firebase_fix" ]; then
 
 
   if [ -z "$FIREBASE_APP_ID_STAG" && -z "$APK_PATH_STAG" && -z $FIREBASE_TOKEN]; then
