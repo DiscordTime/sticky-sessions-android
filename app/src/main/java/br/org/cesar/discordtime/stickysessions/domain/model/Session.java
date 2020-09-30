@@ -9,11 +9,17 @@ public class Session {
     public String id;
     public List<String> topics = null;
     public String createdAt;
+    public String title;
+    public String description;
+    public String color;
 
     public void copy(Session session) {
         id = session.id;
         topics = session.topics;
         createdAt = session.createdAt;
+        title = session.title;
+        description = session.description;
+        color = session.color;
     }
 
     public void setCreatedAt(int year, int month, int day) {

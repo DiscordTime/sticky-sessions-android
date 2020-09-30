@@ -12,6 +12,9 @@ class SessionFactory {
             session.id = randomString()
             session.topics = MutableList(topicsCount) { randomString() }
             session.createdAt = "09.03.2019"
+            session.title = "Gain & Pleasure"
+            session.description = "Description"
+            session.color = "#ffffff"
             return session
         }
 

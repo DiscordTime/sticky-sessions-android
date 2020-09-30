@@ -1,5 +1,7 @@
 package br.org.cesar.discordtime.stickysessions.data.repository.mapper;
 
+import android.graphics.Color;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -21,7 +23,8 @@ public class SessionMapper implements Mapper<Session, SessionRemote> {
             c.set(domainType.getYear(), domainType.getMonth(), domainType.getDay());
             timestamp = c.getTimeInMillis();
         }
-        return new SessionRemote(domainType.id,domainType.topics, timestamp);
+        return new SessionRemote(domainType.id,domainType.topics, timestamp, domainType.title,
+                domainType.description, domainType.color);
     }
 
     @Override
@@ -32,10 +35,25 @@ public class SessionMapper implements Mapper<Session, SessionRemote> {
         Session session = new Session();
         session.id = dataType.getId();
         session.topics = dataType.getTopics();
+        session.title = "";
+        session.description = "";
+        session.color = "";
 
         if (dataType.getTimestamp() != 0) {
             Date date = new Date(dataType.getTimestamp());
             session.createdAt = new SimpleDateFormat("dd.MM.yyyy", Locale.US).format(date);
+        }
+
+        if (dataType.getTitle() != null) {
+            session.title = dataType.getTitle();
+        }
+
+        if (dataType.getDescription() != null) {
+            session.description = dataType.getDescription();
+        }
+
+        if (dataType.getColor() != null) {
+            session.color = dataType.getColor();
         }
 
         return session;

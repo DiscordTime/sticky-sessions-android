@@ -1,6 +1,7 @@
 package br.org.cesar.discordtime.stickysessions.ui.list;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,18 +13,23 @@ import java.util.List;
 import androidx.recyclerview.widget.RecyclerView;
 import br.org.cesar.discordtime.stickysessions.R;
 import br.org.cesar.discordtime.stickysessions.domain.model.Session;
+import br.org.cesar.discordtime.stickysessions.logger.Logger;
 import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;
 
 public class SessionAdapter extends RecyclerView.Adapter<SessionAdapter.SessionHolder> {
 
+    private static final String TAG = "SessionAdapter";
+
     private Context mContext;
     private List<Session> mSessions;
     private PublishSubject<Session> clickSubject;
     public Observable<Session> clickEvent;
+    public Logger mLogger;
 
-    public SessionAdapter(Context context) {
+    public SessionAdapter(Context context, Logger logger) {
         mContext = context;
+        mLogger = logger;
         mSessions = new ArrayList<>();
         clickSubject = PublishSubject.create();
         clickEvent = clickSubject;
@@ -65,18 +71,15 @@ public class SessionAdapter extends RecyclerView.Adapter<SessionAdapter.SessionH
     public void onBindViewHolder(SessionHolder holder, int position) {
         Session session = mSessions.get(position);
 
-        // TODO: Please, change this horrible algorithm
-        String sessionText;
-        String description;
-        int leftBarColor;
-        if (session.topics.size() == 5) {
-            sessionText = "Starfish";
-            description = mContext.getResources().getString(R.string.starfish_description);
-            leftBarColor = mContext.getResources().getColor(R.color.purple);
-        } else {
-            sessionText = "Gain & Pleasure";
-            description = mContext.getResources().getString(R.string.gain_description);
-            leftBarColor = mContext.getResources().getColor(R.color.yellow);
+        String sessionText = session.title;
+        String description = session.description;
+
+        int leftBarColor = mContext.getColor(R.color.coral);
+        try {
+            leftBarColor = Color.parseColor(session.color);
+        } catch (Exception e) {
+            // Unable to parse color from server, using default
+            mLogger.e(TAG, "Unable to parse color from server.. using default", e);
         }
 
         holder.mSessionText.setText(sessionText);

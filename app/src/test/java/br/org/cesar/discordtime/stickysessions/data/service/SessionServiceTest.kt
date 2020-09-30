@@ -1,7 +1,6 @@
 package br.org.cesar.discordtime.stickysessions.data.service
 
 import android.content.Context
-import br.org.cesar.discordtime.stickysessions.data.remote.model.SessionRemote
 import br.org.cesar.discordtime.stickysessions.data.remote.model.SessionRemoteFirebase
 import br.org.cesar.discordtime.stickysessions.data.remote.model.TimeStampRemote
 import br.org.cesar.discordtime.stickysessions.data.remote.service.RemoteServiceFactory
@@ -26,6 +25,9 @@ class SessionServiceTest {
     private lateinit var gainPleasureTopics: List<String>
     private val date: Long = 1522415925281
     private lateinit var timeStampRemote : TimeStampRemote
+    private var title: String? = null
+    private var description: String? = null
+    private var color: String? = null
 
     @Before
     fun setUp() {
@@ -101,9 +103,9 @@ class SessionServiceTest {
     private fun createValidSessionsRemoteList(): List<SessionRemoteFirebase> {
         return listOf(
                 SessionRemoteFirebase("2BufnJnKe6K7YO0PEKPS", starfishTopics,
-                        TimeStampRemote(1542796501)),
+                        TimeStampRemote(1542796501), title, description, color),
                 SessionRemoteFirebase("zUjA7sqXAbhXJkXDCrRZ", gainPleasureTopics,
-                        TimeStampRemote(1545335142))
+                        TimeStampRemote(1545335142), title, description, color)
         )
     }
 
@@ -114,7 +116,8 @@ class SessionServiceTest {
     }
 
     private fun createValidSessionRemote(): SessionRemoteFirebase {
-        return SessionRemoteFirebase(sessionId, starfishTopics, timeStampRemote)
+        return SessionRemoteFirebase(sessionId, starfishTopics, timeStampRemote, title,
+                description, color)
     }
 
 }
