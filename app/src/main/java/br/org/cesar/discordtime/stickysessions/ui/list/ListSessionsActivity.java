@@ -27,6 +27,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import br.org.cesar.discordtime.stickysessions.R;
 import br.org.cesar.discordtime.stickysessions.app.StickySessionApplication;
 import br.org.cesar.discordtime.stickysessions.domain.model.Session;
+import br.org.cesar.discordtime.stickysessions.logger.Logger;
 import br.org.cesar.discordtime.stickysessions.navigation.exception.InvalidViewNameException;
 import br.org.cesar.discordtime.stickysessions.navigation.router.Route;
 import br.org.cesar.discordtime.stickysessions.navigation.wrapper.IBundle;
@@ -51,6 +52,8 @@ public class ListSessionsActivity extends AppCompatActivity
     private Context mContext;
     private DatePickerDialog mDatePickerDialog;
     private String mMeetingId = null;
+    @Inject
+    public Logger mLogger;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,7 +96,7 @@ public class ListSessionsActivity extends AppCompatActivity
         mRecyclerView = findViewById(R.id.session_list);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.addItemDecoration(dividerItemDecoration);
-        mAdapter = new SessionAdapter(this);
+        mAdapter = new SessionAdapter(this, mLogger);
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.clickEvent.subscribe(session -> mPresenter.enterOnSession(session));
         SwipeLeftCallback swipeLeftCallback =
