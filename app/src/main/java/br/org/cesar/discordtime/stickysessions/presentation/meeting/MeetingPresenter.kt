@@ -1,5 +1,6 @@
 package br.org.cesar.discordtime.stickysessions.presentation.meeting
 
+import br.org.cesar.discordtime.stickysessions.data.remote.wrapper.INetworkWrapper
 import br.org.cesar.discordtime.stickysessions.domain.model.Meeting
 import br.org.cesar.discordtime.stickysessions.executor.IObservableUseCase
 import br.org.cesar.discordtime.stickysessions.navigation.router.IRouter
@@ -12,6 +13,7 @@ import java.util.*
 class MeetingPresenter(
         private val listMeetings: IObservableUseCase<Comparator<Meeting>, MutableList<Meeting>>,
         private val router: IRouter,
+        private val networkWrapper: INetworkWrapper,
         private val bundleFactory: IBundleFactory)
     : MeetingContract.Presenter {
 
@@ -20,17 +22,14 @@ class MeetingPresenter(
     override fun attachView(view: MeetingContract.View) {
         mView = view
     }
+
     override fun detachView() {
         mView = null
         listMeetings.dispose()
     }
+
     override fun onResume() {
-        mView?.let { view ->
-            view.startLoadingMeetings()
-            listMeetings.execute(
-                    MeetingsObserver(),
-                    MeetingsComparator())
-        }
+        loadMeetings()
     }
 
     override fun enterOnMeeting(meetingItem: MeetingItem) {
@@ -40,6 +39,10 @@ class MeetingPresenter(
             val route = router.getNext(getName(), IRouter.USER_SELECTED_MEETING)
             goNext(route, bundle)
         }
+    }
+
+    override fun onRetryNetworkClick() {
+        loadMeetings()
     }
 
     private inner class MeetingsComparator: Comparator<Meeting> {
@@ -91,4 +94,19 @@ class MeetingPresenter(
                 numOfParticipants = meeting.participants.size
         )
     }
+
+    private fun loadMeetings() {
+        when {
+            networkWrapper.isConnected -> mView?.let { view ->
+                view.hideNetworkError()
+                view.startLoadingMeetings()
+                listMeetings.execute(
+                        MeetingsObserver(),
+                        MeetingsComparator())
+            }
+            mView?.isMeetingsEmpty()!! -> mView?.showNetworkError()
+            else -> mView?.showNetworkErrorIcon()
+        }
+    }
+
 }

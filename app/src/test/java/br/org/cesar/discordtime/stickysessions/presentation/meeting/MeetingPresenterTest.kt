@@ -1,6 +1,7 @@
 package br.org.cesar.discordtime.stickysessions.presentation.meeting
 
 import br.org.cesar.discordtime.stickysessions.TestServerDispatcher
+import br.org.cesar.discordtime.stickysessions.data.remote.wrapper.INetworkWrapper
 import br.org.cesar.discordtime.stickysessions.factory.MeetingItemFactory
 import br.org.cesar.discordtime.stickysessions.injectors.components.DaggerTestMeetingComponent
 import br.org.cesar.discordtime.stickysessions.injectors.components.TestMeetingComponent
@@ -20,6 +21,9 @@ class MeetingPresenterTest {
     @Inject
     lateinit var meetingPresenter: MeetingContract.Presenter
 
+    @Inject
+    lateinit var networkWrapper: INetworkWrapper
+
     private lateinit var mockView: MeetingContract.View
     private lateinit var webServer: MockWebServer
 
@@ -36,6 +40,8 @@ class MeetingPresenterTest {
         webServer.start(8080)
 
         captor = argumentCaptor()
+
+        whenever(networkWrapper.isConnected).thenReturn(true)
     }
 
     @After
@@ -59,6 +65,36 @@ class MeetingPresenterTest {
         verify(mockView).showMeetings(captor.capture())
         assertEquals(8, captor.firstValue.size)
     }
+
+    @Test
+    fun `onResume with network`() {
+        webServer.setDispatcher(TestServerDispatcher().RequestDispatcher())
+        meetingPresenter.attachView(mockView)
+        meetingPresenter.onResume()
+        verify(mockView, times(1)).hideNetworkError()
+        verify(mockView, times(1)).startLoadingMeetings()
+    }
+
+    @Test
+    fun `onResume without network and without meetings`() {
+        whenever(networkWrapper.isConnected).thenReturn(false)
+        whenever(mockView.isMeetingsEmpty()).thenReturn(true)
+        webServer.setDispatcher(TestServerDispatcher().RequestDispatcher())
+        meetingPresenter.attachView(mockView)
+        meetingPresenter.onResume()
+        verify(mockView, times(1)).showNetworkError()
+    }
+
+    @Test
+    fun `onResume without network and with meeting`() {
+        whenever(networkWrapper.isConnected).thenReturn(false)
+        whenever(mockView.isMeetingsEmpty()).thenReturn(false)
+        webServer.setDispatcher(TestServerDispatcher().RequestDispatcher())
+        meetingPresenter.attachView(mockView)
+        meetingPresenter.onResume()
+        verify(mockView, times(1)).showNetworkErrorIcon()
+    }
+
 
     @Test
     fun `onEnterMeeting should call goNext`(){

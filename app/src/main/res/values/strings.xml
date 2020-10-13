@@ -41,4 +41,6 @@
     <string name="text_meeting_date_format">%s %s</string>
     <string name="text_meeting_recents_section">Recents</string>
     <string name="text_meeting_older_section">Older</string>
+    <string name="network_error_description">No network connection</string>
+    <string name="no_network_content_description">There is no network connection</string>
 </resources>
