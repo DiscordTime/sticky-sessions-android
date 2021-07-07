@@ -30,6 +30,7 @@ class MeetingActivity : AppCompatActivity(), MeetingContract.View {
     lateinit var mViewStarter: IViewStarter
     lateinit var mProgressBar: ProgressBar
     lateinit var mAdapter: MeetingItemAdapter
+    lateinit var mNoNetworkContainer: View
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,6 +38,7 @@ class MeetingActivity : AppCompatActivity(), MeetingContract.View {
         (application as StickySessionApplication).inject(this)
 
         mProgressBar = findViewById(R.id.progressbar)
+        mNoNetworkContainer = findViewById(R.id.no_network_container)
         configureToolbar()
         configureRecycleView()
     }
@@ -101,6 +103,18 @@ class MeetingActivity : AppCompatActivity(), MeetingContract.View {
     @Throws(InvalidViewNameException::class)
     override fun goNext(route: Route, bundle: IBundle) {
         mViewStarter.goNext(this, route.to, route.shouldClearStack, bundle)
+    }
+
+    override fun showNetworkError() {
+        mNoNetworkContainer.visibility = View.VISIBLE
+    }
+
+    override fun hideNetworkError() {
+        mNoNetworkContainer.visibility = View.GONE
+    }
+
+    fun onRetryClick(view: View) {
+        mPresenter.onRetryNetworkClick()
     }
 
     companion object {
